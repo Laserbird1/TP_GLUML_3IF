@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <string>
 #include "Mesure.h"
 #include "Capteur.h"
 #include "Capteur.h"
