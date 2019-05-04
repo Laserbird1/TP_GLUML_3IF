@@ -1,88 +1,27 @@
-/*************************************************************************
-						   Mesure  -  description
-							 -------------------
-	début                : ${date}
-	copyright            : (C) ${year} par ${user}
-*************************************************************************/
+#pragma once
 
-//---------- Interface de la classe <Mesure> (fichier Mesure) ------
-#if ! defined ( Mesure_H )
-#define Mesure_H
+#include <iostream>
+#include <string>
 
-//--------------------------------------------------- Interfaces utilisées
+using namespace std;
 
-//------------------------------------------------------------- Constantes 
-
-//------------------------------------------------------------------ Types 
-
-//------------------------------------------------------------------------ 
-// Rôle de la classe <Mesure>
-//
-//
-//------------------------------------------------------------------------ 
-
-class Mesure 
+class Mesure
 {
-	//----------------------------------------------------------------- PUBLIC
-
 public:
-	//----------------------------------------------------- Méthodes publiques
-		// type Méthode ( liste de paramètres );
-		// Mode d'emploi :
-		//
-		// Contrat :
-		//
-
-
-	//------------------------------------------------- Surcharge d'opérateurs
-	Mesure & operator = (const Mesure & unMesure);
-	// Mode d'emploi :
-	//
-	// Contrat :
-	//
-
-
-//-------------------------------------------- Constructeurs - destructeur
-	Mesure(const Mesure & unMesure);
-	// Mode d'emploi (constructeur de copie) :
-	//
-	// Contrat :
-	//
-
 	Mesure();
-	// Mode d'emploi :
-	//
-	// Contrat :
-	//
+	~Mesure();
 
-	virtual ~Mesure();
-	// Mode d'emploi :
-	//
-	// Contrat :
-	//
+	void setTimestamp(string s);
+	void setSensorID(string s);
+	void setAttributeID(string s);
+	void setValue(string s);
 
-//------------------------------------------------------------------ PRIVE 
-
-protected:
-	//----------------------------------------------------- Méthodes protégées
+	void afficher();
 
 private:
-	//------------------------------------------------------- Méthodes privées
-
-protected:
-	//----------------------------------------------------- Attributs protégés
-
-private:
-	//------------------------------------------------------- Attributs privés
-
-	//---------------------------------------------------------- Classes amies
-
-	//-------------------------------------------------------- Classes privées
-
-	//----------------------------------------------------------- Types privés
-
+	string timestamp;
+	string sensorID;
+	string attributeID;
+	string value;
 };
 
-//----------------------------------------- Types dépendants de <Mesure>
-
-#endif // Mesure_H
