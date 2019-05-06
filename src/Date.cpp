@@ -5,7 +5,7 @@
     copyright            : (C) ${year} par ${user}
 *************************************************************************/
 
-//---------- Réalisation de la classe <Date> (fichier ${file_name}) --
+//---------- Réalisation de la classe <Date> (fichier Date.cpp) --
 
 //---------------------------------------------------------------- INCLUDE
 
@@ -27,7 +27,6 @@ using namespace std;
 //-------------------------------------------------------- Fonctions amies
 
 //----------------------------------------------------- Méthodes publiques
-// type Date::Méthode ( liste de paramètres )
 // Algorithme :
 //
 //{
