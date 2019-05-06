@@ -39,7 +39,71 @@ Date & Date::operator = ( const Date & uneDate )
 // Algorithme :
 //
 {
+	annee = uneDate.annee;
+	mois = uneDate.mois;
+	jour = uneDate.jour;
+	heure = uneDate.heure;
+	minute = uneDate.minute;
+	seconde = uneDate.seconde;
 } //----- Fin de operator =
+bool Date::operator == (const Date &uneDate)
+{
+	return (annee == uneDate.annee &&
+		mois == uneDate.mois &&
+		jour == uneDate.jour &&
+		heure == uneDate.heure &&
+		minute == uneDate.minute &&
+		seconde == uneDate.seconde);
+}
+bool Date::operator != (const Date &uneDate)
+{
+	return !(operator==(uneDate));
+}
+
+bool Date::operator < (const Date &uneDate) 
+{
+	if (annee < uneDate.annee)
+		return true;
+	else if (mois < uneDate.mois)
+		return true;
+	else if (jour < uneDate.jour)
+		return true;
+	else if (heure < uneDate.heure)
+		return true;
+	else if (minute < uneDate.minute)
+		return true;
+	else if (seconde < uneDate.seconde)
+		return true;
+	else
+		return false;
+
+}
+bool Date::operator > (const Date &uneDate) 
+{
+	if (annee > uneDate.annee)
+		return true;
+	else if (mois > uneDate.mois)
+		return true;
+	else if (jour > uneDate.jour)
+		return true;
+	else if (heure > uneDate.heure)
+		return true;
+	else if (minute > uneDate.minute)
+		return true;
+	else if (seconde > uneDate.seconde)
+		return true;
+	else
+		return false;
+}
+
+bool Date::operator >= (const Date &uneDate)
+{
+	return !(operator<(uneDate));
+}
+bool Date::operator <= (const Date &uneDate)
+{
+	return !(operator>(uneDate));
+}
 
 
 //-------------------------------------------- Constructeurs - destructeur

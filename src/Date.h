@@ -36,6 +36,12 @@ public:
 
 	//------------------------------------------------- Surcharge d'opérateurs
 	Date &operator = (const Date &uneDate);
+	bool operator == (const Date &uneDate);
+	bool operator !=(const Date &uneDate);
+	bool operator < (const Date &uneDate) ;
+	bool operator > (const Date &uneDate) ;
+	bool operator <=(const Date &uneDate);
+	bool operator >=(const Date &uneDate);
 	// Mode d'emploi :
 	//
 	// Contrat :
@@ -65,6 +71,7 @@ public:
 
 protected:
 	//----------------------------------------------------- Méthodes protégées
+	int comparable(const Date & uneDate) const;
 
 
 
