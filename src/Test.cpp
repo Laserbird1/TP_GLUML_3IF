@@ -1,11 +1,11 @@
 /*************************************************************************
-						   Mesure  -  description
-							 -------------------
-	début                : ${date}
-	copyright            : (C) ${year} par ${user}
+                           ${file_base}  -  description
+                             -------------------
+    début                : ${date}
+    copyright            : (C) ${year} par ${user}
 *************************************************************************/
 
-//---------- Réalisation de la classe <Mesure> (fichier ${file_name}) --
+//---------- Réalisation de la classe <${file_base}> (fichier ${file_name}) --
 
 //---------------------------------------------------------------- INCLUDE
 
@@ -14,7 +14,7 @@ using namespace std;
 #include <iostream>
 
 //------------------------------------------------------ Include personnel
-#include "Mesure.h"
+#include "${file_base}.h"
 
 //------------------------------------------------------------- Constantes
 
@@ -27,28 +27,7 @@ using namespace std;
 //-------------------------------------------------------- Fonctions amies
 
 //----------------------------------------------------- Méthodes publiques
-void Mesure::setTimestamp(Date s)
-{
-	timestamp = s;
-}
-void Mesure::setSensorID(string s)
-{
-	sensorID = s;
-}
-void Mesure::setAttributeID(string s)
-{
-	attributeID = s;
-}
-void Mesure::setValue(double s)
-{
-	value = s;
-}
-
-void Mesure::afficher()
-{
-	cout << timestamp << ";" << sensorID << ";" << attributeID << ";" << value << endl;
-}
-// type Mesure::Méthode ( liste de paramètres )
+// type ${file_base}::Méthode ( liste de paramètres )
 // Algorithme :
 //
 //{
@@ -56,7 +35,7 @@ void Mesure::afficher()
 
 
 //------------------------------------------------- Surcharge d'opérateurs
-Mesure & Mesure::operator = (const Mesure & unMesure)
+${file_base} & ${file_base}::operator = ( const ${file_base} & un${file_base} )
 // Algorithme :
 //
 {
@@ -64,45 +43,34 @@ Mesure & Mesure::operator = (const Mesure & unMesure)
 
 
 //-------------------------------------------- Constructeurs - destructeur
-Mesure::Mesure(Date unTimestamp, string unSensorID, string unAttributeID, double unValue)
-{
-#ifdef MAP
-	cout << "Appel au constructeur de <Mesure>" << endl;
-#endif
-	timestamp = unTimestamp;
-	sensorID = unSensorID;
-	attributeID = unAttributeID;
-	value = unValue;
-}
-
-Mesure::Mesure(const Mesure & unMesure)
+${file_base}::${file_base} ( const ${file_base} & un${file_base} )
 // Algorithme :
 //
 {
 #ifdef MAP
-	cout << "Appel au constructeur de copie de <Mesure>" << endl;
+    cout << "Appel au constructeur de copie de <${file_base}>" << endl;
 #endif
-} //----- Fin de Mesure (constructeur de copie)
+} //----- Fin de ${file_base} (constructeur de copie)
 
 
-Mesure::Mesure()
+${file_base}::${file_base} ( )
 // Algorithme :
 //
 {
 #ifdef MAP
-	cout << "Appel au constructeur de <Mesure>" << endl;
+    cout << "Appel au constructeur de <${file_base}>" << endl;
 #endif
-} //----- Fin de Mesure
+} //----- Fin de ${file_base}
 
 
-Mesure::~Mesure()
+${file_base}::~${file_base} ( )
 // Algorithme :
 //
 {
 #ifdef MAP
-	cout << "Appel au destructeur de <Mesure>" << endl;
+    cout << "Appel au destructeur de <${file_base}>" << endl;
 #endif
-} //----- Fin de ~Mesure
+} //----- Fin de ~${file_base}
 
 
 //------------------------------------------------------------------ PRIVE

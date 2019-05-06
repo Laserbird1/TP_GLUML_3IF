@@ -39,6 +39,8 @@ public:
 
 private:
 
+	Date convertStringToDate(string s);
+
 	ifstream csvMesure;
 	ifstream csvCapteur;
 	ifstream csvAttribut;

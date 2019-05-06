@@ -1,11 +1,11 @@
 /*************************************************************************
-						   Mesure  -  description
-							 -------------------
-	début                : ${date}
-	copyright            : (C) ${year} par ${user}
+                           Date  -  description
+                             -------------------
+    début                : ${date}
+    copyright            : (C) ${year} par ${user}
 *************************************************************************/
 
-//---------- Réalisation de la classe <Mesure> (fichier ${file_name}) --
+//---------- Réalisation de la classe <Date> (fichier ${file_name}) --
 
 //---------------------------------------------------------------- INCLUDE
 
@@ -14,7 +14,7 @@ using namespace std;
 #include <iostream>
 
 //------------------------------------------------------ Include personnel
-#include "Mesure.h"
+#include "Date.h"
 
 //------------------------------------------------------------- Constantes
 
@@ -27,28 +27,7 @@ using namespace std;
 //-------------------------------------------------------- Fonctions amies
 
 //----------------------------------------------------- Méthodes publiques
-void Mesure::setTimestamp(Date s)
-{
-	timestamp = s;
-}
-void Mesure::setSensorID(string s)
-{
-	sensorID = s;
-}
-void Mesure::setAttributeID(string s)
-{
-	attributeID = s;
-}
-void Mesure::setValue(double s)
-{
-	value = s;
-}
-
-void Mesure::afficher()
-{
-	cout << timestamp << ";" << sensorID << ";" << attributeID << ";" << value << endl;
-}
-// type Mesure::Méthode ( liste de paramètres )
+// type Date::Méthode ( liste de paramètres )
 // Algorithme :
 //
 //{
@@ -56,7 +35,7 @@ void Mesure::afficher()
 
 
 //------------------------------------------------- Surcharge d'opérateurs
-Mesure & Mesure::operator = (const Mesure & unMesure)
+Date & Date::operator = ( const Date & uneDate )
 // Algorithme :
 //
 {
@@ -64,45 +43,48 @@ Mesure & Mesure::operator = (const Mesure & unMesure)
 
 
 //-------------------------------------------- Constructeurs - destructeur
-Mesure::Mesure(Date unTimestamp, string unSensorID, string unAttributeID, double unValue)
-{
-#ifdef MAP
-	cout << "Appel au constructeur de <Mesure>" << endl;
-#endif
-	timestamp = unTimestamp;
-	sensorID = unSensorID;
-	attributeID = unAttributeID;
-	value = unValue;
-}
-
-Mesure::Mesure(const Mesure & unMesure)
+Date::Date ( const Date & uneDate )
 // Algorithme :
 //
 {
 #ifdef MAP
-	cout << "Appel au constructeur de copie de <Mesure>" << endl;
+	cout << "Appel au constructeur de copie de <Date>" << endl;
 #endif
-} //----- Fin de Mesure (constructeur de copie)
+
+	annee = uneDate.annee;
+	mois = uneDate.mois;
+	jour = uneDate.jour;
+	heure = uneDate.heure;
+	minute = uneDate.minute;
+	seconde = uneDate.seconde;
+} //----- Fin de Date (constructeur de copie)
 
 
-Mesure::Mesure()
+Date::Date (int a, int mo, int j, int h, int mi, int s)
 // Algorithme :
 //
 {
 #ifdef MAP
-	cout << "Appel au constructeur de <Mesure>" << endl;
+	cout << "Appel au constructeur de <Date>" << endl;
 #endif
-} //----- Fin de Mesure
+	annee = a;
+	mois = mo;
+	jour = j;
+	heure = h;
+	minute = mi;
+	seconde = s;
+
+} //----- Fin de Date
 
 
-Mesure::~Mesure()
+Date::~Date ( )
 // Algorithme :
 //
 {
 #ifdef MAP
-	cout << "Appel au destructeur de <Mesure>" << endl;
+	cout << "Appel au destructeur de <Date>" << endl;
 #endif
-} //----- Fin de ~Mesure
+} //----- Fin de ~Date
 
 
 //------------------------------------------------------------------ PRIVE
