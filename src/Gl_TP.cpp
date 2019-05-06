@@ -1,5 +1,6 @@
 
 #include <iostream>
+#include <Controleur.cpp>
 using namespace std;
 
 
@@ -7,10 +8,11 @@ int main()
 {
     int valeur=0;
     bool continuer=true;
+    Controleur* C= new Controleur();
     while(continuer){
         cout << "Bienvenu,"<<"\n"<<"Options:"<<endl;
         cout << "1: " << endl;
-        cout << "2: " << endl;
+        cout << "2: Verifier coherence d'un capteur" << endl;
         cout << "3: " << endl;
         cout << "4: " << endl;
         cout << "5: " << endl;
@@ -21,12 +23,28 @@ int main()
         cout << "10: " << endl;
         cout << "11: " << endl;
         cout << "12: Sortir" << endl;
-        cout << "Introduire numero: " << endl;
+        cout << "Introduire numero: \n" << endl;
 
         cin >> valeur;
 
         switch (valeur){
             case 1 : cout<<"Recu 1 OK"<<endl;
+            break;
+            case 2: 
+                string idCapteur;
+                int p;
+                int t;
+                float s;
+                
+                cout<<"Rentrer l'identifiant du capteur"<<endl;
+                cin >> idCapteur;
+                cout<<"Rentrer le nombre d’heures a prendre en compte pour la verification"<<endl;
+                cin >> p ;
+                cout <<"Rentrer l'heure jusqu'a laquelle verifier "<<endl;
+                cin >> t;
+                cout<< "Rentrer le pourcentage de tolerance (valeur entre 0 et 1)" <<endl;
+                cin >> s;//s
+                bool res = C->verifCapteur(idCapteur,p,t,s);
             break;
             case 12: continuer=false;
             break; 
