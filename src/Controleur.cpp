@@ -1,10 +1,43 @@
+
+/*************************************************************************
+ ${file_base}  -  description
+ -------------------
+ dÈbut                : ${date}
+ copyright            : (C) ${year} par ${user}
+ *************************************************************************/
+
+//---------- RÈalisation de la classe <${file_base}> (fichier ${file_name}) --
+
+//---------------------------------------------------------------- INCLUDE
+
+//-------------------------------------------------------- Include systËme
+using namespace std;
+#include <iostream>
 #include "Capteur.h"
 #include "Mesure.h"
 #include "Controleur.h"
-
 #include <list>
 #include <string>
-using namespace std;
+
+//------------------------------------------------------ Include personnel
+
+
+//------------------------------------------------------------- Constantes
+
+//---------------------------------------------------- Variables de classe
+
+//----------------------------------------------------------- Types privÈs
+
+
+//----------------------------------------------------------------- PUBLIC
+//-------------------------------------------------------- Fonctions amies
+
+//----------------------------------------------------- MÈthodes publiques
+// type ${file_base}::MÈthode ( liste de paramËtres )
+// Algorithme :
+//
+//{
+//} //----- Fin de MÈthode
 
 bool Controleur::INIT (string a,string b,string c){}
 
@@ -28,3 +61,40 @@ pair<int,string> Controleur::calculAirQuality(int indiceO3,int indiceSO2,int ind
 
 pair <int,int> Controleur::trouverLongitudeLatitude(string capteurID){}
 
+
+//-------------------------------------------- Constructeurs - destructeur
+${file_base}::${file_base} ( const ${file_base} & un${file_base} )
+// Algorithme :
+//
+{
+#ifdef MAP
+    cout << "Appel au constructeur de copie de <${file_base}>" << endl;
+#endif
+    } //----- Fin de ${file_base} (constructeur de copie)
+    
+    
+    ${file_base}::${file_base} ( )
+    // Algorithme :
+    //
+    {
+#ifdef MAP
+        cout << "Appel au constructeur de <${file_base}>" << endl;
+#endif
+    } //----- Fin de ${file_base}
+    
+    
+    ${file_base}::~${file_base} ( )
+    // Algorithme :
+    //
+    {
+#ifdef MAP
+        cout << "Appel au destructeur de <${file_base}>" << endl;
+#endif
+    } //----- Fin de ~${file_base}
+    
+    
+    //------------------------------------------------------------------ PRIVE
+    
+    //----------------------------------------------------- MÈthodes protÈgÈes
+    
+    //------------------------------------------------------- MÈthodes privÈes
