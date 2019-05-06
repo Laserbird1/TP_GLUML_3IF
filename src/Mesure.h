@@ -36,6 +36,11 @@ public:
 	void setAttributeID(string s);
 	void setValue(double s);
 
+	Date getTimestamp( );
+	string getSensorID( );
+	string getAttributeID( );
+	double getValue();
+
 	void afficher();
 		// type M�thode ( liste de param�tres );
 		// Mode d'emploi :

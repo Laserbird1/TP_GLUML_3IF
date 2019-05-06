@@ -44,6 +44,26 @@ void Mesure::setValue(double s)
 	value = s;
 }
 
+Date Mesure::getTimestamp()
+{
+	return timestamp;
+}
+
+string Mesure::getSensorID()
+{
+	return sensorID;
+}
+
+string Mesure::getAttributeID()
+{
+	return sensorID;
+}
+
+double Mesure::getValue()
+{
+	return value;
+}
+
 void Mesure::afficher()
 {
 	cout << timestamp << ";" << sensorID << ";" << attributeID << ";" << value << endl;
@@ -60,6 +80,10 @@ Mesure & Mesure::operator = (const Mesure & unMesure)
 // Algorithme :
 //
 {
+	timestamp = unMesure.timestamp;
+	sensorID = unMesure.sensorID;
+	attributeID = unMesure.attributeID;
+	value = unMesure.value;
 } //----- Fin de operator =
 
 
@@ -82,6 +106,10 @@ Mesure::Mesure(const Mesure & unMesure)
 #ifdef MAP
 	cout << "Appel au constructeur de copie de <Mesure>" << endl;
 #endif
+	timestamp = unMesure.timestamp;
+	sensorID = unMesure.sensorID;
+	attributeID = unMesure.attributeID;
+	value = unMesure.value;
 } //----- Fin de Mesure (constructeur de copie)
 
 
