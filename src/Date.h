@@ -71,7 +71,6 @@ public:
 
 protected:
 	//----------------------------------------------------- Méthodes protégées
-	int comparable(const Date & uneDate) const;
 
 
 
