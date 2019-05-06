@@ -104,6 +104,12 @@ bool Date::operator <= (const Date &uneDate)
 	return !(operator>(uneDate));
 }
 
+ostream & operator<<(ostream & out, const Date & uneDate)
+{
+	out << annee << '-' << mois << '-' << jour << 'T' << heure << ':' << minute << ':' << seconde;
+	return out;
+
+}
 
 //-------------------------------------------- Constructeurs - destructeur
 Date::Date ( const Date & uneDate )
@@ -155,3 +161,5 @@ Date::~Date ( )
 //----------------------------------------------------- Méthodes protégées
 
 //------------------------------------------------------- Méthodes privées
+
+

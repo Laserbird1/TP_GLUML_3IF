@@ -10,6 +10,7 @@
 #define DATE_H
 
 //--------------------------------------------------- Interfaces utilisées
+#include <ostream>
 
 //------------------------------------------------------------- Constantes 
 
@@ -38,10 +39,11 @@ public:
 	Date &operator = (const Date &uneDate);
 	bool operator == (const Date &uneDate);
 	bool operator !=(const Date &uneDate);
-	bool operator < (const Date &uneDate) ;
-	bool operator > (const Date &uneDate) ;
+	bool operator < (const Date &uneDate);
+	bool operator > (const Date &uneDate);
 	bool operator <=(const Date &uneDate);
 	bool operator >=(const Date &uneDate);
+	friend ostream& operator <<(ostream &out,const Date &uneDate);
 	// Mode d'emploi :
 	//
 	// Contrat :
