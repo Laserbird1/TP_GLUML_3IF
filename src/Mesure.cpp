@@ -1,40 +1,3 @@
-#include "pch.h"
-#include "Mesure.h"
-
-
-Mesure::Mesure()
-{
-}
-
-
-
-Mesure::~Mesure()
-{
-}
-
-void Mesure::setTimestamp(struct tm s)
-{
-	timestamp = s;
-}
-void Mesure::setSensorID(string s)
-{
-	sensorID = s;
-}
-void Mesure::setAttributeID(string s)
-{
-	attributeID = s;
-}
-void Mesure::setValue(double s)
-{
-	value = s;
-}
-
-void Mesure::afficher()
-{
-	cout << timestamp << ";" << sensorID << ";" << attributeID << ";" << value << endl;
-}
-
-
 /*************************************************************************
 						   Mesure  -  description
 							 -------------------
@@ -64,6 +27,27 @@ using namespace std;
 //-------------------------------------------------------- Fonctions amies
 
 //----------------------------------------------------- Méthodes publiques
+void Mesure::setTimestamp(Date s)
+{
+	timestamp = s;
+}
+void Mesure::setSensorID(string s)
+{
+	sensorID = s;
+}
+void Mesure::setAttributeID(string s)
+{
+	attributeID = s;
+}
+void Mesure::setValue(double s)
+{
+	value = s;
+}
+
+void Mesure::afficher()
+{
+	cout << timestamp << ";" << sensorID << ";" << attributeID << ";" << value << endl;
+}
 // type Mesure::Méthode ( liste de paramètres )
 // Algorithme :
 //
@@ -80,7 +64,7 @@ Mesure & Mesure::operator = (const Mesure & unMesure)
 
 
 //-------------------------------------------- Constructeurs - destructeur
-Mesure::Mesure(struct tm unTimestamp, string unSensorID, string unAttributeID, double unValue)
+Mesure::Mesure(Date unTimestamp, string unSensorID, string unAttributeID, double unValue)
 {
 #ifdef MAP
 	cout << "Appel au constructeur de <Mesure>" << endl;

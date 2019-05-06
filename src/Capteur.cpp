@@ -10,9 +10,7 @@
 //---------------------------------------------------------------- INCLUDE
 
 //-------------------------------------------------------- Include système
-
 using namespace std;
-
 //------------------------------------------------------ Include personnel
 #include "Capteur.h"
 //------------------------------------------------------------- Constantes
@@ -30,11 +28,11 @@ void Capteur::setSensorID(string s)
 {
 	sensorID = s;
 }
-void Capteur::setLatitude(string s)
+void Capteur::setLatitude(float s)
 {
 	latitude = s;
 }
-void Capteur::setLongitude(string s)
+void Capteur::setLongitude(float s)
 {
 	longitude = s;
 }
