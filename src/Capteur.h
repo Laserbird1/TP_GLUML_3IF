@@ -1,22 +1,7 @@
-
-class Capteur
-{
-public:
-	Capteur();
-	~Capteur();
-
-	
-
-	
-
-private:
-
-};
-
 /*************************************************************************
 						   Capteur  -  description
 							 -------------------
-	début                : ${date}
+	dï¿½but                : ${date}
 	copyright            : (C) ${year} par ${user}
 *************************************************************************/
 
@@ -24,7 +9,7 @@ private:
 #if ! defined ( Capteur_H )
 #define Capteur_H
 
-//--------------------------------------------------- Interfaces utilisées
+//--------------------------------------------------- Interfaces utilisï¿½es
 #include <iostream>
 #include <string>
 using namespace std;
@@ -33,7 +18,7 @@ using namespace std;
 //------------------------------------------------------------------ Types 
 
 //------------------------------------------------------------------------ 
-// Rôle de la classe <Capteur>
+// Rï¿½le de la classe <Capteur>
 //
 //
 //------------------------------------------------------------------------ 
@@ -43,20 +28,20 @@ class Capteur
 	//----------------------------------------------------------------- PUBLIC
 
 public:
-	//----------------------------------------------------- Méthodes publiques
+	//----------------------------------------------------- Mï¿½thodes publiques
 	void setSensorID(string s);
 	void setLatitude(float s);
 	void setLongitude(float s);
 	void setDescription(string s);
 	void afficher() const;
-		// type Méthode ( liste de paramètres );
+		// type Mï¿½thode ( liste de paramï¿½tres );
 		// Mode d'emploi :
 		//
 		// Contrat :
 		//
 
 
-	//------------------------------------------------- Surcharge d'opérateurs
+	//------------------------------------------------- Surcharge d'opï¿½rateurs
 	bool operator == (const Capteur& c) const;
 	bool operator < (const Capteur&c) const;
 	// Mode d'emploi :
@@ -89,30 +74,30 @@ public:
 //------------------------------------------------------------------ PRIVE 
 
 protected:
-	//----------------------------------------------------- Méthodes protégées
+	//----------------------------------------------------- Mï¿½thodes protï¿½gï¿½es
 
 private:
-	//------------------------------------------------------- Méthodes privées
+	//------------------------------------------------------- Mï¿½thodes privï¿½es
 
 protected:
-	//----------------------------------------------------- Attributs protégés
+	//----------------------------------------------------- Attributs protï¿½gï¿½s
 	string sensorID;
 	float latitude;
 	float longitude;
 	string description;
 
 private:
-	//------------------------------------------------------- Attributs privés
+	//------------------------------------------------------- Attributs privï¿½s
 
 	//---------------------------------------------------------- Classes amies
 
-	//-------------------------------------------------------- Classes privées
+	//-------------------------------------------------------- Classes privï¿½es
 
-	//----------------------------------------------------------- Types privés
+	//----------------------------------------------------------- Types privï¿½s
 
 };
 
-//----------------------------------------- Types dépendants de <Capteur>
+//----------------------------------------- Types dï¿½pendants de <Capteur>
 
 #endif // Capteur_H
 
