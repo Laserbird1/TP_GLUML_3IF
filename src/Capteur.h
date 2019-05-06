@@ -5,7 +5,7 @@
 	copyright            : (C) ${year} par ${user}
 *************************************************************************/
 
-//---------- Interface de la classe <Capteur> (fichier ${file_name}) ------
+//---------- Interface de la classe <Capteur> (fichier Capteur.h) ------
 #if ! defined ( Capteur_H )
 #define Capteur_H
 

@@ -1,7 +1,37 @@
+/*************************************************************************
+						   Date  -  description
+							 -------------------
+	début                : ${date}
+	copyright            : (C) ${year} par ${user}
+*************************************************************************/
+
+//---------- Réalisation de la classe <FileReader> (fichier FileReader.cpp) --
+
+//---------------------------------------------------------------- INCLUDE
+
+//-------------------------------------------------------- Include système
+
+//------------------------------------------------------ Include personnel
+
 #include "pch.h"
 #include "FileReader.h"
 
+//------------------------------------------------------------- Constantes
 
+//---------------------------------------------------- Variables de classe
+
+//----------------------------------------------------------- Types privés
+
+
+//----------------------------------------------------------------- PUBLIC
+
+//-------------------------------------------------------- Fonctions amies
+
+//----------------------------------------------------- Méthodes publiques
+// Algorithme :
+//
+//{
+//} //----- Fin de Méthode
 bool FileReader::OpenCsvMesure(string chemin)
 {
 	bool ouvertureReussie = true;
@@ -15,8 +45,13 @@ bool FileReader::OpenCsvMesure(string chemin)
 		cerr << "Erreur lors de l'ouverture, réessayer" << endl;
 		ouvertureReussie = false;
 	}
+	else
+	{
+		string description;
+		getline(csvMesure, description);
+	}
 	return ouvertureReussie;
-}
+}//----- Fin de OpenCsvMesure
 
 bool FileReader::OpenCsvCapteur(string chemin)
 {
@@ -31,8 +66,13 @@ bool FileReader::OpenCsvCapteur(string chemin)
 		cerr << "Erreur lors de l'ouverture, réessayer" << endl;
 		ouvertureReussie = false;
 	}
+	else
+	{
+		string description;
+		getline(csvCapteur, description);
+	}
 	return ouvertureReussie;
-}
+}//----- Fin de OpenCsvCapteur
 
 bool FileReader::OpenCsvAttribut(string chemin)
 {
@@ -47,8 +87,13 @@ bool FileReader::OpenCsvAttribut(string chemin)
 		cerr << "Erreur lors de l'ouverture, réessayer" << endl;
 		ouvertureReussie = false;
 	}
+	else
+	{
+		string description;
+		getline(csvAttribut, description);
+	}
 	return ouvertureReussie;
-}
+}//----- Fin de OpenCsvAttribut
 
 bool FileReader::LireligneMesure(Mesure& uneMesure)
 {
@@ -79,7 +124,7 @@ bool FileReader::LireligneMesure(Mesure& uneMesure)
 	}
 
 	return lectureReussie;
-}
+}//----- Fin de LireLigneMesure
 
 bool FileReader::LireligneCapteur(Capteur& unCapteur)
 {
@@ -107,7 +152,7 @@ bool FileReader::LireligneCapteur(Capteur& unCapteur)
 		unCapteur.setDescription(description);
 	}
 	return lectureReussie;
-}
+}//----- Fin de LireLigneCapteur
 
 bool FileReader::LireligneAttribut(Attribut& unAttribut)
 {
@@ -132,7 +177,7 @@ bool FileReader::LireligneAttribut(Attribut& unAttribut)
 		unAttribut.setDescription(description);
 	}
 	return lectureReussie;
-}
+}//----- Fin de LireLigneAttribut
 
 set<Capteur> FileReader::InitListeCapteurs()
 {
@@ -144,21 +189,57 @@ set<Capteur> FileReader::InitListeCapteurs()
 		liste.insert(unCapteur);
 	}
 	return liste;
-}
+}//----- Fin de InitListeCapteurs
+
+set<Attribut> FileReader::InitListeAttributs()
+{
+	set<Attribut> liste;
+	Attribut unAttribut;
+
+	while (LireligneAttribut(unAttribut))
+	{
+		liste.insert(unAttribut);
+	}
+	return liste;
+}//----- Fin de InitListeAttributs
 
 void FileReader::reinitLectureFichiers()
 {
+	string descriptions; //chaine à retirer lors des manipulations de fichiers
 	csvMesure.seekg(0, ios::beg);
 	csvCapteur.seekg(0, ios::beg);
 	csvAttribut.seekg(0, ios::beg);
-}
+
+	getline(csvMesure, description);
+	getline(csvCapteur, description);
+	getline(csvAttribut, description);
+
+}//----- Fin de reinitLectureFichiers
+
+//------------------------------------------------- Surcharge d'opérateurs
+
+//-------------------------------------------- Constructeurs - destructeur
+
+FileReader::FileReader()
+{
+}//----- Fin de FileReader
+
+FileReader::~FileReader()
+{
+}//----- Fin de ~FileReader
+
+//------------------------------------------------------------------ PRIVE
+
+//----------------------------------------------------- Méthodes protégées
+
+//------------------------------------------------------- Méthodes privées
 
 Date FileReader::convertStringToDate(string s)
 {
 	int annee = stoi(substr(0, 4));
-	int mois=stoi(substr(5, 2));
+	int mois = stoi(substr(5, 2));
 	int jour = stoi(substr(8, 2));
-	int heure = stoi(substr(11,2));
+	int heure = stoi(substr(11, 2));
 	int minute = stoi(substr(14, 2));
 	int seconde = stoi(substr(17, 2));
 
@@ -166,14 +247,4 @@ Date FileReader::convertStringToDate(string s)
 	return d;
 
 	//2017-01-01T00:01:20.6090000
-}
-
-
-FileReader::FileReader()
-{
-}
-
-
-FileReader::~FileReader()
-{
-}
+}//----- Fin de convertStringToDate
