@@ -1,9 +1,3 @@
-#pragma once
-
-#include <iostream>
-#include <string>
-
-using namespace std;
 
 class Capteur
 {
@@ -11,19 +5,115 @@ public:
 	Capteur();
 	~Capteur();
 
-	void setSensorID(string s);
-	void setLatitude(string s);
-	void setLongitude(string s);
-	void setDescription(string s);
-	void afficher() const;
+	
 
-	bool operator == (const Capteur& c) const;
-	bool operator < (const Capteur&c) const;
+	
 
 private:
-	string sensorID;
-	string latitude;
-	string longitude;
-	string description;
+
 };
+
+/*************************************************************************
+						   Capteur  -  description
+							 -------------------
+	début                : ${date}
+	copyright            : (C) ${year} par ${user}
+*************************************************************************/
+
+//---------- Interface de la classe <Capteur> (fichier ${file_name}) ------
+#if ! defined ( Capteur_H )
+#define Capteur_H
+
+//--------------------------------------------------- Interfaces utilisées
+#include <iostream>
+#include <string>
+using namespace std;
+//------------------------------------------------------------- Constantes 
+
+//------------------------------------------------------------------ Types 
+
+//------------------------------------------------------------------------ 
+// Rôle de la classe <Capteur>
+//
+//
+//------------------------------------------------------------------------ 
+
+class Capteur
+{
+	//----------------------------------------------------------------- PUBLIC
+
+public:
+	//----------------------------------------------------- Méthodes publiques
+	void setSensorID(string s);
+	void setLatitude(float s);
+	void setLongitude(float s);
+	void setDescription(string s);
+	void afficher() const;
+		// type Méthode ( liste de paramètres );
+		// Mode d'emploi :
+		//
+		// Contrat :
+		//
+
+
+	//------------------------------------------------- Surcharge d'opérateurs
+	bool operator == (const Capteur& c) const;
+	bool operator < (const Capteur&c) const;
+	// Mode d'emploi :
+	//
+	// Contrat :
+	//
+
+
+//-------------------------------------------- Constructeurs - destructeur
+	Capteur(string unSensorID, float uneLatitude, float uneLongitude, string uneDescription);
+
+	Capteur(const Capteur & unCapteur);
+	// Mode d'emploi (constructeur de copie) :
+	//
+	// Contrat :
+	//
+
+	Capteur();
+	// Mode d'emploi :
+	//
+	// Contrat :
+	//
+
+	virtual ~Capteur();
+	// Mode d'emploi :
+	//
+	// Contrat :
+	//
+
+//------------------------------------------------------------------ PRIVE 
+
+protected:
+	//----------------------------------------------------- Méthodes protégées
+
+private:
+	//------------------------------------------------------- Méthodes privées
+
+protected:
+	//----------------------------------------------------- Attributs protégés
+	string sensorID;
+	float latitude;
+	float longitude;
+	string description;
+
+private:
+	//------------------------------------------------------- Attributs privés
+
+	//---------------------------------------------------------- Classes amies
+
+	//-------------------------------------------------------- Classes privées
+
+	//----------------------------------------------------------- Types privés
+
+};
+
+//----------------------------------------- Types dépendants de <Capteur>
+
+#endif // Capteur_H
+
 
