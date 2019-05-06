@@ -1,12 +1,12 @@
 
 /*************************************************************************
- ${file_base}  -  description
+ Controleur  -  Contient toute les methodes
  -------------------
- dÈbut                : ${date}
- copyright            : (C) ${year} par ${user}
+ dÈbut                : 06/05/19
+ copyright            : (C) 2019 par ppetrella
  *************************************************************************/
 
-//---------- RÈalisation de la classe <${file_base}> (fichier ${file_name}) --
+//---------- RÈalisation de la classe <Controleur> (fichier Controleur) --
 
 //---------------------------------------------------------------- INCLUDE
 
@@ -33,7 +33,7 @@ using namespace std;
 //-------------------------------------------------------- Fonctions amies
 
 //----------------------------------------------------- MÈthodes publiques
-// type ${file_base}::MÈthode ( liste de paramËtres )
+// type Controleur::MÈthode ( liste de paramËtres )
 // Algorithme :
 //
 //{
@@ -63,34 +63,34 @@ pair <int,int> Controleur::trouverLongitudeLatitude(string capteurID){}
 
 
 //-------------------------------------------- Constructeurs - destructeur
-${file_base}::${file_base} ( const ${file_base} & un${file_base} )
+Controleur::Controleur ( const Controleur & unControleur )
 // Algorithme :
 //
 {
 #ifdef MAP
-    cout << "Appel au constructeur de copie de <${file_base}>" << endl;
+    cout << "Appel au constructeur de copie de <Controleur>" << endl;
 #endif
-    } //----- Fin de ${file_base} (constructeur de copie)
+    } //----- Fin de Controleur (constructeur de copie)
     
     
-    ${file_base}::${file_base} ( )
+    Controleur::Controleur ( )
     // Algorithme :
     //
     {
 #ifdef MAP
-        cout << "Appel au constructeur de <${file_base}>" << endl;
+        cout << "Appel au constructeur de <Controleur>" << endl;
 #endif
-    } //----- Fin de ${file_base}
+    } //----- Fin de Controleur
     
     
-    ${file_base}::~${file_base} ( )
+    Controleur::~Controleur ( )
     // Algorithme :
     //
     {
 #ifdef MAP
-        cout << "Appel au destructeur de <${file_base}>" << endl;
+        cout << "Appel au destructeur de <Controleur>" << endl;
 #endif
-    } //----- Fin de ~${file_base}
+    } //----- Fin de ~Controleur
     
     
     //------------------------------------------------------------------ PRIVE
