@@ -10,10 +10,11 @@
 //---------------------------------------------------------------- INCLUDE
 
 //-------------------------------------------------------- Include système
-using namespace std;
+
 #include <iostream>
 
 //------------------------------------------------------ Include personnel
+#include "pch.h"
 #include "Date.h"
 
 //------------------------------------------------------------- Constantes
@@ -38,12 +39,16 @@ Date & Date::operator = ( const Date & uneDate )
 // Algorithme :
 //
 {
-	annee = uneDate.annee;
-	mois = uneDate.mois;
-	jour = uneDate.jour;
-	heure = uneDate.heure;
-	minute = uneDate.minute;
-	seconde = uneDate.seconde;
+	if (this != &uneDate)
+	{
+		annee = uneDate.annee;
+		mois = uneDate.mois;
+		jour = uneDate.jour;
+		heure = uneDate.heure;
+		minute = uneDate.minute;
+		seconde = uneDate.seconde;
+	}
+	return *this;
 } //----- Fin de operator =
 bool Date::operator == (const Date &uneDate)
 {
@@ -106,7 +111,7 @@ bool Date::operator <= (const Date &uneDate)
 
 ostream & operator<<(ostream & out, const Date & uneDate)
 {
-	out << annee << '-' << mois << '-' << jour << 'T' << heure << ':' << minute << ':' << seconde;
+	out << uneDate.annee << '-' << uneDate.mois << '-' << uneDate.jour << 'T' << uneDate.heure << ':' << uneDate.minute << ':' << uneDate.seconde;
 	return out;
 
 }

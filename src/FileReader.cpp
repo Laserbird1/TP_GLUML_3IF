@@ -95,7 +95,7 @@ bool FileReader::OpenCsvAttribut(string chemin)
 	return ouvertureReussie;
 }//----- Fin de OpenCsvAttribut
 
-bool FileReader::LireligneMesure(Mesure& uneMesure)
+bool FileReader::LireLigneMesure(Mesure& uneMesure)
 {
 	bool lectureReussie = true;
 	string timestamp;
@@ -126,7 +126,7 @@ bool FileReader::LireligneMesure(Mesure& uneMesure)
 	return lectureReussie;
 }//----- Fin de LireLigneMesure
 
-bool FileReader::LireligneCapteur(Capteur& unCapteur)
+bool FileReader::LireLigneCapteur(Capteur& unCapteur)
 {
 	bool lectureReussie = true;
 	string sensorID;
@@ -154,7 +154,7 @@ bool FileReader::LireligneCapteur(Capteur& unCapteur)
 	return lectureReussie;
 }//----- Fin de LireLigneCapteur
 
-bool FileReader::LireligneAttribut(Attribut& unAttribut)
+bool FileReader::LireLigneAttribut(Attribut& unAttribut)
 {
 	bool lectureReussie = true;
 	string attributeID;
@@ -184,7 +184,7 @@ set<Capteur> FileReader::InitListeCapteurs()
 	set<Capteur> liste;
 	Capteur unCapteur;
 
-	while (LireligneCapteur(unCapteur))
+	while (LireLigneCapteur(unCapteur))
 	{
 		liste.insert(unCapteur);
 	}
@@ -196,7 +196,7 @@ set<Attribut> FileReader::InitListeAttributs()
 	set<Attribut> liste;
 	Attribut unAttribut;
 
-	while (LireligneAttribut(unAttribut))
+	while (LireLigneAttribut(unAttribut))
 	{
 		liste.insert(unAttribut);
 	}
@@ -210,9 +210,9 @@ void FileReader::reinitLectureFichiers()
 	csvCapteur.seekg(0, ios::beg);
 	csvAttribut.seekg(0, ios::beg);
 
-	getline(csvMesure, description);
-	getline(csvCapteur, description);
-	getline(csvAttribut, description);
+	getline(csvMesure, descriptions);
+	getline(csvCapteur, descriptions);
+	getline(csvAttribut, descriptions);
 
 }//----- Fin de reinitLectureFichiers
 
@@ -236,12 +236,12 @@ FileReader::~FileReader()
 
 Date FileReader::convertStringToDate(string s)
 {
-	int annee = stoi(substr(0, 4));
-	int mois = stoi(substr(5, 2));
-	int jour = stoi(substr(8, 2));
-	int heure = stoi(substr(11, 2));
-	int minute = stoi(substr(14, 2));
-	int seconde = stoi(substr(17, 2));
+	int annee = stoi(s.substr(0, 4));
+	int mois = stoi(s.substr(5, 2));
+	int jour = stoi(s.substr(8, 2));
+	int heure = stoi(s.substr(11, 2));
+	int minute = stoi(s.substr(14, 2));
+	int seconde = stoi(s.substr(17, 2));
 
 	Date d(annee, mois, jour, heure, minute, seconde);
 	return d;

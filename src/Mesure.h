@@ -10,11 +10,13 @@
 #define Mesure_H
 
 //--------------------------------------------------- Interfaces utilis�es
+#include "pch.h"
 #include <string>
 #include <iostream>
 
 #include "Date.h"
 
+using namespace std;
 //------------------------------------------------------------- Constantes 
 
 //------------------------------------------------------------------ Types 
@@ -50,7 +52,7 @@ public:
 
 
 	//------------------------------------------------- Surcharge d'op�rateurs
-	Mesure & operator = (const Mesure & unMesure);
+	Mesure & operator = (const Mesure & uneMesure);
 	// Mode d'emploi :
 	//
 	// Contrat :

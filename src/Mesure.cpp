@@ -10,10 +10,11 @@
 //---------------------------------------------------------------- INCLUDE
 
 //-------------------------------------------------------- Include système
-using namespace std;
+
 #include <iostream>
 
 //------------------------------------------------------ Include personnel
+#include "pch.h"
 #include "Mesure.h"
 
 //------------------------------------------------------------- Constantes
@@ -76,14 +77,18 @@ void Mesure::afficher()
 
 
 //------------------------------------------------- Surcharge d'opérateurs
-Mesure & Mesure::operator = (const Mesure & unMesure)
+Mesure & Mesure::operator = (const Mesure & uneMesure)
 // Algorithme :
 //
 {
-	timestamp = unMesure.timestamp;
-	sensorID = unMesure.sensorID;
-	attributeID = unMesure.attributeID;
-	value = unMesure.value;
+	if (this != &uneMesure)
+	{
+		timestamp = uneMesure.timestamp;
+		sensorID = uneMesure.sensorID;
+		attributeID = uneMesure.attributeID;
+		value = uneMesure.value;
+	}
+	return *this;
 } //----- Fin de operator =
 
 

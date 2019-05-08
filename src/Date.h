@@ -10,7 +10,10 @@
 #define DATE_H
 
 //--------------------------------------------------- Interfaces utilisées
-#include <ostream>
+#include "pch.h"
+#include <iostream>
+
+using namespace std;
 
 //------------------------------------------------------------- Constantes 
 
@@ -36,7 +39,7 @@ public:
 
 
 	//------------------------------------------------- Surcharge d'opérateurs
-	Date &operator = (const Date &uneDate);
+	Date & operator = (const Date &uneDate);
 	bool operator == (const Date &uneDate);
 	bool operator !=(const Date &uneDate);
 	bool operator < (const Date &uneDate);
@@ -88,4 +91,4 @@ protected:
 };
 
 
-#endif // DATE_H
+#endif //DATE_H
