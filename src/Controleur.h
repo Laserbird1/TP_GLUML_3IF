@@ -8,8 +8,6 @@ class Controleur{
     public:
     
     void InitialiserFichiers(FileReader fileReader);
-    
-    bool INIT (string,string,string);
 
     bool testCapteurActif(string capteurID, float t);
 

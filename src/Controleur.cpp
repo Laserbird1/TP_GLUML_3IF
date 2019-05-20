@@ -45,10 +45,10 @@ using namespace std;
 void InitialiserFichiers(FileReader fileReader)
 {   this.fileReader = fileReader;
     capteurs = this.fileReader.InitListeCapteurs();
-    attributs = this.fileReader.InitListeAttributs(); 
-};
+    attributs = this.fileReader.InitListeAttributs();
+}
 //pierre
-bool Controleur::INIT (string a,string b,string c){}
+
 
 bool Controleur::testCapteurActif(string capteurID, float t){}
 
@@ -70,6 +70,7 @@ pair<int,string> Controleur::calculAirQuality(int indiceO3,int indiceSO2,int ind
 
 pair <int,int> Controleur::trouverLongitudeLatitude(string capteurID){}
 
+//
 
 //-------------------------------------------- Constructeurs - destructeur
 Controleur::Controleur ( const Controleur & unControleur )
