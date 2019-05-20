@@ -44,14 +44,21 @@ using namespace std;
 
 //pierre
 void InitialiserFichiers(FileReader fileReader)
-{   this.fileReader = fileReader;
-    capteurs = this.fileReader.InitListeCapteurs();
-    attributs = this.fileReader.InitListeAttributs();
+{   this->fileReader = fileReader;
+    capteurs = this->fileReader.InitListeCapteurs();
+    attributs = this->fileReader.InitListeAttributs();
 }
 //pierre
 
 
-bool Controleur::testCapteurActif(string capteurID, float t){}
+bool Controleur::testCapteurActif(string capteurID, float t){
+//Algorithme:
+    // Identifiant du capteur,nombre d’heures à analyser
+
+//Booléen renvoyant True ou False selon le cas où le capteur est actif ou pas.
+
+    
+}
 
 bool Controleur::verifCapteur(string capteurID,float p,float t,float s){}
 
