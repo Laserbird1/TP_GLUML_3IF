@@ -9,6 +9,24 @@ int main()
     int valeur=0;
     bool continuer=true;
     Controleur* C= new Controleur();
+
+    //demander nom fichiers csv, 
+    string nomCsvMesures;
+    string nomCsvCaptures;
+    string nomCsvAttributs;
+    cout << "Ecrire le nom du fichier Mesures " <<endl;
+    cin >> nomCsvMesures;
+    cout << "Ecrire le nom du fichier Captures " <<endl;
+    cin >> nomCsvCaptures;
+    cout << "Ecrire le nom du fichier Attributs " <<endl;
+    cin >> nomCsvAttributs;
+
+    FileReader *FR =  new FileReader();
+
+    FR->OpenCsvMesure(nomCsvMesures);
+    FR->OpenCsvCapteur(nomCsvCaptures);
+    FR->OpenCsvAttribut(nomCsvAttributs);
+    
     while(continuer){
         cout << "Bienvenu,"<<"\n"<<"Options:"<<endl;
         cout << "1: " << endl;

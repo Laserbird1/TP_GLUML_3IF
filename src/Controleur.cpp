@@ -88,7 +88,7 @@ pair <int,int> Controleur::trouverLongitudeLatitude(string capteurID){
     bool found=false;
     pair<int,int> res;
     for(set<Capteur>::iterator it=capteurs.begin();it!=capteurs.end() && !found;++it){
-        if(it->getSensorID() == capteurID){
+        if(it->getID() == capteurID){
             found=true;
             res.first = it->getLatitude();
             res.second = it->getLongitude();
