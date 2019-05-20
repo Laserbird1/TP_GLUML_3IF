@@ -66,38 +66,39 @@ bool Date::operator != (const Date &uneDate)
 
 bool Date::operator < (const Date &uneDate) 
 {
+	bool res = false;
 	if (annee < uneDate.annee)
-		return true;
-	else if (mois < uneDate.mois)
-		return true;
-	else if (jour < uneDate.jour)
-		return true;
-	else if (heure < uneDate.heure)
-		return true;
-	else if (minute < uneDate.minute)
-		return true;
-	else if (seconde < uneDate.seconde)
-		return true;
-	else
-		return false;
-
+		res = true;
+	else if (annee == uneDate.annee)
+	{
+		if (mois < uneDate.mois)
+			res = true;
+		else if (mois == uneDate.mois)
+		{
+			if (jour < uneDate.jour)
+				res = true;
+			else if (jour == uneDate.jour)
+			{
+				if (heure < uneDate.heure)
+					res = true;
+				else if (heure == uneDate.heure)
+				{
+					if (minute < uneDate.minute)
+						res = true;
+					else if (minute == uneDate.minute)
+					{
+						if (seconde < uneDate.seconde)
+							res = true;
+					}
+				}
+			}
+		}
+	}
+	return res;
 }
 bool Date::operator > (const Date &uneDate) 
 {
-	if (annee > uneDate.annee)
-		return true;
-	else if (mois > uneDate.mois)
-		return true;
-	else if (jour > uneDate.jour)
-		return true;
-	else if (heure > uneDate.heure)
-		return true;
-	else if (minute > uneDate.minute)
-		return true;
-	else if (seconde > uneDate.seconde)
-		return true;
-	else
-		return false;
+	return !(operator<(uneDate)||operator==(uneDate));
 }
 
 bool Date::operator >= (const Date &uneDate)
