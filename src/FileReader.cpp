@@ -224,6 +224,8 @@ void FileReader::reinitLectureFichiers()
 
 //------------------------------------------------- Surcharge d'opérateurs
 
+
+
 //-------------------------------------------- Constructeurs - destructeur
 
 FileReader::FileReader()

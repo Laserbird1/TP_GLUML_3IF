@@ -52,14 +52,46 @@ void Controleur::InitialiserFichiers(FileReader fileReader)
 //pierre
 
 
-bool Controleur::testCapteurActif(string capteurID, float t){
-//Algorithme:
-    // Identifiant du capteur,nombre d’heures à analyser
+//Guilhem
+bool Controleur::testCapteurActif(string capteurID, Date t1, Date t2) {
+	//Algorithme:
+		// Identifiant du capteur,nombre d’heures à analyser
 
-//Booléen renvoyant True ou False selon le cas où le capteur est actif ou pas.
+	//Booléen renvoyant True ou False selon le cas où le capteur est actif ou pas. 
 
-    
+	set<Capteur> capteurs;
+	set<Capteur>::iterator it = capteurs.begin();
+	bool capteurFonctionnel = false;
+	bool capteurTrouve = false;
+
+
+	Capteur capteurTest;
+	Mesure mesureTest;
+	fileReader.reinitLectureFichiers();
+
+	while ((it != capteurs.end()) && !capteurTrouve)
+	{
+		if (((*it).getID()) == capteurID)
+		{
+			capteurTest = (*it);
+			capteurTrouve = true;
+		}
+	}
+
+	if (capteurTrouve)
+	{
+
+		while (fileReader.LireLigneMesure(mesureTest) && !capteurFonctionnel)
+		{
+			if ((mesureTest.getSensorID() == capteurTest.getID()) && (mesureTest.getTimestamp() >= t1) && (mesureTest.getTimestamp() <= t2))
+			{
+				capteurFonctionnel = true;
+			}
+		}
+	}
+	return capteurFonctionnel;
 }
+//Guilhem
 
 bool Controleur::verifCapteur(string capteurID,float p,float t,float s){}
 

@@ -63,6 +63,7 @@ public:
 
 	//------------------------------------------------- Surcharge d'op�rateurs
 
+
 	//-------------------------------------------- Constructeurs - destructeur
 	
 	FileReader();

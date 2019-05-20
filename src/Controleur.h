@@ -14,7 +14,7 @@ class Controleur{
     
     void InitialiserFichiers(FileReader fileReader);
 
-    bool testCapteurActif(string capteurID, float t);
+    bool testCapteurActif(string capteurID, Date t1, Date t2);
 
     bool verifCapteur(string capteurID,float p,float t,float s);
 
