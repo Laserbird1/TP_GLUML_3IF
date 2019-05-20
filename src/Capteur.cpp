@@ -1,15 +1,15 @@
 /*************************************************************************
 						   Capteur  -  description
 							 -------------------
-	début                : ${date}
+	dï¿½but                : ${date}
 	copyright            : (C) ${year} par ${user}
 *************************************************************************/
 
-//---------- Réalisation de la classe <Capteur> (fichier ${file_name}) --
+//---------- Rï¿½alisation de la classe <Capteur> (fichier ${file_name}) --
 
 //---------------------------------------------------------------- INCLUDE
 
-//-------------------------------------------------------- Include système
+//-------------------------------------------------------- Include systï¿½me
 
 //------------------------------------------------------ Include personnel
 #include "pch.h"
@@ -20,13 +20,13 @@
 
 //---------------------------------------------------- Variables de classe
 
-//----------------------------------------------------------- Types privés
+//----------------------------------------------------------- Types privï¿½s
 
 
 //----------------------------------------------------------------- PUBLIC
 //-------------------------------------------------------- Fonctions amies
 
-//----------------------------------------------------- Méthodes publiques
+//----------------------------------------------------- Mï¿½thodes publiques
 void Capteur::setSensorID(string s)
 {
 	sensorID = s;
@@ -69,14 +69,16 @@ void Capteur::afficher() const
 	cout << sensorID << ";" << latitude << ";" << longitude << ";" << description << endl;
 }
 
-// type Capteur::Méthode ( liste de paramètres )
+
+
+// type Capteur::Mï¿½thode ( liste de paramï¿½tres )
 // Algorithme :
 //
 //{
-//} //----- Fin de Méthode
+//} //----- Fin de Mï¿½thode
 
 
-//------------------------------------------------- Surcharge d'opérateurs
+//------------------------------------------------- Surcharge d'opï¿½rateurs
 bool Capteur::operator == (const Capteur& c) const
 {
 	return sensorID == c.sensorID;
@@ -125,6 +127,6 @@ Capteur::~Capteur()
 
 //------------------------------------------------------------------ PRIVE
 
-//----------------------------------------------------- Méthodes protégées
+//----------------------------------------------------- Mï¿½thodes protï¿½gï¿½es
 
-//------------------------------------------------------- Méthodes privées
+//------------------------------------------------------- Mï¿½thodes privï¿½es

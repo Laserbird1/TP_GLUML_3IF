@@ -186,9 +186,22 @@ list<Capteur> Controleur::afficherAttributQualiteCapteur(string attributeID,doub
 
 list<Capteur> Controleur::afficherCapteursSimilaires(string attributeID,string CapteurID,float  s){}
 
-pair<int,string> Controleur::calculAirQualityCapteur(string attributeID,string capteurID,float r,float p,float t){}
-
-pair<int,string> Controleur::calculAirQualityPoint(string attributeID,double longitude,double latitude,float r,float p,float t){}
+pair<int,string> Controleur::calculAirQualityCapteur(string attributeID,double longitude,double latitude,float r,float t1,float t2){
+    list<Capteur> voisins = afficherVoisinsPoint(longitude,latitude,r);
+    int cantCapteursMoyenne = 0;
+    double denominateurMoyenne = 0;
+    for(list<Capteur>::iterator it=voisins.begin();it!=voisins.end() ;++it){
+        if(testCapteurActif(it->getID(),t1,t2)){
+            denominateurMoyenne += it->getMoyenne(attributeID,t1,t2);
+            cantCapteursMoyenne += 1;
+        }
+    }
+    pair<int,string> res;
+    res.first = denominateurMoyenne/cantCapteursMoyenne;
+    //on doit mettre un message associe a la valeur trouvee
+    res.second = "";
+    return res;
+}
 
 pair<int,string> Controleur::calculAirQuality(int indiceO3,int indiceSO2,int indiceNO2,int indicePM10){}
 
@@ -205,6 +218,20 @@ pair <int,int> Controleur::trouverLongitudeLatitude(string capteurID){
     return res;
 }
 
+double getMoyenne(string capteurID,string attributeID,Date d1,Date d2){
+    Mesure mesure;
+    double denominateurMoyenne = 0;
+    int countCapteurs = 0;
+    while(fileReader->LireLigneMesure(mesure) && mesure.getTimestamp() < d2 ){
+        if(d1 < mesure.getTimestamp()){
+            if(mesure.getSensorID() == capteurID && mesure.getAttributeID() == attributeID ){
+                denominateurMoyenne += mesure.getValue();
+                countCapteurs += 1;
+            }
+        }
+    }
+    return denominateurMoyenne/countCapteurs;
+}
 //
 
 //-------------------------------------------- Constructeurs - destructeur

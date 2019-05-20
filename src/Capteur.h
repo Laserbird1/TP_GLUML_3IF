@@ -13,6 +13,7 @@
 #include "pch.h"
 #include <string>
 #include <iostream>
+#include "Attribut.h"
 
 using namespace std;
 //------------------------------------------------------------- Constantes 
@@ -40,6 +41,7 @@ public:
 	double getLongitude() const;
 	string getDescription() const;
 	void afficher() const;
+	
 		// type M�thode ( liste de param�tres );
 		// Mode d'emploi :
 		//
