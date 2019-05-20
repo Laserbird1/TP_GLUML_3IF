@@ -58,16 +58,42 @@ bool Controleur::verifCapteur(string capteurID,float p,float t,float s){}
 list <Capteur> Controleur::afficherVoisinsCapteur(string capteurID,float r)
 {
 	list<Capteur> res;
-	Capteur centerSensor;
+	Capteur * centerSensor;
+	set<Capteur>::iterator it;
 
-	for (set<Capteur>::iterator it = listeCapteur.begin(); it != listeCapteur.end(); it++)
+	for (it = capteurs.begin(); it != capteurs.end(); it++)
 	{
 		if (it->getID().compare(capteurID)==0)
 		{
-			centerSensor = Capteur(*it);
+			centerSensor = &Capteur(*it);
+			break;
 		}
 	}
 
+	if (it == capteurs.end())
+	{
+		cerr << "mauvais id passé en pramètre de afficherVoisinsCapteur, il n'existe pas"<<endl;
+	}
+	else
+	{
+
+		double latCenter = centerSensor->getLatitude();
+		double lngCenter = centerSensor->getLongitude();
+		for (it = capteurs.begin(); it != capteurs.end(); it++)
+		{
+			double latTest = it->getLatitude();
+			double lngTest = it->getLongitude();
+			double x = latCenter - latTest;
+			double y = lngCenter - lngTest;
+
+			if (x*x + y * y < r*r)
+			{
+				res.push_front(*it);
+			}
+		}
+	}
+
+	return res;
 
 }
 
