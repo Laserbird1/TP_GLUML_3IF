@@ -79,31 +79,32 @@ list <Capteur> Controleur::afficherVoisinsCapteur(string capteurID,float r)
 	if (it == capteurs.end())
 	{
 		cerr << "mauvais id passé en pramètre de afficherVoisinsCapteur, il n'existe pas"<<endl;
+		return list<Capteur>();
 	}
 	else
 	{
-
-		double latCenter = centerSensor->getLatitude();
-		double lngCenter = centerSensor->getLongitude();
-		for (it = capteurs.begin(); it != capteurs.end(); it++)
-		{
-			double latTest = it->getLatitude();
-			double lngTest = it->getLongitude();
-			double x = latCenter - latTest;
-			double y = lngCenter - lngTest;
-
-			if (x*x + y * y < r*r)
-			{
-				res.push_front(*it);
-			}
-		}
+		return afficherVoisinsPoint(centerSensor->getLongitude(), centerSensor->getLatitude, r);
 	}
-
-	return res;
-
 }
 
-list<Capteur> Controleur::afficherVoisinsPoint(double longitude,double latitude,float r){}
+list<Capteur> Controleur::afficherVoisinsPoint(double longitude,double latitude,float r)
+{
+	list<Capteur> res;
+	set<Capteur>::iterator it;
+	for (it = capteurs.begin(); it != capteurs.end(); it++)
+	{
+		double latTest = it->getLatitude();
+		double lngTest = it->getLongitude();
+		double x = longitude - latTest;
+		double y = latitude - lngTest;
+
+		if (x*x + y * y < r*r)
+		{
+			res.push_front(*it);
+		}
+	}
+	return res;
+}
 
 list<Capteur> Controleur::afficherAttributQualiteCapteur(string attributeID,double qualité,float s){}
 
