@@ -3,6 +3,9 @@
 
 #include <list>
 #include <string>
+#include <set>
+#include "FileReader.h"
+#include "Attribut.h"
 
 class Controleur{
     public:
