@@ -13,8 +13,6 @@
 //-------------------------------------------------------- Include systËme
 using namespace std;
 #include <iostream>
-#include "Capteur.h"
-#include "Mesure.h"
 #include "Controleur.h"
 #include <list>
 #include <set>
@@ -43,10 +41,10 @@ using namespace std;
 //} //----- Fin de MÈthode
 
 //pierre
-void InitialiserFichiers(FileReader fileReader)
-{   this.fileReader = fileReader;
-    capteurs = this.fileReader.InitListeCapteurs();
-    attributs = this.fileReader.InitListeAttributs(); 
+void Controleur::InitialiserFichiers(FileReader fileReader)
+{   this->fileReader = fileReader;
+    capteurs = this->fileReader.InitListeCapteurs();
+    attributs = this->fileReader.InitListeAttributs(); 
 };
 //pierre
 bool Controleur::INIT (string a,string b,string c){}
