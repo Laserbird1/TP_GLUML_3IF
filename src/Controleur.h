@@ -1,5 +1,7 @@
 #include "Capteur.h"
 #include "Mesure.h"
+#include "Attribut.h"
+#include "FileReader.h"
 
 #include <list>
 #include <string>
