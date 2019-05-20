@@ -13,8 +13,6 @@
 //-------------------------------------------------------- Include systËme
 using namespace std;
 #include <iostream>
-#include "Capteur.h"
-#include "Mesure.h"
 #include "Controleur.h"
 #include <list>
 #include <set>
@@ -44,31 +42,65 @@ using namespace std;
 //} //----- Fin de MÈthode
 
 //pierre
-void InitialiserFichiers(FileReader fileReader)
-{   this.fileReader = fileReader;
-    capteurs = this.fileReader.InitListeCapteurs();
-    attributs = this.fileReader.InitListeAttributs(); 
-};
-//pierre
-bool Controleur::INIT (string a,string b,string c){}
 
-bool Controleur::testCapteurActif(string capteurID, float t){}
+void Controleur::InitialiserFichiers(FileReader fileReader)
+{   this->fileReader = fileReader;
+    capteurs = this->fileReader.InitListeCapteurs();
+    attributs = this->fileReader.InitListeAttributs(); 
+}
+//pierre
+
+
+bool Controleur::testCapteurActif(string capteurID, float t){
+//Algorithme:
+    // Identifiant du capteur,nombre d’heures à analyser
+
+//Booléen renvoyant True ou False selon le cas où le capteur est actif ou pas.
+
+    
+}
 
 bool Controleur::verifCapteur(string capteurID,float p,float t,float s){}
 
 list <Capteur> Controleur::afficherVoisinsCapteur(string capteurID,float r)
 {
 	list<Capteur> res;
-	Capteur centerSensor;
+	Capteur * centerSensor;
+	set<Capteur>::iterator it;
 
-	for (set<Capteur>::iterator it = listeCapteur.begin(); it != listeCapteur.end(); it++)
+	for (it = capteurs.begin(); it != capteurs.end(); it++)
 	{
 		if (it->getID().compare(capteurID)==0)
 		{
-			centerSensor = Capteur(*it);
+			centerSensor = &Capteur(*it);
+			break;
 		}
 	}
 
+	if (it == capteurs.end())
+	{
+		cerr << "mauvais id passé en pramètre de afficherVoisinsCapteur, il n'existe pas"<<endl;
+	}
+	else
+	{
+
+		double latCenter = centerSensor->getLatitude();
+		double lngCenter = centerSensor->getLongitude();
+		for (it = capteurs.begin(); it != capteurs.end(); it++)
+		{
+			double latTest = it->getLatitude();
+			double lngTest = it->getLongitude();
+			double x = latCenter - latTest;
+			double y = lngCenter - lngTest;
+
+			if (x*x + y * y < r*r)
+			{
+				res.push_front(*it);
+			}
+		}
+	}
+
+	return res;
 
 }
 
@@ -97,16 +129,9 @@ pair <int,int> Controleur::trouverLongitudeLatitude(string capteurID){
     return res;
 }
 
+//
 
 //-------------------------------------------- Constructeurs - destructeur
-Controleur::Controleur ( const Controleur & unControleur )
-// Algorithme :
-//
-{
-#ifdef MAP
-    cout << "Appel au constructeur de copie de <Controleur>" << endl;
-#endif
-    } //----- Fin de Controleur (constructeur de copie)
     
     
     Controleur::Controleur ( )

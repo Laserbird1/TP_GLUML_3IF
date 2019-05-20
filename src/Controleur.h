@@ -1,5 +1,7 @@
 #include "Capteur.h"
 #include "Mesure.h"
+#include "Attribut.h"
+#include "FileReader.h"
 
 #include <list>
 #include <string>
@@ -11,8 +13,6 @@ class Controleur{
     public:
     
     void InitialiserFichiers(FileReader fileReader);
-    
-    bool INIT (string,string,string);
 
     bool testCapteurActif(string capteurID, float t);
 
