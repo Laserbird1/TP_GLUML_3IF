@@ -26,19 +26,17 @@ class Controleur{
 
     list<Capteur> afficherCapteursSimilaires(string attributeID,string CapteurID,float  s);
 
-    pair<int,string> calculAirQualityCapteur(string attributeID,string capteurID,float r,float p,float t);
-
-    pair<int,string> calculAirQualityPoint(string attributeID,double longitude,double latitude,float r,float p,float t);
+    pair<int,string> calculAirQualityCapteur(string attributeID,double longitude,double latitude,float r,Date t1,Date t2);
 
     pair<int,string> calculAirQuality(int indiceO3,int indiceSO2,int indiceNO2,int indicePM10);
 
     pair <int,int> trouverLongitudeLatitude(string capteurID);
 
+    double getMoyenne(string CapteurID,string attributeID,Date t1,Date t2);
 
     private:
     
-    
-    FileReader fileReader;
+    FileReader *fileReader;
     set<Capteur> capteurs;
     set<Attribut> attributs;
     
