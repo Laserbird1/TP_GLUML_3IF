@@ -1,7 +1,7 @@
 /*************************************************************************
 						   Attribut  -  description
 							 -------------------
-	début                : ${date}
+	dï¿½but                : ${date}
 	copyright            : (C) ${year} par ${user}
 *************************************************************************/
 
@@ -9,7 +9,7 @@
 #if ! defined ( FILEREADER_H )
 #define FILEREADER_H
 
-//--------------------------------------------------- Interfaces utilisées
+//--------------------------------------------------- Interfaces utilisï¿½es
 
 #include <iostream>
 #include <fstream>
@@ -29,7 +29,7 @@ using namespace std;
 //------------------------------------------------------------------ Types 
 
 //------------------------------------------------------------------------ 
-// Rôle de la classe <FileReader>
+// Rï¿½le de la classe <FileReader>
 //
 //
 //------------------------------------------------------------------------ 
@@ -41,15 +41,15 @@ class FileReader
 
 public:
 	
-	//----------------------------------------------------- Méthodes publiques
+	//----------------------------------------------------- Mï¿½thodes publiques
 
-	//Méthodes permettant d'ouvrir les fichiers contenant
-	//respectivement les données mesure, capteur et attribut
+	//Mï¿½thodes permettant d'ouvrir les fichiers contenant
+	//respectivement les donnï¿½es mesure, capteur et attribut
 	bool OpenCsvMesure(string chemin);
 	bool OpenCsvCapteur(string chemin);
 	bool OpenCsvAttribut(string chemin);
 
-	//Met à jour le paramètre en fonction de la ligne lue
+	//Met ï¿½ jour le paramï¿½tre en fonction de la ligne lue
 	//Renvoie true si la ligne existe bien, et false si la fin du fichier est atteinte
 	bool LireLigneMesure(Mesure&);
 	bool LireLigneCapteur(Capteur&);
@@ -58,13 +58,13 @@ public:
 	set<Capteur> InitListeCapteurs();
 	set<Attribut> InitListeAttributs();
 
-	//Place le curseur au début de chaque fichier
+	//Place le curseur au dï¿½but de chaque fichier
 	void reinitLectureFichiers();
 
-	//------------------------------------------------- Surcharge d'opérateurs
+	//------------------------------------------------- Surcharge d'opï¿½rateurs
 
 	//-------------------------------------------- Constructeurs - destructeur
-
+	
 	FileReader();
 	~FileReader();
 	// Mode d'emploi (constructeur de copie) :
@@ -76,11 +76,11 @@ public:
 
 private:
 
-	//------------------------------------------------------- Méthodes privées
+	//------------------------------------------------------- Mï¿½thodes privï¿½es
 
 	Date convertStringToDate(string s);
 
-	//------------------------------------------------------- Attributs privés
+	//------------------------------------------------------- Attributs privï¿½s
 
 	ifstream csvMesure;
 	ifstream csvCapteur;
