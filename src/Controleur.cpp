@@ -42,7 +42,7 @@ using namespace std;
 
 //pierre
 
-void InitialiserFichiers(FileReader fileReader)
+void Controleur::InitialiserFichiers(FileReader fileReader)
 {   this->fileReader = fileReader;
     capteurs = this->fileReader.InitListeCapteurs();
     attributs = this->fileReader.InitListeAttributs(); 
@@ -120,14 +120,6 @@ pair <int,int> Controleur::trouverLongitudeLatitude(string capteurID){}
 //
 
 //-------------------------------------------- Constructeurs - destructeur
-Controleur::Controleur ( const Controleur & unControleur )
-// Algorithme :
-//
-{
-#ifdef MAP
-    cout << "Appel au constructeur de copie de <Controleur>" << endl;
-#endif
-    } //----- Fin de Controleur (constructeur de copie)
     
     
     Controleur::Controleur ( )
