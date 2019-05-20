@@ -145,6 +145,7 @@ long double toRadians(const long double degree)
 	// defines the constant 
 	// M_PI as the value of 
 	// pi accurate to 1e-30 
+	const long double M_PI = 3.14159265358979323846;  // pi
 	long double one_deg = (M_PI) / 180;
 	return (one_deg * degree);
 }
