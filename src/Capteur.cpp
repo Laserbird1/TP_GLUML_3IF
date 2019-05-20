@@ -10,9 +10,12 @@
 //---------------------------------------------------------------- INCLUDE
 
 //-------------------------------------------------------- Include système
-using namespace std;
+
 //------------------------------------------------------ Include personnel
+#include "pch.h"
 #include "Capteur.h"
+
+
 //------------------------------------------------------------- Constantes
 
 //---------------------------------------------------- Variables de classe
@@ -28,11 +31,11 @@ void Capteur::setSensorID(string s)
 {
 	sensorID = s;
 }
-void Capteur::setLatitude(float s)
+void Capteur::setLatitude(double s)
 {
 	latitude = s;
 }
-void Capteur::setLongitude(float s)
+void Capteur::setLongitude(double s)
 {
 	longitude = s;
 }
@@ -66,15 +69,6 @@ bool Capteur::operator < (const Capteur&c) const
 
 
 //-------------------------------------------- Constructeurs - destructeur
-Capteur(string unSensorID, float uneLatitude, float uneLongitude, string uneDescription)
-{
-#ifdef MAP
-	cout << "Appel au constructeur de copie de <Capteur>" << endl;
-#endif
-	sensorID = unSensorID;
-
-
-}
 Capteur::Capteur(const Capteur & unCapteur)
 // Algorithme :
 //

@@ -10,8 +10,11 @@
 #define Capteur_H
 
 //--------------------------------------------------- Interfaces utilis�es
-#include <iostream>
+#include "pch.h"
 #include <string>
+#include <iostream>
+
+using namespace std;
 //------------------------------------------------------------- Constantes 
 
 //------------------------------------------------------------------ Types 
@@ -29,8 +32,8 @@ class Capteur
 public:
 	//----------------------------------------------------- M�thodes publiques
 	void setSensorID(string s);
-	void setLatitude(float s);
-	void setLongitude(float s);
+	void setLatitude(double s);
+	void setLongitude(double s);
 	void setDescription(string s);
 	void afficher() const;
 		// type M�thode ( liste de param�tres );
@@ -50,7 +53,6 @@ public:
 
 
 //-------------------------------------------- Constructeurs - destructeur
-	Capteur(string unSensorID, float uneLatitude, float uneLongitude, string uneDescription);
 
 	Capteur(const Capteur & unCapteur);
 	// Mode d'emploi (constructeur de copie) :
@@ -81,8 +83,8 @@ private:
 protected:
 	//----------------------------------------------------- Attributs prot�g�s
 	string sensorID;
-	float latitude;
-	float longitude;
+	double latitude;
+	double longitude;
 	string description;
 
 private:

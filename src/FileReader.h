@@ -51,9 +51,9 @@ public:
 
 	//Met à jour le paramètre en fonction de la ligne lue
 	//Renvoie true si la ligne existe bien, et false si la fin du fichier est atteinte
-	bool LireligneMesure(Mesure&);
-	bool LireligneCapteur(Capteur&);
-	bool LireligneAttribut(Attribut&);
+	bool LireLigneMesure(Mesure&);
+	bool LireLigneCapteur(Capteur&);
+	bool LireLigneAttribut(Attribut&);
 
 	set<Capteur> InitListeCapteurs();
 	set<Attribut> InitListeAttributs();
@@ -87,3 +87,4 @@ private:
 	ifstream csvAttribut;
 };
 
+#endif //FILEREADER_H

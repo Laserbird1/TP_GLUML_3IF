@@ -10,10 +10,11 @@
 //---------------------------------------------------------------- INCLUDE
 
 //-------------------------------------------------------- Include système
-using namespace std;
+
 #include <iostream>
 
 //------------------------------------------------------ Include personnel
+#include "pch.h"
 #include "Date.h"
 
 //------------------------------------------------------------- Constantes
@@ -38,8 +39,82 @@ Date & Date::operator = ( const Date & uneDate )
 // Algorithme :
 //
 {
+	if (this != &uneDate)
+	{
+		annee = uneDate.annee;
+		mois = uneDate.mois;
+		jour = uneDate.jour;
+		heure = uneDate.heure;
+		minute = uneDate.minute;
+		seconde = uneDate.seconde;
+	}
+	return *this;
 } //----- Fin de operator =
+bool Date::operator == (const Date &uneDate)
+{
+	return (annee == uneDate.annee &&
+		mois == uneDate.mois &&
+		jour == uneDate.jour &&
+		heure == uneDate.heure &&
+		minute == uneDate.minute &&
+		seconde == uneDate.seconde);
+}
+bool Date::operator != (const Date &uneDate)
+{
+	return !(operator==(uneDate));
+}
 
+bool Date::operator < (const Date &uneDate) 
+{
+	if (annee < uneDate.annee)
+		return true;
+	else if (mois < uneDate.mois)
+		return true;
+	else if (jour < uneDate.jour)
+		return true;
+	else if (heure < uneDate.heure)
+		return true;
+	else if (minute < uneDate.minute)
+		return true;
+	else if (seconde < uneDate.seconde)
+		return true;
+	else
+		return false;
+
+}
+bool Date::operator > (const Date &uneDate) 
+{
+	if (annee > uneDate.annee)
+		return true;
+	else if (mois > uneDate.mois)
+		return true;
+	else if (jour > uneDate.jour)
+		return true;
+	else if (heure > uneDate.heure)
+		return true;
+	else if (minute > uneDate.minute)
+		return true;
+	else if (seconde > uneDate.seconde)
+		return true;
+	else
+		return false;
+}
+
+bool Date::operator >= (const Date &uneDate)
+{
+	return !(operator<(uneDate));
+}
+bool Date::operator <= (const Date &uneDate)
+{
+	return !(operator>(uneDate));
+}
+
+ostream & operator<<(ostream & out, const Date & uneDate)
+{
+	out << uneDate.annee << '-' << uneDate.mois << '-' << uneDate.jour << 'T' << uneDate.heure << ':' << uneDate.minute << ':' << uneDate.seconde;
+	return out;
+
+}
 
 //-------------------------------------------- Constructeurs - destructeur
 Date::Date ( const Date & uneDate )
@@ -91,3 +166,5 @@ Date::~Date ( )
 //----------------------------------------------------- Méthodes protégées
 
 //------------------------------------------------------- Méthodes privées
+
+
