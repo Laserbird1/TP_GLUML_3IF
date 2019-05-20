@@ -32,6 +32,7 @@
 //
 //{
 //} //----- Fin de Méthode
+// ouvre le fichier correspondant
 bool FileReader::OpenCsvMesure(string chemin)
 {
 	bool ouvertureReussie = true;
@@ -53,6 +54,8 @@ bool FileReader::OpenCsvMesure(string chemin)
 	return ouvertureReussie;
 }//----- Fin de OpenCsvMesure
 
+
+// ouvre le fichier correspondant
 bool FileReader::OpenCsvCapteur(string chemin)
 {
 	bool ouvertureReussie = true;
@@ -74,6 +77,7 @@ bool FileReader::OpenCsvCapteur(string chemin)
 	return ouvertureReussie;
 }//----- Fin de OpenCsvCapteur
 
+// ouvre le fichier correspondant
 bool FileReader::OpenCsvAttribut(string chemin)
 {
 	bool ouvertureReussie = true;
@@ -94,6 +98,8 @@ bool FileReader::OpenCsvAttribut(string chemin)
 	}
 	return ouvertureReussie;
 }//----- Fin de OpenCsvAttribut
+
+
 
 bool FileReader::LireLigneMesure(Mesure& uneMesure)
 {
