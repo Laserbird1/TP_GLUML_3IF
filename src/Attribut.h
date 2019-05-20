@@ -10,8 +10,11 @@
 #define Attribut_H
 
 //--------------------------------------------------- Interfaces utilisées
+
 #include <iostream>
 #include <string>
+
+using namespace std;
 //------------------------------------------------------------- Constantes 
 
 //------------------------------------------------------------------ Types 
@@ -42,7 +45,6 @@ public:
 	//------------------------------------------------- Surcharge d'opérateurs
 	bool operator == (const Attribut& a) const;
 	bool operator < (const Attribut& a) const;
-	Attribut & operator = (const Attribut & unAttribut);
 	// Mode d'emploi :
 	//
 	// Contrat :
@@ -73,15 +75,15 @@ public:
 protected:
 	//----------------------------------------------------- Méthodes protégées
 
-private:
-	//------------------------------------------------------- Méthodes privées
-
-protected:
-	//----------------------------------------------------- Attributs protégés
 	string attributeID;
 	string unit;
 	string description;
+
 private:
+	//------------------------------------------------------- Méthodes privées
+
+	//----------------------------------------------------- Attributs protégés
+
 	//------------------------------------------------------- Attributs privés
 
 	//---------------------------------------------------------- Classes amies
