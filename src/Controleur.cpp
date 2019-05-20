@@ -17,6 +17,7 @@ using namespace std;
 #include "Mesure.h"
 #include "Controleur.h"
 #include <list>
+#include <set>
 #include <string>
 #include <Capteur.h>
 
@@ -43,7 +44,11 @@ using namespace std;
 //} //----- Fin de MÈthode
 
 //pierre
-void InitialiserFichiers(FileReader fileReader);
+void InitialiserFichiers(FileReader fileReader)
+{   this.fileReader = fileReader;
+    capteurs = this.fileReader.InitListeCapteurs();
+    attributs = this.fileReader.InitListeAttributs(); 
+};
 //pierre
 bool Controleur::INIT (string a,string b,string c){}
 
@@ -51,7 +56,21 @@ bool Controleur::testCapteurActif(string capteurID, float t){}
 
 bool Controleur::verifCapteur(string capteurID,float p,float t,float s){}
 
-list <Capteur> Controleur::afficherVoisinsCapteur(string capteurID,float r){}
+list <Capteur> Controleur::afficherVoisinsCapteur(string capteurID,float r)
+{
+	list<Capteur> res;
+	Capteur centerSensor;
+
+	for (set<Capteur>::iterator it = listeCapteur.begin(); it != listeCapteur.end(); it++)
+	{
+		if (it->getID().compare(capteurID)==0)
+		{
+			centerSensor = Capteur(*it);
+		}
+	}
+
+
+}
 
 list<Capteur> Controleur::afficherVoisinsPoint(double longitude,double latitude,float r){}
 

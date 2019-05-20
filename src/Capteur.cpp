@@ -44,6 +44,26 @@ void Capteur::setDescription(string s)
 	description = s;
 }
 
+string Capteur::getID() const
+{
+	return sensorID;
+}
+
+double Capteur::getLatitude() const
+{
+	return latitude;
+}
+
+double Capteur::getLongitude() const
+{
+	return longitude;
+}
+
+string Capteur::getDescription() const
+{
+	return description;
+}
+
 void Capteur::afficher() const
 {
 	cout << sensorID << ";" << latitude << ";" << longitude << ";" << description << endl;
@@ -73,6 +93,10 @@ Capteur::Capteur(const Capteur & unCapteur)
 // Algorithme :
 //
 {
+	latitude = unCapteur.latitude;
+	longitude = unCapteur.longitude;
+	description = unCapteur.description;
+	sensorID = unCapteur.sensorID;
 #ifdef MAP
 	cout << "Appel au constructeur de copie de <Capteur>" << endl;
 #endif

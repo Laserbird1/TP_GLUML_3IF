@@ -35,6 +35,10 @@ public:
 	void setLatitude(double s);
 	void setLongitude(double s);
 	void setDescription(string s);
+	string getID() const;
+	double getLatitude() const;
+	double getLongitude() const;
+	string getDescription() const;
 	void afficher() const;
 		// type M�thode ( liste de param�tres );
 		// Mode d'emploi :
