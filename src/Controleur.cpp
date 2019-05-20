@@ -26,6 +26,8 @@ using namespace std;
 
 //---------------------------------------------------- Variables de classe
 
+
+
 //----------------------------------------------------------- Types privÈs
 
 
@@ -39,6 +41,9 @@ using namespace std;
 //{
 //} //----- Fin de MÈthode
 
+//pierre
+void InitialiserFichiers(FileReader fileReader);
+//pierre
 bool Controleur::INIT (string a,string b,string c){}
 
 bool Controleur::testCapteurActif(string capteurID, float t){}

@@ -7,6 +7,8 @@
 class Controleur{
     public:
     
+    void InitialiserFichiers(FileReader fileReader);
+    
     bool INIT (string,string,string);
 
     bool testCapteurActif(string capteurID, float t);
@@ -31,4 +33,10 @@ class Controleur{
 
 
     private:
+    
+    
+    FileReader fileReader;
+    set<Capteur> capteurs;
+    set<Attribut> attributs;
+    
 };
