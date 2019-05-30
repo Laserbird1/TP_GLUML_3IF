@@ -9,35 +9,55 @@
 #include "FileReader.h"
 #include "Attribut.h"
 
-class Controleur{
-    public:
-    
-    void InitialiserFichiers(FileReader fileReader);
+class Controleur {
+public:
 
-    bool testCapteurActif(string capteurID, Date t1, Date t2);
+	bool InitialiserFichiers(string mesure, string attribut, string capteur);
 
-    bool verifCapteur(string capteurID,float p,float t,float s);
 
-    list <Capteur> afficherVoisinsCapteur(string capteurID,float r);
+	bool testCapteurActif(string capteurID, Date t1, Date t2);
 
-    list<Capteur> afficherVoisinsPoint(double longitude,double latitude,float r);
+	//cette methodes est plus utile a supprimer
+	list <Capteur> * afficherVoisinsCapteur(string capteurID, float r);
 
-    list<Capteur> afficherAttributQualiteCapteur(string attributeID,double qualité,float s);
+	list <Capteur> * afficherVoisinsPoint(double longitude, double latitude, float r);
 
-    list<Capteur> afficherCapteursSimilaires(string attributeID,string CapteurID,float  s);
+	//service 1
+	pair<int, string> calculAirQuality(int indiceO3, int indiceSO2, int indiceNO2, int indicePM10);
 
-    pair<int,string> calculAirQualityCapteur(string attributeID,double longitude,double latitude,float r,Date t1,Date t2);
+	list<Capteur> * afficherAttributQualiteCapteur(string attributeID, double qualite, int s);
+	//service 2
+	pair<int, string>calculAirQualityCapteur(string attributeID, double lat, double lng, double r, Date t1, Date t2);
 
-    pair<int,string> calculAirQuality(int indiceO3,int indiceSO2,int indiceNO2,int indicePM10);
 
-    pair <int,int> trouverLongitudeLatitude(string capteurID);
+	pair <int, int> trouverLongitudeLatitude(string capteurID);
 
-    double getMoyenne(string CapteurID,string attributeID,Date t1,Date t2);
+	//
+	//donne la moyenne sur un interval pour 1 capteur de ses valeurs pour un attribut.
+	double trouverMoyenneCapteur(string capteurID, string attributID, Date d1, Date d2);
 
-    private:
-    
-    FileReader *fileReader;
-    set<Capteur> capteurs;
-    set<Attribut> attributs;
-    
+	//
+	// donne le capteur le plus proche d’un point. mais pas plus loin que r. revoi en nullprt sinon.
+	Capteur trouverCapteurLePlusProche(double r, double lat, double lng);
+
+	//service 3
+	//recupère le capteur le plus proche et calcule le qualité moyenne sur l'intervale precisé en ce point
+	pair<int, string> CalculeQualiteAirEnUnPoint(double lat, double lng, Date d1, Date d2);
+
+	//-------------------------------------------- Constructeurs - destructeur
+
+
+	Controleur();
+
+	~Controleur();
+
+
+
+private:
+
+
+	FileReader fileReader;
+	set<Capteur> capteurs;
+	set<Attribut> attributs;
+
 };

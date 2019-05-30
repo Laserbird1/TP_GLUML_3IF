@@ -1,36 +1,39 @@
 
 #include <iostream>
-#include <Controleur.cpp>
+#include <string>
+#include "Controleur.h"
 using namespace std;
 
+Date entrerDate();
 
 int main()
 {
     int valeur=0;
     bool continuer=true;
-    Controleur* C= new Controleur();
+    Controleur* controleur= new Controleur();
 
-    //demander nom fichiers csv, 
-    string nomCsvMesures;
-    string nomCsvCaptures;
-    string nomCsvAttributs;
-    cout << "Ecrire le nom du fichier Mesures " <<endl;
-    cin >> nomCsvMesures;
-    cout << "Ecrire le nom du fichier Captures " <<endl;
-    cin >> nomCsvCaptures;
-    cout << "Ecrire le nom du fichier Attributs " <<endl;
-    cin >> nomCsvAttributs;
+	string nomCsvMesures;
+	string nomCsvCapteurs;
+	string nomCsvAttributs;
 
-    FileReader *FR =  new FileReader();
+    //demander nom fichiers csv
 
-    FR->OpenCsvMesure(nomCsvMesures);
-    FR->OpenCsvCapteur(nomCsvCaptures);
-    FR->OpenCsvAttribut(nomCsvAttributs);
+	do {
+
+		cout << "Ecrire le nom du fichier Mesures " << endl;
+		cin >> nomCsvMesures;
+		cout << "Ecrire le nom du fichier Capteurs " << endl;
+		cin >> nomCsvCapteurs;
+		cout << "Ecrire le nom du fichier Attributs " << endl;
+		cin >> nomCsvAttributs;
+	} while (!controleur->InitialiserFichiers(nomCsvMesures, nomCsvAttributs, nomCsvCapteurs));
+
+
     
     while(continuer){
-        cout << "Bienvenu,"<<"\n"<<"Options:"<<endl;
+        cout << "Bienvenue,"<<"\n"<<"Options:"<<endl;
         cout << "1: " << endl;
-        cout << "2: Verifier coherence d'un capteur" << endl;
+        cout << "2: Vérifier qu'un capteur a ete actif" << endl;
         cout << "3: " << endl;
         cout << "4: " << endl;
         cout << "5: " << endl;
@@ -46,27 +49,127 @@ int main()
         cin >> valeur;
 
         switch (valeur){
-            case 1 : cout<<"Recu 1 OK"<<endl;
-            break;
-            case 2: 
-                string idCapteur;
-                int p;
-                int t;
-                float s;
-                
-                cout<<"Rentrer l'identifiant du capteur"<<endl;
-                cin >> idCapteur;
-                cout<<"Rentrer le nombre d’heures a prendre en compte pour la verification"<<endl;
-                cin >> p ;
-                cout <<"Rentrer l'heure jusqu'a laquelle verifier "<<endl;
-                cin >> t;
-                cout<< "Rentrer le pourcentage de tolerance (valeur entre 0 et 1)" <<endl;
-                cin >> s;//s
-                bool res = C->verifCapteur(idCapteur,p,t,s);
-            break;
-            case 12: continuer=false;
-            break; 
+            case 1 : 
+				cout<<"Recu 1 OK"<<endl;
+				break;
+            case 2: //Activité du capteur
+			{
+
+				string nomCapteur;
+				cout << "Date du debut de l intervalle" << endl;
+				Date d1 = entrerDate();
+				cout << "Date de fin de l intervalle" << endl;
+				Date d2 = entrerDate();
+				cout << "Saisir le nom du capteur" << endl;
+				cin >> nomCapteur;
+				bool actif = controleur->testCapteurActif(nomCapteur, d1, d2);
+				if (actif)
+				{
+					cout << "Le capteur a bien été actif sur cette période" << endl;
+				}
+				else
+				{
+					cout << "Le capteur a été inactif sur cette période, ou n'existe pas" << endl;
+				}
+			}
+            case 12: 
+				continuer=false;
+				break; 
         }
     }
 	return 0;
+}
+
+Date entrerDate()
+{
+	unsigned int annee;
+	unsigned int mois;
+	unsigned int jour;
+	unsigned int heure;
+
+	string getInfos;
+	bool entreeCorrecte = true;
+
+	//Annee
+	do
+	{
+		entreeCorrecte = true;
+		cout << "Saisir l'annee" << endl;
+		cin >> getInfos;
+		try {
+			annee = stoi(getInfos);
+			if (annee < 1800)
+			{
+				cerr << "Veuillez saisir une annee valide" << endl;
+				entreeCorrecte = false;
+			}
+		}
+		catch (exception e) {
+			entreeCorrecte = false;
+			cerr << "Erreur, veuillez saisir un entier" << endl;
+		}
+	} while (entreeCorrecte == false);
+
+	//mois
+	do
+	{
+		entreeCorrecte = true;
+		cout << "Saisir le mois" << endl;
+		cin >> getInfos;
+		try {
+			mois = stoi(getInfos);
+			if (mois <= 0 || mois>=13)
+			{
+				cerr << "Veuillez saisir un mois valide" << endl;
+				entreeCorrecte = false;
+			}
+		}
+		catch (exception e) {
+			entreeCorrecte = false;
+			cerr << "Erreur, veuillez saisir un entier" << endl;
+		}
+	} while (entreeCorrecte == false);
+
+	//jour
+	do
+	{
+		entreeCorrecte = true;
+		cout << "Saisir le jour" << endl;
+		cin >> getInfos;
+		try {
+			jour = stoi(getInfos);
+			if (jour <= 0 || jour >= 32)
+			{
+				cerr << "Veuillez saisir un jour valide" << endl;
+				entreeCorrecte = false;
+			}
+		}
+		catch (exception e) {
+			entreeCorrecte = false;
+			cerr << "Erreur, veuillez saisir un entier" << endl;
+		}
+	} while (entreeCorrecte == false);
+
+	//heure
+	do
+	{
+		entreeCorrecte = true;
+		cout << "Saisir l heure" << endl;
+		cin >> getInfos;
+		try {
+			heure = stoi(getInfos);
+			if (heure < 0 || heure >= 24)
+			{
+				cerr << "Veuillez saisir une heure valide" << endl;
+				entreeCorrecte = false;
+			}
+		}
+		catch (exception e) {
+			entreeCorrecte = false;
+			cerr << "Erreur, veuillez saisir un entier" << endl;
+		}
+	} while (entreeCorrecte == false);
+
+	Date d(annee, mois, jour, heure, 0, 0);
+	return d;
 }
