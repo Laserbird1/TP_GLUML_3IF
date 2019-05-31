@@ -146,8 +146,8 @@ list<Capteur> * Controleur::afficherVoisinsPoint(double longitude, double latitu
 	{
 		double latTest = it->getLatitude();
 		double lngTest = it->getLongitude();
-		double x = longitude - latTest;
-		double y = latitude - lngTest;
+		double x = longitude - lngTest;
+		double y = latitude - latTest;
 
 		if (x*x + y * y < r*r)
 		{
@@ -164,13 +164,17 @@ list<Capteur> * Controleur::afficherVoisinsPoint(double longitude, double latitu
 
 pair <int, int> Controleur::trouverLongitudeLatitude(string capteurID) {
 	bool found = false;
-	pair<int, int> res;
+	pair<int, int> res (0,0);
 	for (set<Capteur>::iterator it = capteurs.begin(); it != capteurs.end() && !found; ++it) {
 		if (it->getID() == capteurID) {
 			found = true;
-			res.first = it->getLatitude();
-			res.second = it->getLongitude();
+			res.first = it->getLongitude();
+			res.second = it->getLatitude();
 		}
+	}
+	if (!found)
+	{
+		cerr << "Erreur, le capteur specifie est introuvable" << endl;
 	}
 	return res;
 }
