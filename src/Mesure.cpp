@@ -57,7 +57,7 @@ string Mesure::getSensorID()
 
 string Mesure::getAttributeID()
 {
-	return sensorID;
+	return attributeID;
 }
 
 double Mesure::getValue()

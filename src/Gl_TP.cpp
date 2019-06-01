@@ -33,12 +33,13 @@ int main()
 
     
     while(continuer){
+		controleur->reinitialiserLectureFichiers();
         cout << "Bienvenue,"<<"\n"<<"Options:"<<endl;
         cout << "1: " << endl;
         cout << "2: Verifier qu'un capteur a ete actif" << endl;
         cout << "3: Afficher les capteurs voisins à un point" << endl;
-        cout << "4: Trouver la longitude et la lattitude d'un capteur " << endl;
-        cout << "5: " << endl;
+        cout << "4: Trouver la longitude et la lattitude d'un capteur" << endl;
+        cout << "5: Mesurer la qualite de l'air dans une zone" << endl;
         cout << "6: " << endl;
         cout << "7: " << endl;
         cout << "8: " << endl;
@@ -54,14 +55,20 @@ int main()
             case 1 : 
 				cout<<"Recu 1 OK"<<endl;
 				break;
-            case 2: //Activité du capteur (fonctionne)
+            case 2: //Activité du capteur (fonctionnel)
 			{
 
 				string nomCapteur;
-				cout << "Date du debut de l intervalle" << endl;
-				Date d1 = entrerDate();
-				cout << "Date de fin de l intervalle" << endl;
-				Date d2 = entrerDate();
+				Date d1;
+				Date d2;
+				do
+				{
+					cout << "Date du debut de l intervalle" << endl;
+					d1 = entrerDate();
+					cout << "Date de fin de l intervalle" << endl;
+					d2 = entrerDate();
+					if (d1 >= d2) cout << "La date de debut doit etre inferieure a la date de fin !" << endl;
+				} while (d1 >= d2);
 				cout << "Saisir le nom du capteur" << endl;
 				cin >> nomCapteur;
 				bool actif = controleur->testCapteurActif(nomCapteur, d1, d2);
@@ -73,9 +80,11 @@ int main()
 				{
 					cout << "Le capteur a été inactif sur cette période, ou n'existe pas" << endl;
 				}
+				
+				break;
 			}
 
-			case 3: //Capteurs voisins (fonctionne)
+			case 3: //Capteurs voisins (fonctionnel)
 			{
 
 				list<Capteur> * liste;
@@ -102,9 +111,10 @@ int main()
 				{
 					cout << "Aucun capteur n'est présent dans le rayon" << endl;
 				}
+				break;
 			}
 
-			case 4: //lattitude et longitude d'un capteur (fonctionne)
+			case 4: //lattitude et longitude d'un capteur (fonctionnel)
 			{
 
 				pair<int, int> paire;
@@ -116,7 +126,42 @@ int main()
 
 				cout << "Longitude :" << paire.first << endl;
 				cout << "Lattitude:" << paire.second << endl;
+				break;
 			}
+
+			case 5: //Qualité de l'air dans une zone (fonctionnel)
+			{
+				double lat;
+				double lng;
+				float r;
+				Date d1;
+				Date d2;
+				string attributeID;
+
+				cout << "Saisir le nom de l'attribut :" << endl;
+				cin >> attributeID;
+				cout << "Saisir la latitude :" << endl;
+				lat = entrerCoords();
+				cout << "Saisir la longitude :" << endl;
+				lng = entrerCoords();
+				cout << "Saisir le rayon (en km) :" << endl;
+				r = entrerRayon();
+				do
+				{
+					cout << "Date du debut de l intervalle" << endl;
+					d1 = entrerDate();
+					cout << "Date de fin de l intervalle" << endl;
+					d2 = entrerDate();
+					if (d1 >= d2) cout << "La date de debut doit etre inferieure a la date de fin !" << endl;
+				} while (d1 >= d2);
+
+				pair<int, string> paire = controleur->calculAirQualityCapteur(attributeID, lat, lng, r, d1, d2);
+				cout << "Indice ATMO :" << paire.first << endl;
+				cout << "Description :" << paire.second << endl;
+				break;
+			}
+
+
             case 12: 
 				continuer=false;
 				break; 

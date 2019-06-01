@@ -14,6 +14,8 @@ public:
 
 	bool InitialiserFichiers(string mesure, string attribut, string capteur);
 
+	void reinitialiserLectureFichiers();
+
 
 	bool testCapteurActif(string capteurID, Date t1, Date t2);
 

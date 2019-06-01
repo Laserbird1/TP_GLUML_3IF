@@ -64,7 +64,10 @@ bool Controleur::InitialiserFichiers(string mesure, string attribut, string capt
 }
 //pierre
 
-
+void Controleur::reinitialiserLectureFichiers()
+{
+	fileReader.reinitLectureFichiers();
+}
 
 //Guilhem
 bool Controleur::testCapteurActif(string capteurID, Date t1, Date t2) {
@@ -97,10 +100,10 @@ bool Controleur::testCapteurActif(string capteurID, Date t1, Date t2) {
 	}
 	else
 	{
-
-		while (fileReader.LireLigneMesure(mesureTest) && !capteurFonctionnel)
+		while (fileReader.LireLigneMesure(mesureTest) && (mesureTest.getTimestamp() < t1))
+		while (fileReader.LireLigneMesure(mesureTest) && !capteurFonctionnel && (mesureTest.getTimestamp() <= t2))
 		{
-			if ((mesureTest.getSensorID() == capteurTest.getID()) && (mesureTest.getTimestamp() >= t1) && (mesureTest.getTimestamp() <= t2))
+			if ((mesureTest.getSensorID() == capteurTest.getID()))
 			{
 				capteurFonctionnel = true;
 			}
@@ -160,7 +163,273 @@ list<Capteur> * Controleur::afficherVoisinsPoint(double longitude, double latitu
 //list<Capteur> * Controleur::afficherAttributQualiteCapteur(string attributeID, double qualite, int s) {}
 
 
-//pair<int, string> Controleur::calculAirQualityCapteur(string attributeID, double lat, double lng, double r, Date t1, Date t2) {}
+pair<int, string> Controleur::calculAirQualityCapteur(string attributeID, double lat, double lng, double r, Date t1, Date t2)
+{
+	Mesure mesureTest;
+	bool existenceAttribut;
+	int compteurMesures = 0;
+	double sommeValeurs = 0;
+	double moyenne;
+	int indiceATMO = -1;
+	string description = "Pas de capteur dans cette zone";
+	list<Capteur> * capteursVoisins = afficherVoisinsPoint(lng, lat, r);
+
+
+	if (attributeID != "O3" && attributeID != "SO2" && attributeID != "NO2" && attributeID != "PM10")
+	{
+		cerr << "Erreur, l'attribut demande n'existe pas" << endl;
+	}
+	else
+	{
+		while (fileReader.LireLigneMesure(mesureTest) && mesureTest.getTimestamp() < t1); // On avance dans le fichier jusqu'à trouver le début de la période voulue
+		while (fileReader.LireLigneMesure(mesureTest) && mesureTest.getTimestamp() <= t2) //On parcourt le fichier tant que l'on reste dans la périoe voulue
+		{
+			bool found = false;
+			if (mesureTest.getAttributeID() == attributeID)
+			{
+				for (list<Capteur>::iterator it = capteursVoisins->begin(); it != capteursVoisins->end() && !found; it++)
+				{
+					if ((*it).getID() == mesureTest.getSensorID())
+					{
+						found = true;
+						++compteurMesures;
+						sommeValeurs += mesureTest.getValue();
+					}
+				}
+			}
+		}
+
+		if (compteurMesures != 0)
+		{
+			moyenne = sommeValeurs / (double)compteurMesures;
+
+			if (attributeID == "O3")
+			{
+				if (0 <= moyenne && moyenne <= 29)
+				{
+					indiceATMO = 1;
+					description = "Tres bon";
+				}
+				else if (30 <= moyenne && moyenne <= 54)
+				{
+					indiceATMO = 2;
+					description = "Tres bon";
+				}
+				else if (55 <= moyenne && moyenne <= 79)
+				{
+					indiceATMO = 3;
+					description = "Bon";
+				}
+				else if (80 <= moyenne && moyenne <= 104)
+				{
+					indiceATMO = 4;
+					description = "Bon";
+				}
+				else if (105 <= moyenne && moyenne <= 129)
+				{
+					indiceATMO = 5;
+					description = "Moyen";
+				}
+				else if (130 <= moyenne && moyenne <= 149)
+				{
+					indiceATMO = 6;
+					description = "Mediocre";
+				}
+				else if (150 <= moyenne && moyenne <= 179)
+				{
+					indiceATMO = 7;
+					description = "Mediocre";
+				}
+				else if (180 <= moyenne && moyenne <= 209)
+				{
+					indiceATMO = 8;
+					description = "Mauvais";
+				}
+				else if (210 <= moyenne && moyenne <= 239)
+				{
+					indiceATMO = 9;
+					description = "Mauvais";
+				}
+				else
+				{
+					indiceATMO = 10;
+					description = "Très mauvais";
+				}
+			}
+
+			else if (attributeID == "SO2")
+			{
+				if (0 <= moyenne && moyenne <= 39)
+				{
+					indiceATMO = 1;
+					description = "Tres bon";
+				}
+				else if (40 <= moyenne && moyenne <= 79)
+				{
+					indiceATMO = 2;
+					description = "Tres bon";
+				}
+				else if (80 <= moyenne && moyenne <= 119)
+				{
+					indiceATMO = 3;
+					description = "Bon";
+				}
+				else if (120 <= moyenne && moyenne <= 159)
+				{
+					indiceATMO = 4;
+					description = "Bon";
+				}
+				else if (160 <= moyenne && moyenne <= 199)
+				{
+					indiceATMO = 5;
+					description = "Moyen";
+				}
+				else if (200 <= moyenne && moyenne <= 249)
+				{
+					indiceATMO = 6;
+					description = "Mediocre";
+				}
+				else if (250 <= moyenne && moyenne <= 299)
+				{
+					indiceATMO = 7;
+					description = "Mediocre";
+				}
+				else if (300 <= moyenne && moyenne <= 399)
+				{
+					indiceATMO = 8;
+					description = "Mauvais";
+				}
+				else if (400 <= moyenne && moyenne <= 499)
+				{
+					indiceATMO = 9;
+					description = "Mauvais";
+				}
+				else
+				{
+					indiceATMO = 10;
+					description = "Très mauvais";
+				}
+			}
+
+			else if (attributeID == "NO2")
+			{
+				if (0 <= moyenne && moyenne <= 29)
+				{
+					indiceATMO = 1;
+					description = "Tres bon";
+				}
+				else if (30 <= moyenne && moyenne <= 54)
+				{
+					indiceATMO = 2;
+					description = "Tres bon";
+				}
+				else if (55 <= moyenne && moyenne <= 84)
+				{
+					indiceATMO = 3;
+					description = "Bon";
+				}
+				else if (85 <= moyenne && moyenne <= 109)
+				{
+					indiceATMO = 4;
+					description = "Bon";
+				}
+				else if (110 <= moyenne && moyenne <= 134)
+				{
+					indiceATMO = 5;
+					description = "Moyen";
+				}
+				else if (135 <= moyenne && moyenne <= 164)
+				{
+					indiceATMO = 6;
+					description = "Mediocre";
+				}
+				else if (165 <= moyenne && moyenne <= 199)
+				{
+					indiceATMO = 7;
+					description = "Mediocre";
+				}
+				else if (200 <= moyenne && moyenne <= 274)
+				{
+					indiceATMO = 8;
+					description = "Mauvais";
+				}
+				else if (275 <= moyenne && moyenne <= 399)
+				{
+					indiceATMO = 9;
+					description = "Mauvais";
+				}
+				else
+				{
+					indiceATMO = 10;
+					description = "Très mauvais";
+				}
+
+			}
+
+			else if (attributeID == "PM10")
+			{
+				if (0 <= moyenne && moyenne <= 6)
+				{
+					indiceATMO = 1;
+					description = "Tres bon";
+				}
+				else if (7 <= moyenne && moyenne <= 13)
+				{
+					indiceATMO = 2;
+					description = "Tres bon";
+				}
+				else if (14 <= moyenne && moyenne <= 20)
+				{
+					indiceATMO = 3;
+					description = "Bon";
+				}
+				else if (21 <= moyenne && moyenne <= 27)
+				{
+					indiceATMO = 4;
+					description = "Bon";
+				}
+				else if (28 <= moyenne && moyenne <= 34)
+				{
+					indiceATMO = 5;
+					description = "Moyen";
+				}
+				else if (35 <= moyenne && moyenne <= 41)
+				{
+					indiceATMO = 6;
+					description = "Mediocre";
+				}
+				else if (42 <= moyenne && moyenne <= 49)
+				{
+					indiceATMO = 7;
+					description = "Mediocre";
+				}
+				else if (50 <= moyenne && moyenne <= 64)
+				{
+					indiceATMO = 8;
+					description = "Mauvais";
+				}
+				else if (65 <= moyenne && moyenne <= 79)
+				{
+					indiceATMO = 9;
+					description = "Mauvais";
+				}
+				else
+				{
+					indiceATMO = 10;
+					description = "Très mauvais";
+				}
+			}
+		}
+		else
+		{
+			cout << "Aucune mesure sur cet inteervalle" << endl;
+		}
+	}
+
+	pair<int, string> paire(indiceATMO, description);
+	return paire;
+
+}
 
 pair <int, int> Controleur::trouverLongitudeLatitude(string capteurID) {
 	bool found = false;
