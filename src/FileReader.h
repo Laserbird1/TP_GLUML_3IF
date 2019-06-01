@@ -15,6 +15,7 @@
 #include <fstream>
 #include <string>
 #include <set>
+#include <list>
 #include "Mesure.h"
 #include "Capteur.h"
 #include "Capteur.h"
@@ -57,6 +58,12 @@ public:
 
 	set<Capteur> InitListeCapteurs();
 	set<Attribut> InitListeAttributs();
+
+	list<Date> getDatesLimites();
+	//contrat : fichier de mesure déjà ouvert, tête de lecture en en-tête
+	//remet la tête de lecture en place à la fin
+	//première date = date de début
+	//seconde date = date de fin
 
 	//Place le curseur au d�but de chaque fichier
 	void reinitLectureFichiers();

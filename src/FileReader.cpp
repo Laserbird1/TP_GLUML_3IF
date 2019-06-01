@@ -207,7 +207,32 @@ set<Attribut> FileReader::InitListeAttributs()
 		liste.insert(unAttribut);
 	}
 	return liste;
-}//----- Fin de InitListeAttributs
+}
+list<Date> FileReader::getDatesLimites()
+{
+	list<Date> dates= list<Date>();
+	string buffer;
+
+	//first date
+	getline(csvMesure,buffer,';');
+	dates.push_front(convertStringToDate(buffer));
+
+	//placement à la fin du fichier
+	csvMesure.seekg(-30, ios::end);//offset à modifier si besoin/essayer d'arriver au milieu de l'avant dernière ligne
+	getline(csvMesure, buffer);//virer l'avant dernière ligne
+
+	//last date
+	getline(csvMesure, buffer, ';');
+	dates.push_back(convertStringToDate(buffer));
+
+	//rendu propre du fichier csv
+	csvMesure.seekg(0, ios::beg);
+	getline(csvMesure, buffer);
+
+	return dates;
+
+}
+//----- Fin de InitListeAttributs
 
 void FileReader::reinitLectureFichiers()
 {
