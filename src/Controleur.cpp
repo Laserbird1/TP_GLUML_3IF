@@ -17,6 +17,7 @@ using namespace std;
 #include <list>
 #include <set>
 #include <string>
+#include <Capteur.h>
 
 //------------------------------------------------------ Include personnel
 
@@ -452,15 +453,15 @@ pair <int, int> Controleur::trouverLongitudeLatitude(string capteurID) {
 
 //
 //donne la moyenne sur un interval pour 1 capteur de ses valeurs pour un attribut.
-//double Controleur::trouverMoyenneCapteur(string capteurID, string attributID, Date d1, Date d2){}
+double Controleur::trouverMoyenneCapteur(string capteurID, string attributID, Date d1, Date d2){}
 
 //
 // donne le capteur le plus proche d’un point. mais pas plus loin que r. revoi en nullprt sinon.
-//Capteur Controleur::trouverCapteurLePlusProche(double r, double lat, double lng){}
+Capteur Controleur::trouverCapteurLePlusProche(double r, double lat, double lng){}
 
 //service 3
 //recupère le capteur le plus proche et calcule le qualité moyenne sur l'intervale precisé en ce point
-//pair<int, string> Controleur::CalculeQualiteAirEnUnPoint(double lat, double lng, Date d1, Date d2){}
+pair<int, string> Controleur::CalculeQualiteAirEnUnPoint(double lat, double lng, Date d1, Date d2){}
 
 
 
