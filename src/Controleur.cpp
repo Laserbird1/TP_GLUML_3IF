@@ -16,7 +16,9 @@ using namespace std;
 #include "Controleur.h"
 #include <list>
 #include <set>
+#include <map>
 #include <string>
+#include <algorithm>    // std::max
 #include <Capteur.h>
 
 //------------------------------------------------------ Include personnel
@@ -176,7 +178,7 @@ pair<int, string> Controleur::calculAirQualityCapteur(string attributeID, double
 	list<Capteur> * capteursVoisins = afficherVoisinsPoint(lng, lat, r);
 
 
-	if (attributeID != "O3" && attributeID != "SO2" && attributeID != "NO2" && attributeID != "PM10")
+	if ( "O3" && attributeID != "SO2" && attributeID != "NO2" && attributeID != "PM10")
 	{
 		cerr << "Erreur, l'attribut demande n'existe pas" << endl;
 	}
@@ -457,11 +459,59 @@ double Controleur::trouverMoyenneCapteur(string capteurID, string attributID, Da
 
 //
 // donne le capteur le plus proche d’un point. mais pas plus loin que r. revoi en nullprt sinon.
-Capteur Controleur::trouverCapteurLePlusProche(double r, double lat, double lng){}
+Capteur Controleur::trouverCapteurLePlusProche(double r, double lat, double lng){
+	for (set<Capteur>::iterator it = capteurs.begin(); it != capteurs.end() && !found; ++it) {
+}
 
 //service 3
 //recupère le capteur le plus proche et calcule le qualité moyenne sur l'intervale precisé en ce point
-pair<int, string> Controleur::CalculeQualiteAirEnUnPoint(double lat, double lng, Date d1, Date d2){}
+pair<int, string> Controleur::CalculeQualiteAirEnUnPoint(double lat, double lng, Date d1, Date d2){
+	//on met r tres grand car ici il n'est pas relevant
+	Capteur CProche = trouverCapteurLePlusProche(50,lat,lng);
+	pair <int, int> LocCP = trouverLongitudeLatitude(CProche.getID());
+	std::set<std::string> attributes;
+
+    attributes.insert( "O3" );
+	attributes.insert( "SO2" );
+	attributes.insert( "NO2" );
+	attributes.insert( "PM10" );
+	//on met rayon 1 car on veut les valeurs que dans ce point donc ceci evite que la fonction suivante face la moyenne de plusiquers capteurs autour 
+	pair<int,string> attO3 = calculAirQualityCapteur("O3",LocCP.second,LocCP.first,1,d1,d2);
+	pair<int,string> attSO2 = calculAirQualityCapteur("SO2",LocCP.second,LocCP.first,1,d1,d2);
+	pair<int,string> attNO2 = calculAirQualityCapteur("NO2",LocCP.second,LocCP.first,1,d1,d2);
+	pair<int,string> attPM10 = calculAirQualityCapteur("PM10",LocCP.second,LocCP.first,1,d1,d2);
+
+	//option faire moyenne
+	int indiceATMO = (attO3.first + attNO2.first + attPM10.first + attSO2.first) / 4 ;
+	//option faire pire cas
+	// int indiceATMO = max(attO3.first , attNO2.first);
+	// indiceATMO = max(indiceATMO, attPM10.first);
+	// indiceATMO = max(indiceATMO,attSO2.first);
+
+	string description;
+	if (indiceATMO == 1 || indiceATMO == 2 ){
+		description = "Très Bon";
+	}
+	if (indiceATMO == 3 || indiceATMO == 4 ){
+		description = "Bon";
+	}
+	if (indiceATMO == 5 ){
+		description = "Moyen";
+	}
+	if (indiceATMO == 6 || indiceATMO == 7 ){
+		description = "Mediocre";
+	}
+	if (indiceATMO == 8 || indiceATMO == 9 ){
+		description = "Mauvais";
+	}
+	if (indiceATMO == 10){
+		description = "Très Mauvais";
+	}
+
+	pair<int, string> paire(indiceATMO, description);
+	return paire; 
+
+}
 
 
 

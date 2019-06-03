@@ -16,7 +16,6 @@ public:
 
 	void reinitialiserLectureFichiers();
 
-
 	bool testCapteurActif(string capteurID, Date t1, Date t2);
 
 	//cette methodes est plus utile a supprimer
