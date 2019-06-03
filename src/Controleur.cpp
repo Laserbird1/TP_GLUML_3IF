@@ -19,6 +19,7 @@ using namespace std;
 #include <map>
 #include <string>
 #include <algorithm>    // std::max
+#include <math.h>
 #include <Capteur.h>
 
 //------------------------------------------------------ Include personnel
@@ -457,10 +458,30 @@ pair <int, int> Controleur::trouverLongitudeLatitude(string capteurID) {
 //donne la moyenne sur un interval pour 1 capteur de ses valeurs pour un attribut.
 double Controleur::trouverMoyenneCapteur(string capteurID, string attributID, Date d1, Date d2){}
 
+float CalculerDistance(int x1,int y1,int x2,int y2){
+	return pow(x1-x2,2) + pow(y1-y2,2);
+}
 //
 // donne le capteur le plus proche d’un point. mais pas plus loin que r. revoi en nullprt sinon.
 Capteur Controleur::trouverCapteurLePlusProche(double r, double lat, double lng){
-	for (set<Capteur>::iterator it = capteurs.begin(); it != capteurs.end() && !found; ++it) {
+	float DistanceMin=0;
+	float x;
+	float y;
+	float dist;
+	string IDMin;
+	Capteur PlusProche;
+	for (set<Capteur>::iterator it = capteurs.begin(); it != capteurs.end(); ++it) {
+		x= it->getLatitude();
+		y= it->getLongitude();
+		dist = CalculerDistance(lat,lng,x,y);
+		if(dist<DistanceMin){
+			DistanceMin = dist;
+			IDMin = it->getID();
+			PlusProche = *it;
+		}
+	}
+	
+	return PlusProche;
 }
 
 //service 3
@@ -517,6 +538,8 @@ pair<int, string> Controleur::CalculeQualiteAirEnUnPoint(double lat, double lng,
 
 
 //----------------------------------------------- Methodes de Tests
+
+
 
 
 
