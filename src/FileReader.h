@@ -59,11 +59,12 @@ public:
 	set<Capteur> InitListeCapteurs();
 	set<Attribut> InitListeAttributs();
 
-	list<Date> getDatesLimites();
+	void initDatesLimites();
 	//contrat : fichier de mesure déjà ouvert, tête de lecture en en-tête
 	//remet la tête de lecture en place à la fin
-	//première date = date de début
-	//seconde date = date de fin
+
+	Date getDateLimDebut();
+	Date getDateLimFin();
 
 	//Place le curseur au d�but de chaque fichier
 	void reinitLectureFichiers();
@@ -93,6 +94,9 @@ private:
 	ifstream csvMesure;
 	ifstream csvCapteur;
 	ifstream csvAttribut;
+
+	Date dateLimDebut;
+	Date dateLimFin;
 };
 
 #endif //FILEREADER_H
