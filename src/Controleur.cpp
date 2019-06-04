@@ -104,13 +104,16 @@ bool Controleur::testCapteurActif(string capteurID, Date t1, Date t2) {
 	}
 	else
 	{
-		while (fileReader.LireLigneMesure(mesureTest) && (mesureTest.getTimestamp() < t1))
-		while (fileReader.LireLigneMesure(mesureTest) && !capteurFonctionnel && (mesureTest.getTimestamp() <= t2))
+
+		while (fileReader.LireLigneMesure(mesureTest) && (mesureTest.getTimestamp() < t1));
+		bool finFichier = false;
+		while ( !finFichier && !capteurFonctionnel && (mesureTest.getTimestamp() <= t2))
 		{
 			if ((mesureTest.getSensorID() == capteurTest.getID()))
 			{
 				capteurFonctionnel = true;
 			}
+			finFichier = fileReader.LireLigneMesure(mesureTest);
 		}
 	}
 	return capteurFonctionnel;
@@ -176,17 +179,19 @@ pair<int, string> Controleur::calculAirQualityCapteur(string attributeID, double
 	double moyenne;
 	int indiceATMO = -1;
 	string description = "Pas de capteur dans cette zone";
+    
 	list<Capteur> * capteursVoisins = afficherVoisinsPoint(lng, lat, r);
 
 
 	if ( "O3" && attributeID != "SO2" && attributeID != "NO2" && attributeID != "PM10")
 	{
-		cerr << "Erreur, l'attribut demande n'existe pas" << endl;
+		description = "L'attribut demande n'existe pas";
 	}
 	else
 	{
 		while (fileReader.LireLigneMesure(mesureTest) && mesureTest.getTimestamp() < t1); // On avance dans le fichier jusqu'à trouver le début de la période voulue
-		while (fileReader.LireLigneMesure(mesureTest) && mesureTest.getTimestamp() <= t2) //On parcourt le fichier tant que l'on reste dans la périoe voulue
+		bool finFichier = false;
+		while (!finFichier && mesureTest.getTimestamp() <= t2) //On parcourt le fichier tant que l'on reste dans la périoe voulue
 		{
 			bool found = false;
 			if (mesureTest.getAttributeID() == attributeID)
@@ -201,6 +206,7 @@ pair<int, string> Controleur::calculAirQualityCapteur(string attributeID, double
 					}
 				}
 			}
+			finFichier = fileReader.LireLigneMesure(mesureTest);
 		}
 
 		if (compteurMesures != 0)
@@ -426,7 +432,7 @@ pair<int, string> Controleur::calculAirQualityCapteur(string attributeID, double
 		}
 		else
 		{
-			cout << "Aucune mesure sur cet inteervalle" << endl;
+			cout << "Aucune mesure sur cet intervalle" << endl;
 		}
 	}
 
