@@ -20,7 +20,7 @@ using namespace std;
 #include <string>
 #include <algorithm>    // std::max
 #include <math.h>
-
+#include "Capteur.h"
 
 //------------------------------------------------------ Include personnel
 
@@ -152,7 +152,6 @@ pair<int, string> Controleur::calculAirQualityCapteur(string attributeID, double
 	double moyenne;
 	int indiceATMO = -1;
 	string description = "Pas de capteur dans cette zone";
-    
 	list<Capteur> * capteursVoisins = afficherVoisinsPoint(lng, lat, r);
 
 
@@ -414,9 +413,9 @@ pair<int, string> Controleur::calculAirQualityCapteur(string attributeID, double
 
 }
 
-pair <int, int> Controleur::trouverLongitudeLatitude(string capteurID) {
+pair <double, double> Controleur::trouverLongitudeLatitude(string capteurID) {
 	bool found = false;
-	pair<int, int> res (0,0);
+	pair<double, double> res (0,0);
 	for (set<Capteur>::iterator it = capteurs.begin(); it != capteurs.end() && !found; ++it) {
 		if (it->getID() == capteurID) {
 			found = true;
@@ -519,12 +518,53 @@ bool Controleur::testInitFichier(){
 	return !initialiserFichiers("mesures inexistantes","attributs inexistants","capteurs inexistants");
 }
 
+bool Controleur::testActivite(){
+	bool res = true;
+	Date debut = Date(2017,1,1,0,0,0);
+	Date fin = Date(2017,1,3,0,0,0);
+	if(!testCapteurActif("Sensor0",debut,fin)) res=false;
+	if(testCapteurActif("Sensor15",debut,fin)) res=false;
+	debut = Date(2015,1,1,2,2,2);
+	fin = Date(2016,2,3,1,1,1);
+	if(testCapteurActif("Sensor0",debut,fin)) res = false;
+	return res;
+}
+
+bool Controleur::testAfficherVoisins(){
+	pair<double, double> coord = trouverLongitudeLatitude("Sensor0");
+	list<Capteur> * voisins = afficherVoisinsPoint(coord.first,coord.second,26.5);
+	bool zeroFound = false;
+	bool oneFound = false;
+	bool twoFound = false;
+	bool error = false;
+	for (list<Capteur>::iterator it = voisins->begin(); it != voisins->end() && !error ; ++it) {
+		if(it->getID() == "Sensor0" ){
+			error = !zeroFound;
+			zeroFound = true;
+		}else
+			if(it->getID() == "Sensor1") {
+				error = !oneFound;
+				oneFound = true;
+			}else
+				if(it->getID() == "Sensor2" ){
+					error = !twoFound;
+					twoFound = true;
+				}else
+					error = true;
+	}
+	return !error;
+}
 
 
 void Controleur::lancerTests(){
 	int nombreTestsCorrects = 0;
+	int nombreTests = 3;
 	if(testInitFichier()) nombreTestsCorrects++;
+	
+	if(testActivite()) nombreTestsCorrects++;
 
+	if(testAfficherVoisins()) nombreTestsCorrects++;
+	
 	cout<< "Vous avez reussi " << nombreTestsCorrects << "sur " << nombreTests <<endl;
 }
 

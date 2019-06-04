@@ -19,9 +19,6 @@ public:
 
 	bool testCapteurActif(string capteurID, Date t1, Date t2);
 
-	
-	
-
 	list <Capteur> * afficherVoisinsPoint(double longitude, double latitude, float r);
 
 	//service 1
@@ -32,7 +29,7 @@ public:
 	pair<int, string> calculAirQualityCapteur(string attributeID, double lat, double lng, double r, Date t1, Date t2);
 
 
-	pair <int, int> trouverLongitudeLatitude(string capteurID);
+	pair <double, double> trouverLongitudeLatitude(string capteurID);
 
 	//
 	//donne la moyenne sur un interval pour 1 capteur de ses valeurs pour un attribut.
@@ -47,14 +44,21 @@ public:
 	pair<int, string> calculeQualiteAirEnUnPoint(double lat, double lng, Date d1, Date d2);
 
 	//-------------------------------------------- Constructeurs - destructeur
+	Controleur();
+
+	~Controleur();
+
+	//-------------------------------------------- Tests
 
 	void lancerTests();
 
 	bool testInitFichier();
 
-	Controleur();
+	bool testActivite();
 
-	~Controleur();
+	bool testAfficherVoisins();
+
+	
 
 
 
