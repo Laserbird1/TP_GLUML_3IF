@@ -19,8 +19,8 @@ public:
 
 	bool testCapteurActif(string capteurID, Date t1, Date t2);
 
-	//cette methodes est plus utile a supprimer
-	list <Capteur> * afficherVoisinsCapteur(string capteurID, float r);
+	
+	
 
 	list <Capteur> * afficherVoisinsPoint(double longitude, double latitude, float r);
 
@@ -29,7 +29,7 @@ public:
 
 	list<Capteur> * afficherAttributQualiteCapteur(string attributeID, double qualite, int s);
 	//service 2
-	pair<int, string>calculAirQualityCapteur(string attributeID, double lat, double lng, double r, Date t1, Date t2);
+	pair<int, string> calculAirQualityCapteur(string attributeID, double lat, double lng, double r, Date t1, Date t2);
 
 
 	pair <int, int> trouverLongitudeLatitude(string capteurID);

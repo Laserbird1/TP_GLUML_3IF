@@ -82,25 +82,34 @@ int main()
 			}
             case 2:
             {
+				//demander les attributs
+				//List<Capteur> * afficherAttributQualiteCapteur(attributeID,qualité,s)
+	
                break;
             }
             
             
-            
-            
-            
             case 3:
-            
             {
+				// demander les attributs
+				//pair<int, string> Controleur.calculAirQualityCapteur(attributeID, lat,  lng, r,  t1, t2);
+
                 break;
             }
             
             case 4:
-            
             {
+				//demander les attributs 
+				//pair<int, string> Controleur.calculeQualiteAirEnUnPoint(lat, lng, d1,  d2);;
+
                 break;
             }
             
+
+
+
+
+			//a supprimer un fois que tout fonctionne
 			case 5: //Capteurs voisins (fonctionnel)
 			{
 
