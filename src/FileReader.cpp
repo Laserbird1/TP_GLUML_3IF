@@ -208,14 +208,14 @@ set<Attribut> FileReader::InitListeAttributs()
 	}
 	return liste;
 }
-list<Date> FileReader::getDatesLimites()
+
+void FileReader::initDatesLimites()
 {
-	list<Date> dates= list<Date>();
 	string buffer;
 
 	//first date
 	getline(csvMesure,buffer,';');
-	dates.push_front(convertStringToDate(buffer));
+	dateLimDebut=convertStringToDate(buffer);
 
 	//placement à la fin du fichier
 	csvMesure.seekg(-30, ios::end);//offset à modifier si besoin/essayer d'arriver au milieu de l'avant dernière ligne
@@ -223,16 +223,24 @@ list<Date> FileReader::getDatesLimites()
 
 	//last date
 	getline(csvMesure, buffer, ';');
-	dates.push_back(convertStringToDate(buffer));
+	dateLimFin=convertStringToDate(buffer);
 
 	//rendu propre du fichier csv
 	csvMesure.seekg(0, ios::beg);
 	getline(csvMesure, buffer);
 
-	return dates;
-
 }
 //----- Fin de InitListeAttributs
+
+Date FileReader::getDateLimDebut()
+{
+	return dateLimDebut;
+}
+
+Date FileReader::getDateLimFin()
+{
+	return dateLimFin;
+}
 
 void FileReader::reinitLectureFichiers()
 {
