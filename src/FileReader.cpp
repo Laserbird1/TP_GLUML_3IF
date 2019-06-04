@@ -195,7 +195,7 @@ set<Capteur> FileReader::InitListeCapteurs()
 		liste.insert(unCapteur);
 	}
 	return liste;
-}//----- Fin de InitListeCapteurs
+}
 
 set<Attribut> FileReader::InitListeAttributs()
 {
@@ -205,6 +205,17 @@ set<Attribut> FileReader::InitListeAttributs()
 	while (LireLigneAttribut(unAttribut))
 	{
 		liste.insert(unAttribut);
+	}
+	return liste;
+
+set<Mesure> FileReader::InitListeMesures()
+{
+	set<Mesure> liste;
+	Mesure uneMesure;
+
+	while (LireLigneMesure(uneMesure))
+	{
+		liste.insert(uneMesure);
 	}
 	return liste;
 }

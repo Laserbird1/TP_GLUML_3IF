@@ -58,6 +58,8 @@ public:
 
 	set<Capteur> InitListeCapteurs();
 	set<Attribut> InitListeAttributs();
+	set<Mesure> InitListeMesures();
+
 
 	list<Date> getDatesLimites();
 	//contrat : fichier de mesure déjà ouvert, tête de lecture en en-tête
