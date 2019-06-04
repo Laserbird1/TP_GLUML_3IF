@@ -28,7 +28,7 @@ int main()
 		cin >> nomCsvCapteurs;
 		cout << "Ecrire le nom du fichier Attributs " << endl;
 		cin >> nomCsvAttributs;
-	} while (!controleur->InitialiserFichiers(nomCsvMesures, nomCsvAttributs, nomCsvCapteurs));
+	} while (!controleur->initialiserFichiers(nomCsvMesures, nomCsvAttributs, nomCsvCapteurs));
 
 
     

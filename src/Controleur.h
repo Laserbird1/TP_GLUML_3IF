@@ -12,7 +12,7 @@
 class Controleur {
 public:
 
-	bool InitialiserFichiers(string mesure, string attribut, string capteur);
+	bool initialiserFichiers(string mesure, string attribut, string capteur);
 
 	void reinitialiserLectureFichiers();
 
@@ -43,10 +43,13 @@ public:
 
 	//service 3
 	//recupère le capteur le plus proche et calcule le qualité moyenne sur l'intervale precisé en ce point
-	pair<int, string> CalculeQualiteAirEnUnPoint(double lat, double lng, Date d1, Date d2);
+	pair<int, string> calculeQualiteAirEnUnPoint(double lat, double lng, Date d1, Date d2);
 
 	//-------------------------------------------- Constructeurs - destructeur
 
+	void lancerTests();
+
+	bool testInitFichier();
 
 	Controleur();
 
@@ -60,5 +63,6 @@ private:
 	FileReader fileReader;
 	set<Capteur> capteurs;
 	set<Attribut> attributs;
+	const int nombreTests = 12;
 
 };
