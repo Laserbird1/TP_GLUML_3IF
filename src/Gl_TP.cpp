@@ -188,7 +188,7 @@ int main()
 			}
 
             case 8:
-                controleur.lancerTests();
+                controleur->lancerTests();
                 break;
             
             case 9:
