@@ -149,8 +149,8 @@ list<Capteur> * Controleur::afficherAttributQualiteCapteur(string attributeID, i
 	{
 		for (set<Capteur>::iterator itc = capteurs.begin(); itc != capteurs.end(); ++itc)
 		{
-			if (((*itc).getID == (*it).getSensorID) &&
-				((*it).getAttributeID == attributeID) &&
+			if ((*itc).getID() == (*it).getSensorID()) &&
+				((*it).getAttributeID() == attributeID) &&
 				((*it).getTimestamp < t1) && ((*it).getTimestamp <= t2))
 			{
 				if (calculAirQualityCapteur(attributeID, (*itc).getLatitude, (*itc).getLongitude, 50, t1, t2).first == s)
@@ -564,9 +564,6 @@ pair<int, string> Controleur::calculeQualiteAirEnUnPoint(double lat, double lng,
 
 }
 
-
-
-
 //----------------------------------------------- Methodes de Tests
 
 bool Controleur::testInitFichier(){
@@ -610,23 +607,46 @@ bool Controleur::testAfficherVoisins(){
 	return !error;
 }
 
+bool Controleur::testAfficherAttQualCapteur(){
+	list<Capteur> *afficherAttributQualiteCapteur();
+}
+
+bool Controleur::testCalculQualAirPoint(){}
+
+bool Controleur::testCalculAirQualityCapteur(){}
+
+bool Controleur::testCapteurPlusProchePoint(){}
+
+bool Controleur::testTrouverLongLat(){}
+
+bool Controleur::testCalculeQualiteAirEnUnPoint(){}
 
 void Controleur::lancerTests(){
 	int nombreTestsCorrects = 0;
-	int nombreTests = 3;
+	int nombreTests = 9;
+
 	if(testInitFichier()) nombreTestsCorrects++;
 	
 	if(testActivite()) nombreTestsCorrects++;
 
 	if(testAfficherVoisins()) nombreTestsCorrects++;
+
+	if(testAfficherAttQualCapteur()) nombreTestsCorrects++;
+
+	if(testCalculQualAirPoint()) nombreTestsCorrects++;
+
+	if(testCalculAirQualityCapteur()) nombreTestsCorrects++;
+
+	if(testCapteurPlusProchePoint()) nombreTestsCorrects++;
+
+	if(testTrouverLongLat()) nombreTestsCorrects++;
+
+	if(testCalculeQualiteAirEnUnPoint()) nombreTestsCorrects++;
 	
-	cout<< "Vous avez reussi " << nombreTestsCorrects << "sur " << nombreTests <<endl;
+	cout<< "Vous avez reussi " << nombreTestsCorrects << " sur " << nombreTests <<endl;
 }
 
-
-
 //-------------------------------------------- Constructeurs - destructeur
-
 
 Controleur::Controleur()
 // Algorithme :
@@ -636,7 +656,6 @@ Controleur::Controleur()
 	cout << "Appel au constructeur de <Controleur>" << endl;
 #endif
 } //----- Fin de Controleur
-
 
 Controleur::~Controleur()
 // Algorithme :

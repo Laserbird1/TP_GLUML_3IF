@@ -57,8 +57,17 @@ public:
 
 	bool testAfficherVoisins();
 
-	
+	bool testAfficherAttQualCapteur();
 
+	bool testCalculQualAirPoint();
+	
+	bool testCalculAirQualityCapteur();
+
+	bool testCapteurPlusProchePoint();
+
+	bool testTrouverLongLat();
+
+	bool testCalculeQualiteAirEnUnPoint();
 
 
 private:
@@ -68,7 +77,6 @@ private:
 	set<Capteur> capteurs;
 	set<Attribut> attributs;
 	set<Mesure> mesures;
-	const int nombreTests = 12;
 
 
 };
