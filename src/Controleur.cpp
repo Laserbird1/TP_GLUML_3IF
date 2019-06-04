@@ -20,7 +20,7 @@ using namespace std;
 #include <string>
 #include <algorithm>    // std::max
 #include <math.h>
-#include <Capteur.h>
+
 
 //------------------------------------------------------ Include personnel
 

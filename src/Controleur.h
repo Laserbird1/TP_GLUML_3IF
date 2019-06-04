@@ -8,6 +8,7 @@
 #include <set>
 #include "FileReader.h"
 #include "Attribut.h"
+#include "Capteur.h"
 
 class Controleur {
 public:
