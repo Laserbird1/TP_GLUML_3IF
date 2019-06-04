@@ -13,3 +13,6 @@
 #include "Date.h"
 #include "Controleur.h"
 
+ Controleur controleurtest;
+ bool fichiersOuvertstest;
+

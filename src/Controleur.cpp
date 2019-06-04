@@ -435,7 +435,7 @@ pair <int, int> Controleur::trouverLongitudeLatitude(string capteurID) {
 
 //
 //donne la moyenne sur un interval pour 1 capteur de ses valeurs pour un attribut.
-double Controleur::trouverMoyenneCapteur(string capteurID, string attributID, Date d1, Date d2){}
+//double Controleur::trouverMoyenneCapteur(string capteurID, string attributID, Date d1, Date d2){}
 
 float CalculerDistance(int x1,int y1,int x2,int y2){
 	return pow(x1-x2,2) + pow(y1-y2,2);
