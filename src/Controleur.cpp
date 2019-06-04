@@ -121,32 +121,7 @@ bool Controleur::testCapteurActif(string capteurID, Date t1, Date t2) {
 }
 
 
-//cette methodes est plus utile, a supprimer
-//list <Capteur> * Controleur::afficherVoisinsCapteur(string capteurID, float r)
-//{
-//	list<Capteur> res;
-//	Capteur * centerSensor;
-//	set<Capteur>::iterator it;
-//
-//	for (it = capteurs.begin(); it != capteurs.end(); it++)
-//	{
-//		if (it->getID().compare(capteurID) == 0)
-//		{
-//			centerSensor = &Capteur(*it);
-//			break;
-//		}
-//	}
-//
-//	if (it == capteurs.end())
-//	{
-//		cerr << "mauvais id passé en pramètre de afficherVoisinsCapteur, il n'existe pas" << endl;
-//		return list<Capteur>();
-//	}
-//	else
-//	{
-//		return afficherVoisinsPoint(centerSensor->getLongitude(), centerSensor->getLatitude, r);
-//	}
-//}
+
 
 list<Capteur> * Controleur::afficherVoisinsPoint(double longitude, double latitude, float r)
 {
