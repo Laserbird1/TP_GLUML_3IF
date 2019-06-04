@@ -20,7 +20,7 @@ using namespace std;
 #include <string>
 #include <algorithm>    // std::max
 #include <math.h>
-#include "Capteur.h"
+
 
 //------------------------------------------------------ Include personnel
 
@@ -152,6 +152,7 @@ pair<int, string> Controleur::calculAirQualityCapteur(string attributeID, double
 	double moyenne;
 	int indiceATMO = -1;
 	string description = "Pas de capteur dans cette zone";
+    
 	list<Capteur> * capteursVoisins = afficherVoisinsPoint(lng, lat, r);
 
 
