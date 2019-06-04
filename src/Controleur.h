@@ -36,7 +36,7 @@ public:
 
 	//
 	// donne le capteur le plus proche d’un point. mais pas plus loin que r. revoi en nullprt sinon.
-	Capteur trouverCapteurLePlusProche(double r, double lat, double lng);
+	Capteur * trouverCapteurLePlusProche(double r, double lat, double lng);
 
 	//service 3
 	//recupère le capteur le plus proche et calcule le qualité moyenne sur l'intervale precisé en ce point

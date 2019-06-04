@@ -165,7 +165,6 @@ list<Capteur> * Controleur::afficherAttributQualiteCapteur(string attributeID, i
 	return res;
 }
 
-	
 
 pair<int, string> Controleur::calculAirQualityCapteur(string attributeID, double lat, double lng, double r, Date t1, Date t2)
 {
@@ -476,31 +475,34 @@ double Controleur::trouverMoyenneCapteur(string capteurID, string attributID, Da
     return moyenneMesures;
 
 }
-
 	
 float CalculerDistance(int x1, int y1, int x2, int y2) {
 	return pow(x1 - x2, 2) + pow(y1 - y2, 2);
 }
 //
 // donne le capteur le plus proche d’un point. mais pas plus loin que r. revoi en nullprt sinon.
-Capteur Controleur::trouverCapteurLePlusProche(double r, double lat, double lng) {
+Capteur * Controleur::trouverCapteurLePlusProche(double r, double lat, double lng) {
 	float DistanceMin = 0;
 	float x;
 	float y;
 	float dist;
 	string IDMin;
-	Capteur PlusProche;
+	bool trouve = false;
+	Capteur * PlusProche =nullptr;
 	for (set<Capteur>::iterator it = capteurs.begin(); it != capteurs.end(); ++it) {
 		x = it->getLatitude();
 		y = it->getLongitude();
 		dist = CalculerDistance(lat, lng, x, y);
 		if (dist < DistanceMin) {
+			trouve = true;
 			DistanceMin = dist;
 			IDMin = it->getID();
-			PlusProche = *it;
+			*PlusProche = (*it);
 		}
 	}
-
+	if(!trouve){
+		cout<< "Pas de capteur trouvé pour cet intervalle"<<endl;
+	}
 	return PlusProche;
 }
 
@@ -510,8 +512,8 @@ Capteur Controleur::trouverCapteurLePlusProche(double r, double lat, double lng)
 pair<int, string> Controleur::calculeQualiteAirEnUnPoint(double lat, double lng, Date d1, Date d2){
 
 	//on met r tres grand car ici il n'est pas relevant
-	Capteur CProche = trouverCapteurLePlusProche(50, lat, lng);
-	pair <int, int> LocCP = trouverLongitudeLatitude(CProche.getID());
+	Capteur * CProche = trouverCapteurLePlusProche(50, lat, lng);
+	pair <int, int> LocCP = trouverLongitudeLatitude(CProche->getID());
 	std::set<std::string> attributes;
 
 	attributes.insert("O3");
@@ -524,12 +526,6 @@ pair<int, string> Controleur::calculeQualiteAirEnUnPoint(double lat, double lng,
 	pair<int, string> attNO2 = calculAirQualityCapteur("NO2", LocCP.second, LocCP.first, 1, d1, d2);
 	pair<int, string> attPM10 = calculAirQualityCapteur("PM10", LocCP.second, LocCP.first, 1, d1, d2);
 
-	//option faire moyenne
-	int indiceATMO = (attO3.first + attNO2.first + attPM10.first + attSO2.first) / 4;
-	//option faire pire cas
-	// int indiceATMO = max(attO3.first , attNO2.first);
-	// indiceATMO = max(indiceATMO, attPM10.first);
-	// indiceATMO = max(indiceATMO,attSO2.first);
 
 
 	int indiceATMO = max(attO3.first , attNO2.first);
@@ -608,16 +604,41 @@ bool Controleur::testAfficherVoisins(){
 }
 
 bool Controleur::testAfficherAttQualCapteur(){
-	list<Capteur> *afficherAttributQualiteCapteur();
+	Date debut = Date(2017,1,1,0,30,39);
+	Date fin = Date(2017,1,2,0,30,35);
+	list<Capteur> * capteursQual = afficherAttributQualiteCapteur("O3",2,debut,fin);
+	for (list<Capteur>::iterator it = capteursQual->begin(); it != capteursQual->end()  ; ++it) {
+		cout<< it->getID()<<endl;
+	}
+	return true;
 }
 
-bool Controleur::testCalculQualAirPoint(){}
+bool Controleur::testCalculQualAirPoint(){
+	pair<int,int> coords = trouverLongitudeLatitude("Sensor0");
+	Date debut = Date(2017,1,1,0,1,20);
+	Date fin = Date(2017,1,2,0,1,21);
+	pair<int,string> res = calculeQualiteAirEnUnPoint( coords.first,  coords.second, debut, fin);
+	return res.first == 2;
+}
 
-bool Controleur::testCalculAirQualityCapteur(){}
+bool Controleur::testCalculAirQualityCapteur(){
+	pair<int,int> coords = trouverLongitudeLatitude("Sensor0");
+	Date debut = Date(2017,1,1,0,1,20);
+	Date fin = Date(2017,1,2,0,1,21);
+	pair<int,string> res = calculAirQualityCapteur("O3",coords.first,coords.second,1,debut,fin);
+	return res.first == 1;
+}
 
-bool Controleur::testCapteurPlusProchePoint(){}
+bool Controleur::testCapteurPlusProchePoint(){
+	pair<int,int> coords = trouverLongitudeLatitude("Sensor0");
+	Capteur * cap = trouverCapteurLePlusProche(1,coords.first,coords.second);
+	return cap!=nullptr && cap->getID() == "Sensor0";
+}
 
-bool Controleur::testTrouverLongLat(){}
+bool Controleur::testTrouverLongLat(){
+	pair<int,int> coords = trouverLongitudeLatitude("Sensor0");
+	return coords.second == -19.4789835505555 && coords.first == -35.2425725968753;
+}
 
 bool Controleur::testCalculeQualiteAirEnUnPoint(){}
 
