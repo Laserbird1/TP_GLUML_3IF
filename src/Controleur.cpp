@@ -1,4 +1,3 @@
-
 /*************************************************************************
  Controleur  -  Contient toute les methodes
  -------------------
@@ -16,8 +15,11 @@ using namespace std;
 #include "Controleur.h"
 #include <list>
 #include <set>
+#include <map>
 #include <string>
-#include <Capteur.h>
+#include <algorithm>    // std::max
+#include <math.h>
+#include "Capteur.h"
 
 //------------------------------------------------------ Include personnel
 
@@ -49,15 +51,9 @@ bool Controleur::InitialiserFichiers(string mesure, string attribut, string capt
 	bool b2 = true;
 	bool b3 = true;
 
-
 	b1 = fileReader.OpenCsvMesure(mesure);
 	b2 = fileReader.OpenCsvCapteur(capteur);
 	b3 = fileReader.OpenCsvAttribut(attribut);
-	
-	if (b1)
-	{
-		mesures = this->fileReader.InitListeMesures();
-	}
 	if (b2)
 	{
 		capteurs = this->fileReader.InitListeCapteurs();
@@ -66,8 +62,7 @@ bool Controleur::InitialiserFichiers(string mesure, string attribut, string capt
 	{
 		attributs = this->fileReader.InitListeAttributs();
 	}
-	
-    return (b1&&b2&&b3);
+	return (b1&&b2&&b3);
 
 }
 //pierre
@@ -108,13 +103,16 @@ bool Controleur::testCapteurActif(string capteurID, Date t1, Date t2) {
 	}
 	else
 	{
-		while (fileReader.LireLigneMesure(mesureTest) && (mesureTest.getTimestamp() < t1))
-		while (fileReader.LireLigneMesure(mesureTest) && !capteurFonctionnel && (mesureTest.getTimestamp() <= t2))
+
+		while (fileReader.LireLigneMesure(mesureTest) && (mesureTest.getTimestamp() < t1));
+		bool finFichier = false;
+		while (!finFichier && !capteurFonctionnel && (mesureTest.getTimestamp() <= t2))
 		{
 			if ((mesureTest.getSensorID() == capteurTest.getID()))
 			{
 				capteurFonctionnel = true;
 			}
+			finFichier = fileReader.LireLigneMesure(mesureTest);
 		}
 	}
 	return capteurFonctionnel;
@@ -168,8 +166,33 @@ list<Capteur> * Controleur::afficherVoisinsPoint(double longitude, double latitu
 	return res;
 }
 
-//list<Capteur> * Controleur::afficherAttributQualiteCapteur(string attributeID, double qualite, int s) {}
+list<Capteur> * Controleur::afficherAttributQualiteCapteur(string attributeID, int s, Date t1, Date t2)
+{
+	list<Capteur> * res = new list<Capteur>;
+	set<Mesure>::iterator it;
+	int compteurMesures = 0;
+	double moyenneMesures, sommeMesures = 0;
+	for (it = mesures.begin(); it != mesures.end(); it++)
+	{
+		for (set<Capteur>::iterator itc = capteurs.begin(); itc != capteurs.end(); ++itc)
+		{
+			if (((*itc).getID == (*it).getSensorID) &&
+				((*it).getAttributeID == attributeID) &&
+				((*it).getTimestamp < t1) && ((*it).getTimestamp <= t2))
+			{
+				if (calculAirQualityCapteur(attributeID, (*itc).getLatitude, (*itc).getLongitude, 50, t1, t2).first == s)
+				{
+					res->push_front(*itc);
+				}
 
+			}
+
+		}
+	}
+	return res;
+}
+
+	
 
 pair<int, string> Controleur::calculAirQualityCapteur(string attributeID, double lat, double lng, double r, Date t1, Date t2)
 {
@@ -183,14 +206,15 @@ pair<int, string> Controleur::calculAirQualityCapteur(string attributeID, double
 	list<Capteur> * capteursVoisins = afficherVoisinsPoint(lng, lat, r);
 
 
-	if (attributeID != "O3" && attributeID != "SO2" && attributeID != "NO2" && attributeID != "PM10")
+	if ("O3" && attributeID != "SO2" && attributeID != "NO2" && attributeID != "PM10")
 	{
-		cerr << "Erreur, l'attribut demande n'existe pas" << endl;
+		description = "L'attribut demande n'existe pas";
 	}
 	else
 	{
 		while (fileReader.LireLigneMesure(mesureTest) && mesureTest.getTimestamp() < t1); // On avance dans le fichier jusqu'à trouver le début de la période voulue
-		while (fileReader.LireLigneMesure(mesureTest) && mesureTest.getTimestamp() <= t2) //On parcourt le fichier tant que l'on reste dans la périoe voulue
+		bool finFichier = false;
+		while (!finFichier && mesureTest.getTimestamp() <= t2) //On parcourt le fichier tant que l'on reste dans la périoe voulue
 		{
 			bool found = false;
 			if (mesureTest.getAttributeID() == attributeID)
@@ -205,6 +229,7 @@ pair<int, string> Controleur::calculAirQualityCapteur(string attributeID, double
 					}
 				}
 			}
+			finFichier = fileReader.LireLigneMesure(mesureTest);
 		}
 
 		if (compteurMesures != 0)
@@ -441,7 +466,7 @@ pair<int, string> Controleur::calculAirQualityCapteur(string attributeID, double
 
 pair <int, int> Controleur::trouverLongitudeLatitude(string capteurID) {
 	bool found = false;
-	pair<int, int> res (0,0);
+	pair<int, int> res(0, 0);
 	for (set<Capteur>::iterator it = capteurs.begin(); it != capteurs.end() && !found; ++it) {
 		if (it->getID() == capteurID) {
 			found = true;
@@ -457,359 +482,101 @@ pair <int, int> Controleur::trouverLongitudeLatitude(string capteurID) {
 }
 
 // methodes intermediaires
-//Joël
 
 //
 //donne la moyenne sur un interval pour 1 capteur de ses valeurs pour un attribut.
-double Controleur::trouverMoyenneCapteur(string capteurID, string attributID, Date d1, Date d2){
-	list<Mesure> * res = new list<Mesure>;
+double Controleur::trouverMoyenneCapteur(string capteurID, string attributID, Date d1, Date d2) {
+
 	set<Mesure>::iterator it;
 	int compteurMesures = 0;
 	double moyenneMesures, sommeMesures = 0;
 	for (it = mesures.begin(); it != mesures.end(); it++)
 	{
-		if (it->getSensorID() == capteurID && it->getAttributeID() == attributID && (it->getTimestamp() < d1) && (it->getTimestamp() <= d2)
-			res->push_front(*it); 
-			sommeMesures +=it->getValue();
+		if (((*it).getSensorID == capteurID) && ((*it).getAttributeID== attributID) && ((*it).getTimestamp < d1) && ((*it).getTimestamp <= d2)) {
+			sommeMesures += (*it).getValue;
 			compteurMesures++;
+		}
 	}
 
-	moyenneMesures = sommeMesures /(float) compteurMesures;
-
-	return moyenneMesures;
+	moyenneMesures = sommeMesures / (float)compteurMesures;
+    return moyenneMesures;
 
 }
 
+	
+float CalculerDistance(int x1, int y1, int x2, int y2) {
+	return pow(x1 - x2, 2) + pow(y1 - y2, 2);
+}
 //
 // donne le capteur le plus proche d’un point. mais pas plus loin que r. revoi en nullprt sinon.
-Capteur Controleur::trouverCapteurLePlusProche(double r, double lat, double lng){
-
-	Capteur CapteurLePlusProche;
-	set<Capteur>::iterator it;
-	for (it = capteurs.begin(); it != capteurs.end(); it++)
-	{
-		double latTest = it->getLatitude();
-		double lngTest = it->getLongitude();
-		double x = lng - lngTest;
-		double y = lat - latTest;
-		double min=INT_MAX
-		
-
-		if (x*x + y*y<min)
-		{
-			min = x * x + y * y;
-			CapteurLePlusProche=(*it);
-		}
-	}
-	return CapteurLePlusProche;
-}
-
-pair<int, int> Controleur::calculAirQualityCapteur2(string attributeID,string capteurID double lat, double lng, double r, Date t1, Date t2)
-{
-	Mesure mesureTest;
-	bool existenceAttribut;
-	int compteurMesures = 0;
-	double sommeValeurs = 0;
-	double moyenne;
-	int indiceATMO = -1;
-	string description = "Pas de capteur dans cette zone";
-	list<Capteur> * capteursVoisins = afficherVoisinsPoint(lng, lat, r);
-
-
-	if (attributeID != "O3" && attributeID != "SO2" && attributeID != "NO2" && attributeID != "PM10")
-	{
-		cerr << "Erreur, l'attribut demande n'existe pas" << endl;
-	}
-	else
-	{
-		while (fileReader.LireLigneMesure(mesureTest) && mesureTest.getTimestamp() < t1); // On avance dans le fichier jusqu'à trouver le début de la période voulue
-		while (fileReader.LireLigneMesure(mesureTest) && mesureTest.getTimestamp() <= t2) //On parcourt le fichier tant que l'on reste dans la périoe voulue
-		{
-			bool found = false;
-			if (mesureTest.getAttributeID() == attributeID)
-			{
-				for (list<Capteur>::iterator it = capteursVoisins->begin(); it != capteursVoisins->end() && !found; it++)
-				{
-					if ((*it).getID() == capteurID)
-					{
-						found = true;
-						++compteurMesures;
-						sommeValeurs += mesureTest.getValue();
-					}
-				}
-			}
-		}
-
-		if (compteurMesures != 0)
-		{
-			moyenne = sommeValeurs / (double)compteurMesures;
-
-			if (attributeID == "O3")
-			{
-				if (0 <= moyenne && moyenne <= 29)
-				{
-					indiceATMO = 1;
-					description = "Tres bon";
-				}
-				else if (30 <= moyenne && moyenne <= 54)
-				{
-					indiceATMO = 2;
-					description = "Tres bon";
-				}
-				else if (55 <= moyenne && moyenne <= 79)
-				{
-					indiceATMO = 3;
-					description = "Bon";
-				}
-				else if (80 <= moyenne && moyenne <= 104)
-				{
-					indiceATMO = 4;
-					description = "Bon";
-				}
-				else if (105 <= moyenne && moyenne <= 129)
-				{
-					indiceATMO = 5;
-					description = "Moyen";
-				}
-				else if (130 <= moyenne && moyenne <= 149)
-				{
-					indiceATMO = 6;
-					description = "Mediocre";
-				}
-				else if (150 <= moyenne && moyenne <= 179)
-				{
-					indiceATMO = 7;
-					description = "Mediocre";
-				}
-				else if (180 <= moyenne && moyenne <= 209)
-				{
-					indiceATMO = 8;
-					description = "Mauvais";
-				}
-				else if (210 <= moyenne && moyenne <= 239)
-				{
-					indiceATMO = 9;
-					description = "Mauvais";
-				}
-				else
-				{
-					indiceATMO = 10;
-					description = "Très mauvais";
-				}
-			}
-
-			else if (attributeID == "SO2")
-			{
-				if (0 <= moyenne && moyenne <= 39)
-				{
-					indiceATMO = 1;
-					description = "Tres bon";
-				}
-				else if (40 <= moyenne && moyenne <= 79)
-				{
-					indiceATMO = 2;
-					description = "Tres bon";
-				}
-				else if (80 <= moyenne && moyenne <= 119)
-				{
-					indiceATMO = 3;
-					description = "Bon";
-				}
-				else if (120 <= moyenne && moyenne <= 159)
-				{
-					indiceATMO = 4;
-					description = "Bon";
-				}
-				else if (160 <= moyenne && moyenne <= 199)
-				{
-					indiceATMO = 5;
-					description = "Moyen";
-				}
-				else if (200 <= moyenne && moyenne <= 249)
-				{
-					indiceATMO = 6;
-					description = "Mediocre";
-				}
-				else if (250 <= moyenne && moyenne <= 299)
-				{
-					indiceATMO = 7;
-					description = "Mediocre";
-				}
-				else if (300 <= moyenne && moyenne <= 399)
-				{
-					indiceATMO = 8;
-					description = "Mauvais";
-				}
-				else if (400 <= moyenne && moyenne <= 499)
-				{
-					indiceATMO = 9;
-					description = "Mauvais";
-				}
-				else
-				{
-					indiceATMO = 10;
-					description = "Très mauvais";
-				}
-			}
-
-			else if (attributeID == "NO2")
-			{
-				if (0 <= moyenne && moyenne <= 29)
-				{
-					indiceATMO = 1;
-					description = "Tres bon";
-				}
-				else if (30 <= moyenne && moyenne <= 54)
-				{
-					indiceATMO = 2;
-					description = "Tres bon";
-				}
-				else if (55 <= moyenne && moyenne <= 84)
-				{
-					indiceATMO = 3;
-					description = "Bon";
-				}
-				else if (85 <= moyenne && moyenne <= 109)
-				{
-					indiceATMO = 4;
-					description = "Bon";
-				}
-				else if (110 <= moyenne && moyenne <= 134)
-				{
-					indiceATMO = 5;
-					description = "Moyen";
-				}
-				else if (135 <= moyenne && moyenne <= 164)
-				{
-					indiceATMO = 6;
-					description = "Mediocre";
-				}
-				else if (165 <= moyenne && moyenne <= 199)
-				{
-					indiceATMO = 7;
-					description = "Mediocre";
-				}
-				else if (200 <= moyenne && moyenne <= 274)
-				{
-					indiceATMO = 8;
-					description = "Mauvais";
-				}
-				else if (275 <= moyenne && moyenne <= 399)
-				{
-					indiceATMO = 9;
-					description = "Mauvais";
-				}
-				else
-				{
-					indiceATMO = 10;
-					description = "Très mauvais";
-				}
-
-			}
-
-			else if (attributeID == "PM10")
-			{
-				if (0 <= moyenne && moyenne <= 6)
-				{
-					indiceATMO = 1;
-					description = "Tres bon";
-				}
-				else if (7 <= moyenne && moyenne <= 13)
-				{
-					indiceATMO = 2;
-					description = "Tres bon";
-				}
-				else if (14 <= moyenne && moyenne <= 20)
-				{
-					indiceATMO = 3;
-					description = "Bon";
-				}
-				else if (21 <= moyenne && moyenne <= 27)
-				{
-					indiceATMO = 4;
-					description = "Bon";
-				}
-				else if (28 <= moyenne && moyenne <= 34)
-				{
-					indiceATMO = 5;
-					description = "Moyen";
-				}
-				else if (35 <= moyenne && moyenne <= 41)
-				{
-					indiceATMO = 6;
-					description = "Mediocre";
-				}
-				else if (42 <= moyenne && moyenne <= 49)
-				{
-					indiceATMO = 7;
-					description = "Mediocre";
-				}
-				else if (50 <= moyenne && moyenne <= 64)
-				{
-					indiceATMO = 8;
-					description = "Mauvais";
-				}
-				else if (65 <= moyenne && moyenne <= 79)
-				{
-					indiceATMO = 9;
-					description = "Mauvais";
-				}
-				else
-				{
-					indiceATMO = 10;
-					description = "Très mauvais";
-				}
-			}
-		}
-		else
-		{
-			cout << "Aucune mesure sur cet intervalle" << endl;
+Capteur Controleur::trouverCapteurLePlusProche(double r, double lat, double lng) {
+	float DistanceMin = 0;
+	float x;
+	float y;
+	float dist;
+	string IDMin;
+	Capteur PlusProche;
+	for (set<Capteur>::iterator it = capteurs.begin(); it != capteurs.end(); ++it) {
+		x = it->getLatitude();
+		y = it->getLongitude();
+		dist = CalculerDistance(lat, lng, x, y);
+		if (dist < DistanceMin) {
+			DistanceMin = dist;
+			IDMin = it->getID();
+			PlusProche = *it;
 		}
 	}
 
-	pair<int, int> paire(moyenne, indiceATMO);
-
-}
-
-
+	return PlusProche;
 }
 
 //service 3
 //recupère le capteur le plus proche et calcule le qualité moyenne sur l'intervale precisé en ce point
-int Controleur::CalculeQualiteAirEnUnPoint(double lat, double lng, Date d1, Date d2){
+pair<int, string> Controleur::CalculeQualiteAirEnUnPoint(double lat, double lng, Date d1, Date d2) {
+	//on met r tres grand car ici il n'est pas relevant
+	Capteur CProche = trouverCapteurLePlusProche(50, lat, lng);
+	pair <int, int> LocCP = trouverLongitudeLatitude(CProche.getID());
+	std::set<std::string> attributes;
 
-	int indiceAtmo;
-	Capteur CapteurLePlusProche = trouverCapteurLePlusProche(double r, double lat, double lng);
-	double  indiceAtmoO3CapteurLePlusProche = calculAirQualityCapteur2(O3, CapteurLePlusProche.getID(), lat,  lng,  r, d1, d2).first;
-	double  indiceAtmoNO2CapteurLePlusProche = calculAirQualityCapteur2(NO2, CapteurLePlusProche.getID(), lat, lng, r, d1, d2).first;
-	double  indiceAtmoSO2CapteurLePlusProche = calculAirQualityCapteur2(SO2, CapteurLePlusProche.getID(), lat, lng, r, d1, d2).first);
-	double  indiceAtmoPM10CapteurLePlusProche = calculAirQualityCapteur2(PM10, CapteurLePlusProche.getID(), lat, lng, r, d1, d2).first;
+	attributes.insert("O3");
+	attributes.insert("SO2");
+	attributes.insert("NO2");
+	attributes.insert("PM10");
+	//on met rayon 1 car on veut les valeurs que dans ce point donc ceci evite que la fonction suivante face la moyenne de plusiquers capteurs autour 
+	pair<int, string> attO3 = calculAirQualityCapteur("O3", LocCP.second, LocCP.first, 1, d1, d2);
+	pair<int, string> attSO2 = calculAirQualityCapteur("SO2", LocCP.second, LocCP.first, 1, d1, d2);
+	pair<int, string> attNO2 = calculAirQualityCapteur("NO2", LocCP.second, LocCP.first, 1, d1, d2);
+	pair<int, string> attPM10 = calculAirQualityCapteur("PM10", LocCP.second, LocCP.first, 1, d1, d2);
 
-	if ((indiceAtmoO3CapteurLePlusProche = > indiceAtmoNO2CapteurLePlusProche) && (indiceAtmoO3CapteurLePlusProche = > indiceAtmoPM10CapteurLePlusProche) &&
-		(indiceAtmoO3CapteurLePlusProche = > indiceAtmoSO2CapteurLePlusProche))
-	{
-		indiceAtmo = calculAirQualityCapteur2(O3, CapteurLePlusProche.getID(), lat, lng, r, d1, d2).second;
+	//option faire moyenne
+	int indiceATMO = (attO3.first + attNO2.first + attPM10.first + attSO2.first) / 4;
+	//option faire pire cas
+	// int indiceATMO = max(attO3.first , attNO2.first);
+	// indiceATMO = max(indiceATMO, attPM10.first);
+	// indiceATMO = max(indiceATMO,attSO2.first);
+
+	string description;
+	if (indiceATMO == 1 || indiceATMO == 2) {
+		description = "Très Bon";
+	}
+	if (indiceATMO == 3 || indiceATMO == 4) {
+		description = "Bon";
+	}
+	if (indiceATMO == 5) {
+		description = "Moyen";
+	}
+	if (indiceATMO == 6 || indiceATMO == 7) {
+		description = "Mediocre";
+	}
+	if (indiceATMO == 8 || indiceATMO == 9) {
+		description = "Mauvais";
+	}
+	if (indiceATMO == 10) {
+		description = "Très Mauvais";
 	}
 
-	if ((indiceAtmoNO2CapteurLePlusProche = > indiceAtmoO3CapteurLePlusProche) && (indiceAtmoNO2CapteurLePlusProche = > indiceAtmoPM10CapteurLePlusProche) &&
-		(indiceAtmoNO2CapteurLePlusProche = > indiceAtmoPM10CapteurLePlusProche))
-	{
-		indiceAtmo = calculAirQualityCapteur2(NO2, CapteurLePlusProche.getID(), lat, lng, r, d1, d2).second;
-	}
-
-	if ((indiceAtmoSO2CapteurLePlusProche = > indiceAtmoO3CapteurLePlusProche) && (indiceAtmoSO2CapteurLePlusProche = > indiceAtmoNO2CapteurLePlusProche) &&
-		(indiceAtmoSO2CapteurLePlusProche = > indiceAtmoPM10CapteurLePlusProche))
-	{
-		indiceAtmo = calculAirQualityCapteur2(SO2, CapteurLePlusProche.getID(), lat, lng, r, d1, d2).second;
-	}
-
-	if ((indiceAtmoPM10CapteurLePlusProche = > indiceAtmoO3CapteurLePlusProche) && (indiceAtmoPM10CapteurLePlusProche = > indiceAtmoNO2CapteurLePlusProche) &&
-		(indiceAtmoPM10CapteurLePlusProche = > indiceAtmoPM10CapteurLePlusProche))
-	{
-		indiceAtmo = calculAirQualityCapteur2(PM10, CapteurLePlusProche.getID(), lat, lng, r, d1, d2).second;
-	}
-
-	return indiceAtmo;
+	pair<int, string> paire(indiceATMO, description);
+	return paire;
 
 }
 
@@ -817,6 +584,8 @@ int Controleur::CalculeQualiteAirEnUnPoint(double lat, double lng, Date d1, Date
 
 
 //----------------------------------------------- Methodes de Tests
+
+
 
 
 

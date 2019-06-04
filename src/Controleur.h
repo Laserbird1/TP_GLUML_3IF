@@ -16,7 +16,6 @@ public:
 
 	void reinitialiserLectureFichiers();
 
-
 	bool testCapteurActif(string capteurID, Date t1, Date t2);
 
 	//cette methodes est plus utile a supprimer
@@ -25,10 +24,8 @@ public:
 	list <Capteur> * afficherVoisinsPoint(double longitude, double latitude, float r);
 
 	//service 1
-	pair<int, string> calculAirQuality(int indiceO3, int indiceSO2, int indiceNO2, int indicePM10);
-	pair<int, string> Controleur::calculAirQualityCapteur2(string attributeID, string capteurID double lat, double lng, double r, Date t1, Date t2)
 
-	list<Capteur> * afficherAttributQualiteCapteur(string attributeID, double qualite, int s);
+	list<Capteur> * afficherAttributQualiteCapteur(string attributeID, int s, Date t1, Date t2);
 	//service 2
 	pair<int, string>calculAirQualityCapteur(string attributeID, double lat, double lng, double r, Date t1, Date t2);
 
@@ -42,11 +39,10 @@ public:
 	//
 	// donne le capteur le plus proche d’un point. mais pas plus loin que r. revoi en nullprt sinon.
 	Capteur trouverCapteurLePlusProche(double r, double lat, double lng);
-    pair<int, int> Controleur::calculAirQualityCapteur2(string attributeID, string capteurID double lat, double lng, double r, Date t1, Date t2);
 
 	//service 3
 	//recupère le capteur le plus proche et calcule le qualité moyenne sur l'intervale precisé en ce point
-	int Controleur::CalculeQualiteAirEnUnPoint(double lat, double lng, Date d1, Date d2
+	pair<int, string> CalculeQualiteAirEnUnPoint(double lat, double lng, Date d1, Date d2);
 
 	//-------------------------------------------- Constructeurs - destructeur
 
@@ -63,6 +59,6 @@ private:
 	FileReader fileReader;
 	set<Capteur> capteurs;
 	set<Attribut> attributs;
-	set<Mesure> mesures 
+	set<Mesure> mesures;
 
 };
