@@ -20,7 +20,7 @@ using namespace std;
 #include <string>
 #include <algorithm>    // std::max
 #include <math.h>
-#include "Capteur.h"
+
 
 //------------------------------------------------------ Include personnel
 
@@ -46,7 +46,7 @@ using namespace std;
 
 
 
-bool Controleur::InitialiserFichiers(string mesure, string attribut, string capteur)
+bool Controleur::initialiserFichiers(string mesure, string attribut, string capteur)
 {
 	bool b1 = true;
 	bool b2 = true;
@@ -119,8 +119,6 @@ bool Controleur::testCapteurActif(string capteurID, Date t1, Date t2) {
 	return capteurFonctionnel;
 
 }
-
-
 
 
 list<Capteur> * Controleur::afficherVoisinsPoint(double longitude, double latitude, float r)
@@ -467,7 +465,7 @@ Capteur Controleur::trouverCapteurLePlusProche(double r, double lat, double lng)
 
 //service 3
 //recupère le capteur le plus proche et calcule le qualité moyenne sur l'intervale precisé en ce point
-pair<int, string> Controleur::CalculeQualiteAirEnUnPoint(double lat, double lng, Date d1, Date d2){
+pair<int, string> Controleur::calculeQualiteAirEnUnPoint(double lat, double lng, Date d1, Date d2){
 	//on met r tres grand car ici il n'est pas relevant
 	Capteur CProche = trouverCapteurLePlusProche(50,lat,lng);
 	pair <int, int> LocCP = trouverLongitudeLatitude(CProche.getID());
@@ -483,12 +481,10 @@ pair<int, string> Controleur::CalculeQualiteAirEnUnPoint(double lat, double lng,
 	pair<int,string> attNO2 = calculAirQualityCapteur("NO2",LocCP.second,LocCP.first,1,d1,d2);
 	pair<int,string> attPM10 = calculAirQualityCapteur("PM10",LocCP.second,LocCP.first,1,d1,d2);
 
-	//option faire moyenne
-	int indiceATMO = (attO3.first + attNO2.first + attPM10.first + attSO2.first) / 4 ;
-	//option faire pire cas
-	// int indiceATMO = max(attO3.first , attNO2.first);
-	// indiceATMO = max(indiceATMO, attPM10.first);
-	// indiceATMO = max(indiceATMO,attSO2.first);
+
+	int indiceATMO = max(attO3.first , attNO2.first);
+	indiceATMO = max(indiceATMO, attPM10.first);
+	indiceATMO = max(indiceATMO,attSO2.first);
 
 	string description;
 	if (indiceATMO == 1 || indiceATMO == 2 ){
@@ -512,7 +508,6 @@ pair<int, string> Controleur::CalculeQualiteAirEnUnPoint(double lat, double lng,
 
 	pair<int, string> paire(indiceATMO, description);
 	return paire; 
-
 }
 
 
@@ -520,7 +515,18 @@ pair<int, string> Controleur::CalculeQualiteAirEnUnPoint(double lat, double lng,
 
 //----------------------------------------------- Methodes de Tests
 
+bool Controleur::testInitFichier(){
+	return !initialiserFichiers("mesures inexistantes","attributs inexistants","capteurs inexistants");
+}
 
+
+
+void Controleur::lancerTests(){
+	int nombreTestsCorrects = 0;
+	if(testInitFichier()) nombreTestsCorrects++;
+
+	cout<< "Vous avez reussi " << nombreTestsCorrects << "sur " << nombreTests <<endl;
+}
 
 
 
