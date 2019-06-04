@@ -112,7 +112,7 @@ bool Controleur::testCapteurActif(string capteurID, Date t1, Date t2) {
 			{
 				capteurFonctionnel = true;
 			}
-			finFichier = fileReader.LireLigneMesure(mesureTest);
+			finFichier = !fileReader.LireLigneMesure(mesureTest);
 		}
 	}
 	return capteurFonctionnel;
@@ -201,7 +201,7 @@ pair<int, string> Controleur::calculAirQualityCapteur(string attributeID, double
 					}
 				}
 			}
-			finFichier = fileReader.LireLigneMesure(mesureTest);
+			finFichier = !fileReader.LireLigneMesure(mesureTest);
 		}
 
 		if (compteurMesures != 0)
