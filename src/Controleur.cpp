@@ -502,12 +502,10 @@ pair<int, string> Controleur::CalculeQualiteAirEnUnPoint(double lat, double lng,
 	pair<int,string> attNO2 = calculAirQualityCapteur("NO2",LocCP.second,LocCP.first,1,d1,d2);
 	pair<int,string> attPM10 = calculAirQualityCapteur("PM10",LocCP.second,LocCP.first,1,d1,d2);
 
-	//option faire moyenne
-	int indiceATMO = (attO3.first + attNO2.first + attPM10.first + attSO2.first) / 4 ;
-	//option faire pire cas
-	// int indiceATMO = max(attO3.first , attNO2.first);
-	// indiceATMO = max(indiceATMO, attPM10.first);
-	// indiceATMO = max(indiceATMO,attSO2.first);
+
+	int indiceATMO = max(attO3.first , attNO2.first);
+	indiceATMO = max(indiceATMO, attPM10.first);
+	indiceATMO = max(indiceATMO,attSO2.first);
 
 	string description;
 	if (indiceATMO == 1 || indiceATMO == 2 ){
@@ -531,7 +529,6 @@ pair<int, string> Controleur::CalculeQualiteAirEnUnPoint(double lat, double lng,
 
 	pair<int, string> paire(indiceATMO, description);
 	return paire; 
-
 }
 
 
