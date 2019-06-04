@@ -19,5 +19,17 @@ namespace Tests_Applicapteur
 				true);
 		}
 
+		TEST_METHOD(testCapteurActifTest)
+		{
+			Controleur controleur;
+			bool fichiersOuverts = controleur.initialiserFichiers("C:/Users/herme/OneDrive/Documents/école/3IF/GL/TP_GLUML_3IF/tests/ficMesures.csv", "C:/Users/herme/OneDrive/Documents/école/3IF/GL/TP_GLUML_3IF/tests/ficAttributs.csv", "C:/Users/herme/OneDrive/Documents/école/3IF/GL/TP_GLUML_3IF/tests/ficCapteurs.csv");
+			Assert::IsTrue(fichiersOuverts);
+			Date date1 = Date(2017, 2, 1, 1, 0, 0);
+			Date date2 = Date(2017, 2, 1, 2, 0, 0);
+			bool resultat = controleur.testCapteurActif("Sensor1", date1, date2);
+
+			//Assert::IsTrue(resultat);
+		}
+
 	};
 }
