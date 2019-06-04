@@ -35,29 +35,26 @@ int main()
     while(continuer){
 		controleur->reinitialiserLectureFichiers();
         cout << "Bienvenue,"<<"\n"<<"Options:"<<endl;
-        cout << "1: " << endl;
-        cout << "2: Verifier qu'un capteur a ete actif" << endl;
-        cout << "3: Afficher les capteurs voisins à un point" << endl;
-        cout << "4: Trouver la longitude et la lattitude d'un capteur" << endl;
-        cout << "5: Mesurer la qualite de l'air dans une zone" << endl;
-        cout << "6: " << endl;
-        cout << "7: " << endl;
-        cout << "8: " << endl;
-        cout << "9: " << endl;
-        cout << "10: " << endl;
-        cout << "11: " << endl;
-        cout << "12: Sortir" << endl;
+        
+        cout << "1: Verifier qu'un capteur a ete actif" << endl;
+        cout << "2: Retrouver des capteurs similaire sur un intervalle de temps" << endl;
+        cout << "3: Trouver l'indice ATOM pour un attribut dans une zone et un interval de temps" << endl;
+        cout << "4: Trouver l'etat de l'aire moyen en un point donnée" << endl;
+     
+        cout << "5: Afficher les capteurs voisins à un point" << endl;
+        cout << "6: Trouver la longitude et la lattitude d'un capteur" << endl;
+        cout << "7: Mesurer la qualite de l'air dans une zone" << endl;
+        cout << "8: Lancer le jeu de test" << endl;
+        cout << "9: Sortir" << endl;
         cout << "Introduire numero: \n" << endl;
 
         cin >> valeur;
 
         switch (valeur){
-            case 1 : 
-				cout<<"Recu 1 OK"<<endl;
-				break;
-            case 2: //Activité du capteur (fonctionnel)
+           
+            case 1: //Activité du capteur (fonctionnel)
 			{
-
+                
 				string nomCapteur;
 				Date d1;
 				Date d2;
@@ -83,8 +80,28 @@ int main()
 				
 				break;
 			}
-
-			case 3: //Capteurs voisins (fonctionnel)
+            case 2:
+            {
+               break;
+            }
+            
+            
+            
+            
+            
+            case 3:
+            
+            {
+                break;
+            }
+            
+            case 4:
+            
+            {
+                break;
+            }
+            
+			case 5: //Capteurs voisins (fonctionnel)
 			{
 
 				list<Capteur> * liste;
@@ -114,7 +131,7 @@ int main()
 				break;
 			}
 
-			case 4: //lattitude et longitude d'un capteur (fonctionnel)
+			case 6: //lattitude et longitude d'un capteur (fonctionnel)
 			{
 
 				pair<int, int> paire;
@@ -129,7 +146,7 @@ int main()
 				break;
 			}
 
-			case 5: //Qualité de l'air dans une zone (fonctionnel)
+			case 7: //Qualité de l'air dans une zone (fonctionnel)
 			{
 				double lat;
 				double lng;
@@ -161,8 +178,11 @@ int main()
 				break;
 			}
 
-
-            case 12: 
+            case 8:
+                controleur.lancerTests();
+                break;
+            
+            case 9:
 				continuer=false;
 				break; 
         }
