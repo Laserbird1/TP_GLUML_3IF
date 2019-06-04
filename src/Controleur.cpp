@@ -19,7 +19,7 @@ using namespace std;
 #include <string>
 #include <algorithm>    // std::max
 #include <math.h>
-#include "Capteur.h"
+
 
 //------------------------------------------------------ Include personnel
 
@@ -45,7 +45,7 @@ using namespace std;
 
 
 
-bool Controleur::InitialiserFichiers(string mesure, string attribut, string capteur)
+bool Controleur::initialiserFichiers(string mesure, string attribut, string capteur)
 {
 	bool b1 = true;
 	bool b2 = true;
@@ -120,33 +120,6 @@ bool Controleur::testCapteurActif(string capteurID, Date t1, Date t2) {
 }
 
 
-//cette methodes est plus utile, a supprimer
-//list <Capteur> * Controleur::afficherVoisinsCapteur(string capteurID, float r)
-//{
-//	list<Capteur> res;
-//	Capteur * centerSensor;
-//	set<Capteur>::iterator it;
-//
-//	for (it = capteurs.begin(); it != capteurs.end(); it++)
-//	{
-//		if (it->getID().compare(capteurID) == 0)
-//		{
-//			centerSensor = &Capteur(*it);
-//			break;
-//		}
-//	}
-//
-//	if (it == capteurs.end())
-//	{
-//		cerr << "mauvais id passé en pramètre de afficherVoisinsCapteur, il n'existe pas" << endl;
-//		return list<Capteur>();
-//	}
-//	else
-//	{
-//		return afficherVoisinsPoint(centerSensor->getLongitude(), centerSensor->getLatitude, r);
-//	}
-//}
-
 list<Capteur> * Controleur::afficherVoisinsPoint(double longitude, double latitude, float r)
 {
 	list<Capteur> * res = new list<Capteur>;
@@ -203,6 +176,7 @@ pair<int, string> Controleur::calculAirQualityCapteur(string attributeID, double
 	double moyenne;
 	int indiceATMO = -1;
 	string description = "Pas de capteur dans cette zone";
+    
 	list<Capteur> * capteursVoisins = afficherVoisinsPoint(lng, lat, r);
 
 
@@ -532,7 +506,9 @@ Capteur Controleur::trouverCapteurLePlusProche(double r, double lat, double lng)
 
 //service 3
 //recupère le capteur le plus proche et calcule le qualité moyenne sur l'intervale precisé en ce point
-pair<int, string> Controleur::CalculeQualiteAirEnUnPoint(double lat, double lng, Date d1, Date d2) {
+
+pair<int, string> Controleur::calculeQualiteAirEnUnPoint(double lat, double lng, Date d1, Date d2){
+
 	//on met r tres grand car ici il n'est pas relevant
 	Capteur CProche = trouverCapteurLePlusProche(50, lat, lng);
 	pair <int, int> LocCP = trouverLongitudeLatitude(CProche.getID());
@@ -555,6 +531,12 @@ pair<int, string> Controleur::CalculeQualiteAirEnUnPoint(double lat, double lng,
 	// indiceATMO = max(indiceATMO, attPM10.first);
 	// indiceATMO = max(indiceATMO,attSO2.first);
 
+
+	int indiceATMO = max(attO3.first , attNO2.first);
+	indiceATMO = max(indiceATMO, attPM10.first);
+	indiceATMO = max(indiceATMO,attSO2.first);
+
+
 	string description;
 	if (indiceATMO == 1 || indiceATMO == 2) {
 		description = "Très Bon";
@@ -576,7 +558,9 @@ pair<int, string> Controleur::CalculeQualiteAirEnUnPoint(double lat, double lng,
 	}
 
 	pair<int, string> paire(indiceATMO, description);
+
 	return paire;
+
 
 }
 
@@ -585,7 +569,18 @@ pair<int, string> Controleur::CalculeQualiteAirEnUnPoint(double lat, double lng,
 
 //----------------------------------------------- Methodes de Tests
 
+bool Controleur::testInitFichier(){
+	return !initialiserFichiers("mesures inexistantes","attributs inexistants","capteurs inexistants");
+}
 
+
+
+void Controleur::lancerTests(){
+	int nombreTestsCorrects = 0;
+	if(testInitFichier()) nombreTestsCorrects++;
+
+	cout<< "Vous avez reussi " << nombreTestsCorrects << "sur " << nombreTests <<endl;
+}
 
 
 
