@@ -25,7 +25,7 @@ using namespace std;
 
 
 //------------------------------------------------------------- Constantes
-
+#define pi 3.14159265358979323846
 //---------------------------------------------------- Variables de classe
 
 
@@ -128,10 +128,8 @@ list<Capteur> * Controleur::afficherVoisinsPoint(double longitude, double latitu
 	{
 		double latTest = it->getLatitude();
 		double lngTest = it->getLongitude();
-		double x = longitude - lngTest;
-		double y = latitude - latTest;
 
-		if (x*x + y * y < r*r)
+		if (CalculerDistance(latitude,longitude,latTest,lngTest)<r)
 		{
 			res->push_front(*it);
 		}
@@ -478,13 +476,37 @@ double Controleur::trouverMoyenneCapteur(string capteurID, string attributID, Da
 }
 
 	
-float CalculerDistance(int x1, int y1, int x2, int y2) {
-	return pow(x1 - x2, 2) + pow(y1 - y2, 2);
+float CalculerDistance(double lat1, double lng1, double lat2, int lng2) {
+	lat1 = toRadians(lat1);
+	lng1 = toRadians(lng1);
+	lat2 = toRadians(lat2);
+	lng2 = toRadians(lng2);
+
+	// Haversine Formula 
+	long double dlng = lng2 - lng1;
+	long double dlat = lat2 - lat1;
+
+	long double ans = pow(sin(dlat / 2), 2) +
+		cos(lat1) * cos(lat2) *
+		pow(sin(dlng / 2), 2);
+
+	ans = 2 * asin(sqrt(ans));
+
+	long double R = 6371;
+
+	ans = ans * R;
+
+	return ans;
 }
+
+double toRadians(double deg) {
+	return (deg * pi / 180);
+}
+
 //
 // donne le capteur le plus proche d’un point. mais pas plus loin que r. revoi en nullprt sinon.
 Capteur Controleur::trouverCapteurLePlusProche(double r, double lat, double lng) {
-	float DistanceMin = 0;
+	float DistanceMin = r;
 	float x;
 	float y;
 	float dist;
