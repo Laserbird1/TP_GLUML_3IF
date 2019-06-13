@@ -1,15 +1,15 @@
 /*************************************************************************
 						   Date  -  description
 							 -------------------
-	début                : ${date}
+	dï¿½but                : ${date}
 	copyright            : (C) ${year} par ${user}
 *************************************************************************/
 
-//---------- Réalisation de la classe <FileReader> (fichier FileReader.cpp) --
+//---------- Rï¿½alisation de la classe <FileReader> (fichier FileReader.cpp) --
 
 //---------------------------------------------------------------- INCLUDE
 
-//-------------------------------------------------------- Include système
+//-------------------------------------------------------- Include systï¿½me
 
 //------------------------------------------------------ Include personnel
 
@@ -20,18 +20,18 @@
 
 //---------------------------------------------------- Variables de classe
 
-//----------------------------------------------------------- Types privés
+//----------------------------------------------------------- Types privï¿½s
 
 
 //----------------------------------------------------------------- PUBLIC
 
 //-------------------------------------------------------- Fonctions amies
 
-//----------------------------------------------------- Méthodes publiques
+//----------------------------------------------------- Mï¿½thodes publiques
 // Algorithme :
 //
 //{
-//} //----- Fin de Méthode
+//} //----- Fin de Mï¿½thode
 // ouvre le fichier correspondant
 bool FileReader::OpenCsvMesure(string chemin)
 {
@@ -43,7 +43,7 @@ bool FileReader::OpenCsvMesure(string chemin)
 	csvMesure.open(chemin);
 	if (!csvMesure)
 	{
-		cerr << "Erreur lors de l'ouverture, réessayer" << endl;
+		cerr << "Erreur lors de l'ouverture, rï¿½essayer" << endl;
 		ouvertureReussie = false;
 	}
 	else
@@ -66,7 +66,7 @@ bool FileReader::OpenCsvCapteur(string chemin)
 	csvCapteur.open(chemin);
 	if (!csvCapteur)
 	{
-		cerr << "Erreur lors de l'ouverture, réessayer" << endl;
+		cerr << "Erreur lors de l'ouverture, rï¿½essayer" << endl;
 		ouvertureReussie = false;
 	}
 	else
@@ -88,7 +88,7 @@ bool FileReader::OpenCsvAttribut(string chemin)
 	csvAttribut.open(chemin);
 	if (!csvAttribut)
 	{
-		cerr << "Erreur lors de l'ouverture, réessayer" << endl;
+		cerr << "Erreur lors de l'ouverture, rï¿½essayer" << endl;
 		ouvertureReussie = false;
 	}
 	else
@@ -207,6 +207,7 @@ set<Attribut> FileReader::InitListeAttributs()
 		liste.insert(unAttribut);
 	}
 	return liste;
+}
 
 set<Mesure> FileReader::InitListeMesures()
 {
@@ -228,9 +229,9 @@ void FileReader::initDatesLimites()
 	getline(csvMesure,buffer,';');
 	dateLimDebut=convertStringToDate(buffer);
 
-	//placement à la fin du fichier
-	csvMesure.seekg(-30, ios::end);//offset à modifier si besoin/essayer d'arriver au milieu de l'avant dernière ligne
-	getline(csvMesure, buffer);//virer l'avant dernière ligne
+	//placement ï¿½ la fin du fichier
+	csvMesure.seekg(-30, ios::end);//offset ï¿½ modifier si besoin/essayer d'arriver au milieu de l'avant derniï¿½re ligne
+	getline(csvMesure, buffer);//virer l'avant derniï¿½re ligne
 
 	//last date
 	getline(csvMesure, buffer, ';');
@@ -255,7 +256,7 @@ Date FileReader::getDateLimFin()
 
 void FileReader::reinitLectureFichiers()
 {
-	string descriptions; //chaine à retirer lors des manipulations de fichiers
+	string descriptions; //chaine ï¿½ retirer lors des manipulations de fichiers
 	csvMesure.seekg(0, ios::beg);
 	csvCapteur.seekg(0, ios::beg);
 	csvAttribut.seekg(0, ios::beg);
@@ -266,7 +267,7 @@ void FileReader::reinitLectureFichiers()
 
 }//----- Fin de reinitLectureFichiers
 
-//------------------------------------------------- Surcharge d'opérateurs
+//------------------------------------------------- Surcharge d'opï¿½rateurs
 
 
 
@@ -282,9 +283,9 @@ FileReader::~FileReader()
 
 //------------------------------------------------------------------ PRIVE
 
-//----------------------------------------------------- Méthodes protégées
+//----------------------------------------------------- Mï¿½thodes protï¿½gï¿½es
 
-//------------------------------------------------------- Méthodes privées
+//------------------------------------------------------- Mï¿½thodes privï¿½es
 
 Date FileReader::convertStringToDate(string s)
 {

@@ -484,8 +484,8 @@ double Controleur::trouverMoyenneCapteur(string capteurID, string attributID, Da
 	double moyenneMesures, sommeMesures = 0;
 	for (it = mesures.begin(); it != mesures.end(); it++)
 	{
-		if (((*it).getSensorID == capteurID) && ((*it).getAttributeID== attributID) && ((*it).getTimestamp < d1) && ((*it).getTimestamp <= d2)) {
-			sommeMesures += (*it).getValue;
+		if (((*it).getSensorID() == capteurID) && ((*it).getAttributeID()== attributID) && ((*it).getTimestamp() < d1) && ((*it).getTimestamp() <= d2)) {
+			sommeMesures += (*it).getValue();
 			compteurMesures++;
 		}
 	}
@@ -496,7 +496,7 @@ double Controleur::trouverMoyenneCapteur(string capteurID, string attributID, Da
 }
 
 	
-float CalculerDistance(double lat1, double lng1, double lat2, int lng2) {
+float Controleur::CalculerDistance(double lat1, double lng1, double lat2, int lng2) {
 	lat1 = toRadians(lat1);
 	lng1 = toRadians(lng1);
 	lat2 = toRadians(lat2);
@@ -519,7 +519,7 @@ float CalculerDistance(double lat1, double lng1, double lat2, int lng2) {
 	return ans;
 }
 
-double toRadians(double deg) {
+double Controleur::toRadians(double deg) {
 	return (deg * pi / 180);
 }
 

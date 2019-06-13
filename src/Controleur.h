@@ -27,6 +27,10 @@ public:
 	pair<int, string> calculAirQualityCapteur(string attributeID, double lat, double lng, double r, Date t1, Date t2);
 
 
+	float CalculerDistance(double lat1, double lng1, double lat2, int lng2);
+
+	double toRadians(double deg);
+
 	pair <double, double> trouverLongitudeLatitude(string capteurID);
 
 	//
@@ -75,7 +79,5 @@ private:
 	set<Capteur> capteurs;
 	set<Attribut> attributs;
 	set<Mesure> mesures;
-	const int nombreTests = 12;
-
 
 };
