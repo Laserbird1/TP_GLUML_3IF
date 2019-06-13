@@ -56,12 +56,20 @@ public:
 
 	bool testAfficherVoisins();
 
-	
+	bool testCapteurPlusProchePoint();
 
+	bool testTrouverLongLat();
+
+	bool testCalculeQualAirePoint();
+
+	bool testCalculeAireQualityCapteur();
+
+	bool testCalculeQualiteAirEnUnPoint();
+
+	bool testAfficherAttQualCapteur();
 
 
 private:
-
 
 	FileReader fileReader;
 	set<Capteur> capteurs;

@@ -137,6 +137,7 @@ list<Capteur> * Controleur::afficherVoisinsPoint(double longitude, double latitu
 	return res;
 }
 
+//s est le resultat l'indice de qualite de l'air attendu
 list<Capteur> * Controleur::afficherAttributQualiteCapteur1(string attributeID, int s, Date t1, Date t2)
 {
 	list<Capteur> * res = new list<Capteur>;
@@ -565,14 +566,7 @@ pair<int, string> Controleur::calculeQualiteAirEnUnPoint(double lat, double lng,
 	pair<int, string> attNO2 = calculAirQualityCapteur("NO2", LocCP.second, LocCP.first, 1, d1, d2);
 	pair<int, string> attPM10 = calculAirQualityCapteur("PM10", LocCP.second, LocCP.first, 1, d1, d2);
 
-	//option faire moyenne
-	int indiceATMO = (attO3.first + attNO2.first + attPM10.first + attSO2.first) / 4;
-	//option faire pire cas
-	// int indiceATMO = max(attO3.first , attNO2.first);
-	// indiceATMO = max(indiceATMO, attPM10.first);
-	// indiceATMO = max(indiceATMO,attSO2.first);
-
-
+	
 	int indiceATMO = max(attO3.first , attNO2.first);
 	indiceATMO = max(indiceATMO, attPM10.first);
 	indiceATMO = max(indiceATMO,attSO2.first);
@@ -604,8 +598,6 @@ pair<int, string> Controleur::calculeQualiteAirEnUnPoint(double lat, double lng,
 
 
 }
-
-
 
 
 //----------------------------------------------- Methodes de Tests
@@ -652,14 +644,83 @@ bool Controleur::testAfficherVoisins(){
 }
 
 
+bool Controleur::testTrouverLongLat(){
+	//coordonnes pour senseur 0
+	pair<double,double> correct (-35.2425725968753,19.4789835505555);
+	pair<double,double> testData = trouverLongitudeLatitude("Sensor0");
+	return correct.first == testData.first && correct.second == testData.second;
+}
+
+bool Controleur::testCapteurPlusProchePoint(){
+	//on lui donne les coordonnes du sensor 0
+	Capteur aux = trouverCapteurLePlusProche(1,  19.4789835505555,-35.2425725968753);
+	return aux.getID().compare("Sensor0") == 0;
+}
+
+bool Controleur::testCalculeQualAirePoint(){
+	Date debut = Date(2017,1,1,1,20,0);
+	Date fin = Date(2017,1,1,1,21,0);
+	//on calcule avec un rayon de 1 autour de sensor 0
+	pair<int, string> resTest = calculAirQualityCapteur("O3", 19.4789835505555, -35.2425725968753, 1, debut, fin);
+	return resTest.first == 1;
+}
+
+bool Controleur::testCalculeAireQualityCapteur(){
+	Date debut = Date(2017,1,1,1,20,0);
+	Date fin = Date(2017,1,1,1,21,0);
+	//on calcule avec un rayon de 1 autour de sensor 0
+	pair<int, string> resTest = calculAirQualityCapteur("O3", 19.4789835505555, -35.2425725968753, 1, debut, fin);
+	return resTest.first == 1;
+}
+
+bool Controleur::testCalculeQualiteAirEnUnPoint(){
+	Date debut = Date(2017,1,1,1,20,0);
+	Date fin = Date(2017,1,1,1,21,0);
+	//on met les coords du sensor 0
+	pair<int, string> testRes = calculeQualiteAirEnUnPoint(19.4789835505555, -35.2425725968753,debut, fin);
+	//on attend un 2
+	return testRes.first == 2;
+}
+
+bool Controleur::testAfficherAttQualCapteur(){
+	Date debut = Date(2017,2,4,2,31,22);
+	Date fin = Date(2017,2,4,3,1,14);
+	list<Capteur> * resTest = afficherAttributQualiteCapteur1("O3", 7, debut, fin);
+	//on veut avoir les capteurs avec indice 7 et 2
+	int found = 0;
+	for (list<Capteur>::iterator it = resTest->begin(); it != resTest->end() && found < 2; it++){
+		if(it->getID().compare("Sensor7") == 0){
+			found = 1;
+		}else 
+			if(it->getID().compare("Sensor2") == 0){
+				found = 2;
+			}else
+				return false;
+	}
+	return true;
+}
+
 void Controleur::lancerTests(){
 	int nombreTestsCorrects = 0;
-	int nombreTests = 3;
+	int nombreTests = 9;
+
 	if(testInitFichier()) nombreTestsCorrects++;
 	
 	if(testActivite()) nombreTestsCorrects++;
 
 	if(testAfficherVoisins()) nombreTestsCorrects++;
+
+	if(testCapteurPlusProchePoint()) nombreTestsCorrects++;
+
+	if (testTrouverLongLat() )nombreTestsCorrects++;
+
+	if  (testCalculeQualAirePoint()) nombreTestsCorrects++;
+
+	if (testCalculeAireQualityCapteur()) nombreTestsCorrects++;
+
+	if (testCalculeQualiteAirEnUnPoint()) nombreTestsCorrects++;
+
+	if (testAfficherAttQualCapteur()) nombreTestsCorrects++;
 	
 	cout<< "Vous avez reussi " << nombreTestsCorrects << "sur " << nombreTests <<endl;
 }
