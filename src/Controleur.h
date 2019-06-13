@@ -22,8 +22,7 @@ public:
 	list <Capteur> * afficherVoisinsPoint(double longitude, double latitude, float r);
 
 	//service 1
-
-	list<Capteur> * afficherAttributQualiteCapteur(string attributeID, int s, Date t1, Date t2);
+	list<Capteur> * afficherAttributQualiteCapteur1(string attributeID, int s, Date t1, Date t2);
 	//service 2
 	pair<int, string> calculAirQualityCapteur(string attributeID, double lat, double lng, double r, Date t1, Date t2);
 

@@ -38,10 +38,10 @@ public:
 	void setAttributeID(string s);
 	void setValue(double s);
 
-	Date getTimestamp( );
-	string getSensorID( );
-	string getAttributeID( );
-	double getValue();
+	Date getTimestamp() const;
+	string getSensorID()  const;
+	string getAttributeID()  const;
+	double getValue()  const;
 
 	void afficher();
 		// type M�thode ( liste de param�tres );
