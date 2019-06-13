@@ -45,22 +45,22 @@ void Mesure::setValue(double s)
 	value = s;
 }
 
-Date Mesure::getTimestamp()
+Date Mesure::getTimestamp()  const
 {
 	return timestamp;
 }
 
-string Mesure::getSensorID()
+string Mesure::getSensorID()  const
 {
 	return sensorID;
 }
 
-string Mesure::getAttributeID()
+string Mesure::getAttributeID()  const
 {
 	return attributeID;
 }
 
-double Mesure::getValue()
+double Mesure::getValue()  const
 {
 	return value;
 }

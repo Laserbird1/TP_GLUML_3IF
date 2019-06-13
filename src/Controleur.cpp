@@ -25,7 +25,7 @@ using namespace std;
 
 
 //------------------------------------------------------------- Constantes
-
+#define pi 3.14159265358979323846
 //---------------------------------------------------- Variables de classe
 
 
@@ -128,10 +128,8 @@ list<Capteur> * Controleur::afficherVoisinsPoint(double longitude, double latitu
 	{
 		double latTest = it->getLatitude();
 		double lngTest = it->getLongitude();
-		double x = longitude - lngTest;
-		double y = latitude - latTest;
 
-		if (x*x + y * y < r*r)
+		if (CalculerDistance(latitude,longitude,latTest,lngTest)<r)
 		{
 			res->push_front(*it);
 		}
@@ -139,32 +137,52 @@ list<Capteur> * Controleur::afficherVoisinsPoint(double longitude, double latitu
 	return res;
 }
 
-list<Capteur> * Controleur::afficherAttributQualiteCapteur(string attributeID, int s, Date t1, Date t2)
+list<Capteur> * Controleur::afficherAttributQualiteCapteur1(string attributeID, int s, Date t1, Date t2)
 {
 	list<Capteur> * res = new list<Capteur>;
-	set<Mesure>::iterator it;
-	int compteurMesures = 0;
-	double moyenneMesures, sommeMesures = 0;
-	for (it = mesures.begin(); it != mesures.end(); it++)
+	set<Mesure>::iterator it = mesures.begin();
+	set<Capteur>::iterator itc = capteurs.begin();
+	bool mesureTrouve = false;
+	Mesure mesureTest;
+	fileReader.reinitLectureFichiers();
+
+	while ((it != mesures.end()) && !mesureTrouve)
 	{
-		for (set<Capteur>::iterator itc = capteurs.begin(); itc != capteurs.end(); ++itc)
-		{
-			if ((*itc).getID() == (*it).getSensorID()) &&
-				((*it).getAttributeID() == attributeID) &&
-				((*it).getTimestamp < t1) && ((*it).getTimestamp <= t2))
+		if (((*it).getAttributeID()) == attributeID)
 			{
-				if (calculAirQualityCapteur(attributeID, (*itc).getLatitude, (*itc).getLongitude, 50, t1, t2).first == s)
+				mesureTest = (*it);
+				mesureTrouve = true;
+			}
+			it++;
+		
+	}
+
+	if (!mesureTrouve)
+	{
+		cerr << "Erreur : pas de mesure de cet attribut" << endl;
+	}
+	else
+	{
+		while ((itc != capteurs.end()) && !mesureTrouve) {
+
+			while (fileReader.LireLigneMesure(mesureTest) && (mesureTest.getTimestamp() < t1));
+			bool finFichier = false;
+			while (!finFichier && (mesureTest.getTimestamp() <= t2))
+			{
+				if ((mesureTest.getSensorID() == (*itc).getID()) && ((calculAirQualityCapteur(attributeID, (*itc).getLatitude(), (*itc).getLongitude(), 50,  t1, t2).first)==s))
 				{
 					res->push_front(*itc);
 				}
-
+				finFichier = !fileReader.LireLigneMesure(mesureTest);
 			}
-
+			itc++;
 		}
 	}
 	return res;
+
 }
 
+	
 
 pair<int, string> Controleur::calculAirQualityCapteur(string attributeID, double lat, double lng, double r, Date t1, Date t2)
 {
@@ -475,34 +493,55 @@ double Controleur::trouverMoyenneCapteur(string capteurID, string attributID, Da
     return moyenneMesures;
 
 }
+
 	
-float CalculerDistance(int x1, int y1, int x2, int y2) {
-	return pow(x1 - x2, 2) + pow(y1 - y2, 2);
+float CalculerDistance(double lat1, double lng1, double lat2, int lng2) {
+	lat1 = toRadians(lat1);
+	lng1 = toRadians(lng1);
+	lat2 = toRadians(lat2);
+	lng2 = toRadians(lng2);
+
+	// Haversine Formula 
+	long double dlng = lng2 - lng1;
+	long double dlat = lat2 - lat1;
+
+	long double ans = pow(sin(dlat / 2), 2) +
+		cos(lat1) * cos(lat2) *
+		pow(sin(dlng / 2), 2);
+
+	ans = 2 * asin(sqrt(ans));
+
+	long double R = 6371;
+
+	ans = ans * R;
+
+	return ans;
 }
+
+double toRadians(double deg) {
+	return (deg * pi / 180);
+}
+
 //
 // donne le capteur le plus proche d’un point. mais pas plus loin que r. revoi en nullprt sinon.
-Capteur * Controleur::trouverCapteurLePlusProche(double r, double lat, double lng) {
-	float DistanceMin = 0;
+Capteur Controleur::trouverCapteurLePlusProche(double r, double lat, double lng) {
+	float DistanceMin = r;
 	float x;
 	float y;
 	float dist;
 	string IDMin;
-	bool trouve = false;
-	Capteur * PlusProche =nullptr;
+	Capteur PlusProche;
 	for (set<Capteur>::iterator it = capteurs.begin(); it != capteurs.end(); ++it) {
 		x = it->getLatitude();
 		y = it->getLongitude();
 		dist = CalculerDistance(lat, lng, x, y);
 		if (dist < DistanceMin) {
-			trouve = true;
 			DistanceMin = dist;
 			IDMin = it->getID();
-			*PlusProche = (*it);
+			PlusProche = *it;
 		}
 	}
-	if(!trouve){
-		cout<< "Pas de capteur trouvé pour cet intervalle"<<endl;
-	}
+
 	return PlusProche;
 }
 
@@ -512,8 +551,8 @@ Capteur * Controleur::trouverCapteurLePlusProche(double r, double lat, double ln
 pair<int, string> Controleur::calculeQualiteAirEnUnPoint(double lat, double lng, Date d1, Date d2){
 
 	//on met r tres grand car ici il n'est pas relevant
-	Capteur * CProche = trouverCapteurLePlusProche(50, lat, lng);
-	pair <int, int> LocCP = trouverLongitudeLatitude(CProche->getID());
+	Capteur CProche = trouverCapteurLePlusProche(50, lat, lng);
+	pair <int, int> LocCP = trouverLongitudeLatitude(CProche.getID());
 	std::set<std::string> attributes;
 
 	attributes.insert("O3");
@@ -526,6 +565,12 @@ pair<int, string> Controleur::calculeQualiteAirEnUnPoint(double lat, double lng,
 	pair<int, string> attNO2 = calculAirQualityCapteur("NO2", LocCP.second, LocCP.first, 1, d1, d2);
 	pair<int, string> attPM10 = calculAirQualityCapteur("PM10", LocCP.second, LocCP.first, 1, d1, d2);
 
+	//option faire moyenne
+	int indiceATMO = (attO3.first + attNO2.first + attPM10.first + attSO2.first) / 4;
+	//option faire pire cas
+	// int indiceATMO = max(attO3.first , attNO2.first);
+	// indiceATMO = max(indiceATMO, attPM10.first);
+	// indiceATMO = max(indiceATMO,attSO2.first);
 
 
 	int indiceATMO = max(attO3.first , attNO2.first);
@@ -559,6 +604,9 @@ pair<int, string> Controleur::calculeQualiteAirEnUnPoint(double lat, double lng,
 
 
 }
+
+
+
 
 //----------------------------------------------- Methodes de Tests
 
@@ -603,71 +651,23 @@ bool Controleur::testAfficherVoisins(){
 	return !error;
 }
 
-bool Controleur::testAfficherAttQualCapteur(){
-	Date debut = Date(2017,1,1,0,30,39);
-	Date fin = Date(2017,1,2,0,30,35);
-	list<Capteur> * capteursQual = afficherAttributQualiteCapteur("O3",2,debut,fin);
-	for (list<Capteur>::iterator it = capteursQual->begin(); it != capteursQual->end()  ; ++it) {
-		cout<< it->getID()<<endl;
-	}
-	return true;
-}
-
-bool Controleur::testCalculQualAirPoint(){
-	pair<int,int> coords = trouverLongitudeLatitude("Sensor0");
-	Date debut = Date(2017,1,1,0,1,20);
-	Date fin = Date(2017,1,2,0,1,21);
-	pair<int,string> res = calculeQualiteAirEnUnPoint( coords.first,  coords.second, debut, fin);
-	return res.first == 2;
-}
-
-bool Controleur::testCalculAirQualityCapteur(){
-	pair<int,int> coords = trouverLongitudeLatitude("Sensor0");
-	Date debut = Date(2017,1,1,0,1,20);
-	Date fin = Date(2017,1,2,0,1,21);
-	pair<int,string> res = calculAirQualityCapteur("O3",coords.first,coords.second,1,debut,fin);
-	return res.first == 1;
-}
-
-bool Controleur::testCapteurPlusProchePoint(){
-	pair<int,int> coords = trouverLongitudeLatitude("Sensor0");
-	Capteur * cap = trouverCapteurLePlusProche(1,coords.first,coords.second);
-	return cap!=nullptr && cap->getID() == "Sensor0";
-}
-
-bool Controleur::testTrouverLongLat(){
-	pair<int,int> coords = trouverLongitudeLatitude("Sensor0");
-	return coords.second == -19.4789835505555 && coords.first == -35.2425725968753;
-}
-
-bool Controleur::testCalculeQualiteAirEnUnPoint(){}
 
 void Controleur::lancerTests(){
 	int nombreTestsCorrects = 0;
-	int nombreTests = 9;
-
+	int nombreTests = 3;
 	if(testInitFichier()) nombreTestsCorrects++;
 	
 	if(testActivite()) nombreTestsCorrects++;
 
 	if(testAfficherVoisins()) nombreTestsCorrects++;
-
-	if(testAfficherAttQualCapteur()) nombreTestsCorrects++;
-
-	if(testCalculQualAirPoint()) nombreTestsCorrects++;
-
-	if(testCalculAirQualityCapteur()) nombreTestsCorrects++;
-
-	if(testCapteurPlusProchePoint()) nombreTestsCorrects++;
-
-	if(testTrouverLongLat()) nombreTestsCorrects++;
-
-	if(testCalculeQualiteAirEnUnPoint()) nombreTestsCorrects++;
 	
-	cout<< "Vous avez reussi " << nombreTestsCorrects << " sur " << nombreTests <<endl;
+	cout<< "Vous avez reussi " << nombreTestsCorrects << "sur " << nombreTests <<endl;
 }
 
+
+
 //-------------------------------------------- Constructeurs - destructeur
+
 
 Controleur::Controleur()
 // Algorithme :
@@ -677,6 +677,7 @@ Controleur::Controleur()
 	cout << "Appel au constructeur de <Controleur>" << endl;
 #endif
 } //----- Fin de Controleur
+
 
 Controleur::~Controleur()
 // Algorithme :
