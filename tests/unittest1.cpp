@@ -13,7 +13,7 @@ namespace Tests_Applicapteur
 
 		TEST_CLASS_INITIALIZE(ClassInitialize)
 		{
-			fichiersOuvertstest = controleurtest.initialiserFichiers("C:/Users/herme/OneDrive/Documents/école/3IF/GL/TP_GLUML_3IF/tests/ficMesures.csv", "C:/Users/herme/OneDrive/Documents/école/3IF/GL/TP_GLUML_3IF/tests/ficAttributs.csv", "C:/Users/herme/OneDrive/Documents/école/3IF/GL/TP_GLUML_3IF/tests/ficCapteurs.csv");
+			fichiersOuvertstest = controleurtest.initialiserFichiers("C:/Users/herme/OneDrive/Documents/ficMesures.csv", "C:/Users/herme/OneDrive/Documents/ficAttributs.csv", "C:/Users/herme/OneDrive/Documents/ficCapteurs.csv");
 		}
 
 		BEGIN_TEST_METHOD_ATTRIBUTE(testFichiersOuverts)

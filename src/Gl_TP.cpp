@@ -83,13 +83,13 @@ int main()
             case 2:
             {
                 
-                string attributID;
+                string attributeID;
                 int s;
                 Date d1;
                 Date d2;
                 
                 cout << "Entrer le nom de l'attribut à étudier:" << endl;
-                cin >> attributID;
+                cin >> attributeID;
                 cout << "entrer la valeur ATOM à étudier ce cette attribut" << endl;
                 cin >> s;
                
@@ -102,11 +102,11 @@ int main()
                     if (d1 >= d2) cout << "La date de debut doit etre inferieure a la date de fin !" << endl;
                 } while (d1 >= d2);
                 
-				List<Capteur> liste =  Controleur.afficherAttributQualiteCapteur(attributeID, s, d1, d2);
+				list<Capteur> *liste =  controleur->afficherAttributQualiteCapteur(attributeID, s, d1, d2);
                 
                 //affichage des capteurs de la liste
                 
-                for(list<Capteur>::iterator it = liste.begin(); it!=liste.end(); ++it)
+                for(list<Capteur>::iterator it = liste->begin(); it!=liste->end(); ++it)
                 {
                     cout << (*it).getID() << endl;
                 }
@@ -116,7 +116,7 @@ int main()
             
             case 3:
             {
-                string AttributeID;
+                string attributeID;
                 double lat;
                 double lng;
                 double r;
@@ -124,7 +124,7 @@ int main()
                 Date d2;
                 
                 cout << "Entrer le nom de l'attribut à étudier:" << endl;
-                cin >> attributID;
+                cin >> attributeID;
                 cout << "entrer la latitude :" << endl;
                 cin >> lat;
                 cout << "entrer la longitude :" << endl;
@@ -142,7 +142,7 @@ int main()
                     if (d1 >= d2) cout << "La date de debut doit etre inferieure a la date de fin !" << endl;
                 } while (d1 >= d2);
                 
-				pair<int, string> res =  Controleur.calculAirQualityCapteur(attributeID, lat,  lng, r,  d1, d2);
+				pair<int, string> res =  controleur->calculAirQualityCapteur(attributeID, lat,  lng, r,  d1, d2);
                 // afficher le resultat
                 cout<< res.first <<endl;
                 cout<< res.second <<endl;
@@ -170,7 +170,7 @@ int main()
                     if (d1 >= d2) cout << "La date de debut doit etre inferieure a la date de fin !" << endl;
                 } while (d1 >= d2);
 				
-				pair<int, string> res = Controleur.calculeQualiteAirEnUnPoint(lat, lng, d1,  d2);
+				pair<int, string> res = controleur->calculeQualiteAirEnUnPoint(lat, lng, d1,  d2);
                 
                 // afficher le resultat
                 cout<< res.first <<endl;

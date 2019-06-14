@@ -138,7 +138,7 @@ list<Capteur> * Controleur::afficherVoisinsPoint(double longitude, double latitu
 }
 
 //s est le resultat l'indice de qualite de l'air attendu
-list<Capteur> * Controleur::afficherAttributQualiteCapteur1(string attributeID, int s, Date t1, Date t2)
+list<Capteur> * Controleur::afficherAttributQualiteCapteur(string attributeID, int s, Date t1, Date t2)
 {
 	list<Capteur> * res = new list<Capteur>;
 	set<Mesure>::iterator it = mesures.begin();
@@ -690,7 +690,7 @@ bool Controleur::testCalculeQualiteAirEnUnPoint(){
 bool Controleur::testAfficherAttQualCapteur(){
 	Date debut = Date(2017,2,4,2,31,22);
 	Date fin = Date(2017,2,4,3,1,14);
-	list<Capteur> * resTest = afficherAttributQualiteCapteur1("O3", 7, debut, fin);
+	list<Capteur> * resTest = afficherAttributQualiteCapteur("O3", 7, debut, fin);
 	//on veut avoir les capteurs avec indice 7 et 2
 	int found = 0;
 	for (list<Capteur>::iterator it = resTest->begin(); it != resTest->end() && found < 2; it++){
