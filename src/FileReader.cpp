@@ -209,17 +209,7 @@ set<Attribut> FileReader::InitListeAttributs()
 	return liste;
 }
 
-set<Mesure> FileReader::InitListeMesures()
-{
-	set<Mesure> liste;
-	Mesure uneMesure;
 
-	while (LireLigneMesure(uneMesure))
-	{
-		liste.insert(uneMesure);
-	}
-	return liste;
-}
 
 void FileReader::initDatesLimites()
 {
