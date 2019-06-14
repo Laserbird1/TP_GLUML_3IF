@@ -39,6 +39,7 @@ int main()
         cout << "1: Verifier qu'un capteur a ete actif" << endl;
         cout << "2: Retrouver des capteurs similaire sur un intervalle de temps" << endl;
         cout << "3: Trouver l'indice ATOM pour un attribut dans une zone et un interval de temps" << endl;
+<<<<<<< HEAD
         cout << "4: Trouver l'etat de l'air moyen en un point donnée" << endl;
      
         cout << "5: Afficher les capteurs voisins à un point" << endl;
@@ -46,6 +47,10 @@ int main()
         cout << "7: Mesurer la qualite de l'air dans une zone" << endl;
         cout << "8: Lancer le jeu de test" << endl;
         cout << "9: Sortir" << endl;
+=======
+        cout << "4: Trouver l'etat de l'aire moyen en un point donnée" << endl;
+        cout << "5: Sortir" << endl;
+>>>>>>> a1df78abc51b3fbf6044f354422d4b809e966490
         cout << "Introduire numero: \n" << endl;
 
         cin >> valeur;
@@ -265,9 +270,9 @@ int main()
             //     controleur->lancerTests();
             //     break;
             
-            // case 9:
-			// 	continuer=false;
-			// 	break; 
+            case 5:
+            continuer=false;
+			break;
         }
     }
 	return 0;
