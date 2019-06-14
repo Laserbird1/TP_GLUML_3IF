@@ -184,7 +184,6 @@ list<Capteur> * Controleur::afficherAttributQualiteCapteur1(string attributeID, 
 }
 
 	
-
 pair<int, string> Controleur::calculAirQualityCapteur(string attributeID, double lat, double lng, double r, Date t1, Date t2)
 {
 	Mesure mesureTest;
@@ -669,8 +668,14 @@ bool Controleur::testCalculeAireQualityCapteur(){
 	Date debut = Date(2017,1,1,1,20,0);
 	Date fin = Date(2017,1,1,1,21,0);
 	//on calcule avec un rayon de 1 autour de sensor 0
-	pair<int, string> resTest = calculAirQualityCapteur("O3", 19.4789835505555, -35.2425725968753, 1, debut, fin);
-	return resTest.first == 1;
+	pair<int, string> resTest0 = calculAirQualityCapteur("O3", 19.4789835505555, -35.2425725968753, 1, debut, fin);
+	pair<int, string> resTest1 = calculAirQualityCapteur("NO2", 19.4789835505555, -35.2425725968753, 1, debut, fin);
+	pair<int, string> resTest2 = calculAirQualityCapteur("SO2", 19.4789835505555, -35.2425725968753, 1, debut, fin);
+	pair<int, string> resTest3 = calculAirQualityCapteur("PM10", 19.4789835505555, -35.2425725968753, 1, debut, fin);
+	int resTest = max(resTest0.first,resTest1.first);
+	resTest = max(resTest,resTest2.first);
+	resTest = max(resTest,resTest3.first);
+	return resTest == 2;
 }
 
 bool Controleur::testCalculeQualiteAirEnUnPoint(){
