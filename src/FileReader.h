@@ -58,7 +58,6 @@ public:
 
 	set<Capteur> InitListeCapteurs();
 	set<Attribut> InitListeAttributs();
-	set<Mesure> InitListeMesures();
 
 
 	void initDatesLimites();
