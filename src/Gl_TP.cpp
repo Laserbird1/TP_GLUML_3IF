@@ -82,26 +82,100 @@ int main()
 			}
             case 2:
             {
-				//demander les attributs
-				//List<Capteur> * afficherAttributQualiteCapteur(attributeID,qualité,s)
-	
+                
+                string attributID;
+                int s;
+                Date d1;
+                Date d2;
+                
+                cout << "Entrer le nom de l'attribut à étudier:" << endl;
+                cin >> attributID;
+                cout << "entrer la valeur ATOM à étudier ce cette attribut" << endl;
+                cin >> s;
+               
+                do
+                {
+                    cout << "Date du debut de l intervalle" << endl;
+                    d1 = entrerDate();
+                    cout << "Date de fin de l intervalle" << endl;
+                    d2 = entrerDate();
+                    if (d1 >= d2) cout << "La date de debut doit etre inferieure a la date de fin !" << endl;
+                } while (d1 >= d2);
+                
+				List<Capteur> liste =  Controleur.afficherAttributQualiteCapteur(attributeID, s, d1, d2);
+                
+                //affichage des capteurs de la liste
+                
+                for(list<Capteur>::iterator it = liste.begin(); it!=liste.end(); ++it)
+                {
+                    cout << (*it).getID() << endl;
+                }
                break;
             }
             
             
             case 3:
             {
-				// demander les attributs
-				//pair<int, string> Controleur.calculAirQualityCapteur(attributeID, lat,  lng, r,  t1, t2);
-
+                string AttributeID;
+                double lat;
+                double lng;
+                double r;
+                Date d1;
+                Date d2;
+                
+                cout << "Entrer le nom de l'attribut à étudier:" << endl;
+                cin >> attributID;
+                cout << "entrer la latitude :" << endl;
+                cin >> lat;
+                cout << "entrer la longitude :" << endl;
+                cin >> lng;
+                cout << "Entrer le rayon de la zone a considérer:" << endl;
+                cin >> r;
+                
+                
+                do
+                {
+                    cout << "Date du debut de l intervalle" << endl;
+                    d1 = entrerDate();
+                    cout << "Date de fin de l intervalle" << endl;
+                    d2 = entrerDate();
+                    if (d1 >= d2) cout << "La date de debut doit etre inferieure a la date de fin !" << endl;
+                } while (d1 >= d2);
+                
+				pair<int, string> res =  Controleur.calculAirQualityCapteur(attributeID, lat,  lng, r,  d1, d2);
+                // afficher le resultat
+                cout<< res.first <<endl;
+                cout<< res.second <<endl;
+                
                 break;
             }
             
             case 4:
             {
-				//demander les attributs 
-				//pair<int, string> Controleur.calculeQualiteAirEnUnPoint(lat, lng, d1,  d2);;
-
+                double lng;
+                double lat;
+                Date d1;
+                Date d2;
+                cout << "entrer la latitude :" << endl;
+                cin >> lat;
+                cout << "entrer la longitude :" << endl;
+                cin >> lng;
+                
+                do
+                {
+                    cout << "Date du debut de l intervalle" << endl;
+                    d1 = entrerDate();
+                    cout << "Date de fin de l intervalle" << endl;
+                    d2 = entrerDate();
+                    if (d1 >= d2) cout << "La date de debut doit etre inferieure a la date de fin !" << endl;
+                } while (d1 >= d2);
+				
+				pair<int, string> res = Controleur.calculeQualiteAirEnUnPoint(lat, lng, d1,  d2);
+                
+                // afficher le resultat
+                cout<< res.first <<endl;
+                cout<< res.second <<endl;
+                
                 break;
             }
             
@@ -110,90 +184,90 @@ int main()
 
 
 			//a supprimer un fois que tout fonctionne
-			case 5: //Capteurs voisins (fonctionnel)
-			{
+			// case 5: //Capteurs voisins (fonctionnel)
+			// {
 
-				list<Capteur> * liste;
-				double lat;
-				double lng;
-				float r;
+			// 	list<Capteur> * liste;
+			// 	double lat;
+			// 	double lng;
+			// 	float r;
 		
-				cout << "Saisir la latitude :" << endl;
-				lat = entrerCoords();
-				cout << "Saisir la longitude :" << endl;
-				lng = entrerCoords();
-				cout << "Saisir le rayon (en km) :" << endl;
-				r = entrerRayon();
-				liste = controleur->afficherVoisinsPoint(lng, lat, r);
+			// 	cout << "Saisir la latitude :" << endl;
+			// 	lat = entrerCoords();
+			// 	cout << "Saisir la longitude :" << endl;
+			// 	lng = entrerCoords();
+			// 	cout << "Saisir le rayon (en km) :" << endl;
+			// 	r = entrerRayon();
+			// 	liste = controleur->afficherVoisinsPoint(lng, lat, r);
 
-				if (!liste->empty())
-				{
-					for (list<Capteur>::iterator it = liste->begin(); it != liste->end(); ++it)
-					{
-						(*it).afficher();
-					}
-				}
-				else
-				{
-					cout << "Aucun capteur n'est présent dans le rayon" << endl;
-				}
-				break;
-			}
+			// 	if (!liste->empty())
+			// 	{
+			// 		for (list<Capteur>::iterator it = liste->begin(); it != liste->end(); ++it)
+			// 		{
+			// 			(*it).afficher();
+			// 		}
+			// 	}
+			// 	else
+			// 	{
+			// 		cout << "Aucun capteur n'est présent dans le rayon" << endl;
+			// 	}
+			// 	break;
+			// }
 
-			case 6: //lattitude et longitude d'un capteur (fonctionnel)
-			{
+			// case 6: //lattitude et longitude d'un capteur (fonctionnel)
+			// {
 
-				pair<int, int> paire;
-				string nomCapteur;
+			// 	pair<int, int> paire;
+			// 	string nomCapteur;
 	
-				cout << "Saisir le nom du capteur :" << endl;
-				cin >> nomCapteur;
-				paire = controleur->trouverLongitudeLatitude(nomCapteur);
+			// 	cout << "Saisir le nom du capteur :" << endl;
+			// 	cin >> nomCapteur;
+			// 	paire = controleur->trouverLongitudeLatitude(nomCapteur);
 
-				cout << "Longitude :" << paire.first << endl;
-				cout << "Lattitude:" << paire.second << endl;
-				break;
-			}
+			// 	cout << "Longitude :" << paire.first << endl;
+			// 	cout << "Lattitude:" << paire.second << endl;
+			// 	break;
+			// }
 
-			case 7: //Qualité de l'air dans une zone (fonctionnel)
-			{
-				double lat;
-				double lng;
-				float r;
-				Date d1;
-				Date d2;
-				string attributeID;
+			// case 7: //Qualité de l'air dans une zone (fonctionnel)
+			// {
+			// 	double lat;
+			// 	double lng;
+			// 	float r;
+			// 	Date d1;
+			// 	Date d2;
+			// 	string attributeID;
 
-				cout << "Saisir le nom de l'attribut :" << endl;
-				cin >> attributeID;
-				cout << "Saisir la latitude :" << endl;
-				lat = entrerCoords();
-				cout << "Saisir la longitude :" << endl;
-				lng = entrerCoords();
-				cout << "Saisir le rayon (en km) :" << endl;
-				r = entrerRayon();
-				do
-				{
-					cout << "Date du debut de l intervalle" << endl;
-					d1 = entrerDate();
-					cout << "Date de fin de l intervalle" << endl;
-					d2 = entrerDate();
-					if (d1 >= d2) cout << "La date de debut doit etre inferieure a la date de fin !" << endl;
-				} while (d1 >= d2);
+			// 	cout << "Saisir le nom de l'attribut :" << endl;
+			// 	cin >> attributeID;
+			// 	cout << "Saisir la latitude :" << endl;
+			// 	lat = entrerCoords();
+			// 	cout << "Saisir la longitude :" << endl;
+			// 	lng = entrerCoords();
+			// 	cout << "Saisir le rayon (en km) :" << endl;
+			// 	r = entrerRayon();
+			// 	do
+			// 	{
+			// 		cout << "Date du debut de l intervalle" << endl;
+			// 		d1 = entrerDate();
+			// 		cout << "Date de fin de l intervalle" << endl;
+			// 		d2 = entrerDate();
+			// 		if (d1 >= d2) cout << "La date de debut doit etre inferieure a la date de fin !" << endl;
+			// 	} while (d1 >= d2);
 
-				pair<int, string> paire = controleur->calculAirQualityCapteur(attributeID, lat, lng, r, d1, d2);
-				cout << "Indice ATMO :" << paire.first << endl;
-				cout << "Description :" << paire.second << endl;
-				break;
-			}
+			// 	pair<int, string> paire = controleur->calculAirQualityCapteur(attributeID, lat, lng, r, d1, d2);
+			// 	cout << "Indice ATMO :" << paire.first << endl;
+			// 	cout << "Description :" << paire.second << endl;
+			// 	break;
+			// }
 
-            case 8:
-                controleur->lancerTests();
-                break;
+            // case 8:
+            //     controleur->lancerTests();
+            //     break;
             
-            case 9:
-				continuer=false;
-				break; 
+            // case 9:
+			// 	continuer=false;
+			// 	break; 
         }
     }
 	return 0;
