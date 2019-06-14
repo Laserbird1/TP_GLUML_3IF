@@ -31,6 +31,12 @@ void Attribut::setAttributeID(string s)
 {
 	attributeID = s;
 }
+
+string Attribut::getAttributeID() const
+{
+	return this->attributeID;
+}
+
 void Attribut::setUnit(string s)
 {
 	unit = s;
@@ -40,7 +46,7 @@ void Attribut::setDescription(string s)
 	description = s;
 }
 
-void Attribut::afficher()
+void Attribut::afficher() const
 {
 	cout << attributeID << ";" << unit << ";" << description << endl;
 }

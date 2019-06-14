@@ -57,10 +57,12 @@ bool Controleur::initialiserFichiers(string mesure, string attribut, string capt
 	if (b2)
 	{
 		capteurs = this->fileReader.InitListeCapteurs();
+
 	}
 	if (b3)
 	{
 		attributs = this->fileReader.InitListeAttributs();
+
 	}
 	return (b1&&b2&&b3);
 
@@ -141,38 +143,28 @@ list<Capteur> * Controleur::afficherVoisinsPoint(double longitude, double latitu
 list<Capteur> * Controleur::afficherAttributQualiteCapteur(string attributeID, int s, Date t1, Date t2)
 {
 	list<Capteur> * res = new list<Capteur>;
-	set<Mesure>::iterator it = mesures.begin();
+	set<Attribut>::iterator ita = attributs.begin();
 	set<Capteur>::iterator itc = capteurs.begin();
-	bool mesureTrouve = false;
+	bool attributTrouve = false;
 	Mesure mesureTest;
 	fileReader.reinitLectureFichiers();
 
-	while ((it != mesures.end()) && !mesureTrouve)
+	if (attributeID != "O3" && attributeID != "SO2" && attributeID != "NO2" && attributeID != "PM10")
 	{
-		if (((*it).getAttributeID()) == attributeID)
-			{
-				mesureTest = (*it);
-				mesureTrouve = true;
-			}
-			it++;
-		
-	}
-
-	if (!mesureTrouve)
-	{
-		cerr << "Erreur : pas de mesure de cet attribut" << endl;
+		cout << "L'attribut demande n'existe pas" << endl;
 	}
 	else
 	{
-		while ((itc != capteurs.end()) && !mesureTrouve) {
-
+		while ((itc != capteurs.end())) {
+			bool capteurTrouve = false;
 			while (fileReader.LireLigneMesure(mesureTest) && (mesureTest.getTimestamp() < t1));
 			bool finFichier = false;
-			while (!finFichier && (mesureTest.getTimestamp() <= t2))
+			while (!finFichier && !capteurTrouve && (mesureTest.getTimestamp() <= t2))
 			{
-				if ((mesureTest.getSensorID() == (*itc).getID()) && ((calculAirQualityCapteur(attributeID, (*itc).getLatitude(), (*itc).getLongitude(), 50,  t1, t2).first)==s))
+				if ((mesureTest.getSensorID() == (*itc).getID()) && ((calculAirQualityCapteur(attributeID, (*itc).getLatitude(), (*itc).getLongitude(), 1,  t1, t2).first)==s))
 				{
 					res->push_front(*itc);
+					capteurTrouve = true;
 				}
 				finFichier = !fileReader.LireLigneMesure(mesureTest);
 			}
@@ -196,7 +188,7 @@ pair<int, string> Controleur::calculAirQualityCapteur(string attributeID, double
 	list<Capteur> * capteursVoisins = afficherVoisinsPoint(lng, lat, r);
 
 
-	if ("O3" && attributeID != "SO2" && attributeID != "NO2" && attributeID != "PM10")
+	if (attributeID != "O3" && attributeID != "SO2" && attributeID != "NO2" && attributeID != "PM10")
 	{
 		description = "L'attribut demande n'existe pas";
 	}
@@ -476,23 +468,23 @@ pair <double, double> Controleur::trouverLongitudeLatitude(string capteurID) {
 
 //
 //donne la moyenne sur un interval pour 1 capteur de ses valeurs pour un attribut.
-double Controleur::trouverMoyenneCapteur(string capteurID, string attributID, Date d1, Date d2) {
-
-	set<Mesure>::iterator it;
-	int compteurMesures = 0;
-	double moyenneMesures, sommeMesures = 0;
-	for (it = mesures.begin(); it != mesures.end(); it++)
-	{
-		if (((*it).getSensorID() == capteurID) && ((*it).getAttributeID()== attributID) && ((*it).getTimestamp() < d1) && ((*it).getTimestamp() <= d2)) {
-			sommeMesures += (*it).getValue();
-			compteurMesures++;
-		}
-	}
-
-	moyenneMesures = sommeMesures / (float)compteurMesures;
-    return moyenneMesures;
-
-}
+//double Controleur::trouverMoyenneCapteur(string capteurID, string attributID, Date d1, Date d2) {
+//
+//	set<Mesure>::iterator it;
+//	int compteurMesures = 0;
+//	double moyenneMesures, sommeMesures = 0;
+//	for (it = mesures.begin(); it != mesures.end(); it++)
+//	{
+//		if (((*it).getSensorID() == capteurID) && ((*it).getAttributeID()== attributID) && ((*it).getTimestamp() < d1) && ((*it).getTimestamp() <= d2)) {
+//			sommeMesures += (*it).getValue();
+//			compteurMesures++;
+//		}
+//	}
+//
+//	moyenneMesures = sommeMesures / (float)compteurMesures;
+//    return moyenneMesures;
+//
+//}
 
 	
 float Controleur::CalculerDistance(double lat1, double lng1, double lat2, int lng2) {

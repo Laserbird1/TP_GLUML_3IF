@@ -32,9 +32,10 @@ class Attribut
 public:
 	//----------------------------------------------------- Méthodes publiques
 	void setAttributeID(string s);
+	string getAttributeID() const;
 	void setUnit(string s);
 	void setDescription(string s);
-	void afficher();
+	void afficher() const;
 	// type Méthode ( liste de paramètres );
 		// Mode d'emploi :
 		//

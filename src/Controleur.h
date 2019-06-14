@@ -78,6 +78,5 @@ private:
 	FileReader fileReader;
 	set<Capteur> capteurs;
 	set<Attribut> attributs;
-	set<Mesure> mesures;
 
 };

@@ -39,7 +39,7 @@ int main()
         cout << "1: Verifier qu'un capteur a ete actif" << endl;
         cout << "2: Retrouver des capteurs similaire sur un intervalle de temps" << endl;
         cout << "3: Trouver l'indice ATOM pour un attribut dans une zone et un interval de temps" << endl;
-        cout << "4: Trouver l'etat de l'aire moyen en un point donnée" << endl;
+        cout << "4: Trouver l'etat de l'air moyen en un point donnée" << endl;
      
         cout << "5: Afficher les capteurs voisins à un point" << endl;
         cout << "6: Trouver la longitude et la lattitude d'un capteur" << endl;
